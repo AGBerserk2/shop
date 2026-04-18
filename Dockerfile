@@ -1,16 +1,17 @@
-FROM node:18-alpine
+FROM node:20-alpine AS builder
 WORKDIR /app
-RUN npm install -g npm@9
-COPY package*.json .
+COPY package*.json ./
 COPY packages ./packages
-COPY themes ./themes
-COPY extensions ./extensions
-COPY public ./public
-COPY media ./media
-COPY config ./config
 COPY translations ./translations
-RUN npm install
+COPY public ./public
+COPY config ./config
+RUN npm ci
 RUN npm run build
 
-EXPOSE 80
+FROM node:20-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=8080
+COPY --from=builder /app ./
+EXPOSE 8080
 CMD ["npm", "run", "start"]

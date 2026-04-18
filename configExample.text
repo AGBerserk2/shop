@@ -7,7 +7,13 @@
     "homeUrl": "http://localhost:3000"
   },
   "system": {
-    "file_storage": "local",
+    "file_storage": {
+      "driver": "gcs",
+      "bucket": "my-evershop-bucket",
+      "projectId": "my-gcp-project",
+      "keyFilename": "/secrets/gcp-sa.json",
+      "publicHost": "https://cdn.example.com"
+    },
     "admin_collection_size": 20,
     "upload_allowed_mime_types": [
       "image/jpeg",
