@@ -1,5 +1,6 @@
 import path from 'path';
 import config from 'config';
+import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
@@ -11,6 +12,7 @@ import registerDefaultAttributeCollectionFilters from './services/registerDefaul
 import registerDefaultCategoryCollectionFilters from './services/registerDefaultCategoryCollectionFilters.js';
 import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
 import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
+import registerRatingFilter from './services/registerRatingFilter.js';
 
 export default () => {
   addProcessor('cartItemFields', registerCartItemProductUrlField, 0);
@@ -87,6 +89,7 @@ export default () => {
     registerDefaultProductCollectionFilters,
     1
   );
+  addProcessor('productCollectionFilters', registerRatingFilter, 1.5);
   addProcessor(
     'productCollectionFilters',
     (filters) => [...filters, ...defaultPaginationFilters],
@@ -135,6 +138,40 @@ export default () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     1
   );
+
+  // Review system: extend config schema + register cron that sends pending
+  // review-invitation emails.
+  addProcessor('configurationSchema', (schema) => {
+    merge(schema, {
+      properties: {
+        review: {
+          type: 'object',
+          properties: {
+            invitationDelayDays: { type: 'integer', minimum: 0 },
+            cronSchedule: { type: 'string' }
+          }
+        }
+      }
+    });
+    return schema;
+  });
+  config.util.setModuleDefaults('review', {
+    invitationDelayDays: 7,
+    cronSchedule: '0 10 * * *'
+  });
+
+  try {
+    registerJob({
+      name: 'sendReviewRequests',
+      resolve: path.resolve(
+        CONSTANTS.MODULESPATH,
+        'catalog/jobs/sendReviewRequests.js'
+      ),
+      schedule: config.get('review.cronSchedule') || '0 10 * * *'
+    });
+  } catch (e) {
+    // Avoid blocking bootstrap if cron registration fails (e.g. missing dist file).
+  }
 
   registerWidget({
     type: 'collection_products',

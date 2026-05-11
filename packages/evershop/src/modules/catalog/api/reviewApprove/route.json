@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/reviews/:id/approve",
+  "access": "private"
+}

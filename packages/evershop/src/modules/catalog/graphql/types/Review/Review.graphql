@@ -1,0 +1,54 @@
+"""
+A review left by a customer for a product. Reviews are moderated — only those
+with status="approved" are exposed on the storefront. Admin sees all statuses.
+"""
+type Review {
+  reviewId: Int!
+  uuid: String!
+  productId: Int!
+  customerId: Int
+  orderId: Int
+  rating: Int!
+  title: String
+  comment: String
+  customerName: String
+  customerEmail: String
+  status: String!
+  createdAt: String!
+  updatedAt: String!
+  product: Product
+  editUrl: String
+  approveUrl: String
+  rejectUrl: String
+  deleteUrl: String
+}
+
+type ReviewCollection {
+  items: [Review]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+"""
+Aggregate stats for a product's reviews — used by listing pages so we don't
+ship a million review rows down with each card.
+"""
+type ProductReviewSummary {
+  averageRating: Float!
+  reviewCount: Int!
+  ratingDistribution: [Int!]!
+}
+
+extend type Product {
+  averageRating: Float!
+  reviewCount: Int!
+  reviewSummary: ProductReviewSummary!
+  reviews(limit: Int, offset: Int): [Review!]!
+  canCurrentCustomerReview: Boolean!
+}
+
+extend type Query {
+  review(id: Int, uuid: String): Review
+  reviews(filters: [FilterInput]): ReviewCollection
+}
