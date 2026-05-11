@@ -10,7 +10,7 @@ export default function CmsMenuGroup({ storeSetting }: CmsMenuGroupProps) {
   return (
     <NavigationItemGroup
       id="settingMenuGroup"
-      name="Setting"
+      name="Configuración"
       Icon={() => <Settings width={15} height={15} />}
       url={storeSetting}
     />

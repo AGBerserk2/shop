@@ -22,7 +22,7 @@ export default async (request, response, next) => {
             .given({
               name: key,
               value: JSON.stringify(value),
-              is_json: 1
+              is_json: true
             })
             .execute(connection, false)
         );
@@ -31,8 +31,8 @@ export default async (request, response, next) => {
           insertOnUpdate('setting', ['name'])
             .given({
               name: key,
-              value,
-              is_json: 0
+              value: value == null ? null : String(value),
+              is_json: false
             })
             .execute(connection, false)
         );

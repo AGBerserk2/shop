@@ -11,4 +11,16 @@ extend type Setting {
   storeCity: String
   storeProvince: String
   storePostalCode: String
+  storeLogo: String
+  storeLogoAlt: String
+  storeInstagram: String
+  storeFacebook: String
+  storeWhatsapp: String
+  storeTiktok: String
+  storeTwitter: String
+  helpLinkShipping: String
+  helpLinkReturns: String
+  helpLinkFaq: String
+  helpLinkContact: String
+  storeNotificationFrom: String
 }

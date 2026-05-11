@@ -124,8 +124,14 @@ export default () => {
           type: 'object',
           properties: {
             file_storage: {
-              type: 'string',
-              enum: ['local']
+              oneOf: [
+                { type: 'string', enum: ['local'] },
+                {
+                  type: 'object',
+                  properties: { driver: { type: 'string' } },
+                  required: ['driver']
+                }
+              ]
             }
           }
         }
