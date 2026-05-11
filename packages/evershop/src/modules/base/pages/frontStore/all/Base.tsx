@@ -18,6 +18,23 @@ interface BaseProps {
   themeConfig: {
     copyRight: string;
   };
+  setting?: {
+    storeName?: string | null;
+    storeEmail?: string | null;
+    storePhoneNumber?: string | null;
+    storeAddress?: string | null;
+    storeCity?: string | null;
+    storeCountry?: string | null;
+    storeInstagram?: string | null;
+    storeFacebook?: string | null;
+    storeWhatsapp?: string | null;
+    storeTiktok?: string | null;
+    storeTwitter?: string | null;
+    helpLinkShipping?: string | null;
+    helpLinkReturns?: string | null;
+    helpLinkFaq?: string | null;
+    helpLinkContact?: string | null;
+  };
   addMineCartItemApi: string;
   loginApi: string;
   logoutApi: string;
@@ -27,6 +44,7 @@ export default function Base({
   myCart,
   customer,
   themeConfig,
+  setting,
   addMineCartItemApi,
   loginApi,
   logoutApi,
@@ -49,7 +67,7 @@ export default function Base({
         <main className="content">
           <Area id="content" noOuter />
         </main>
-        <Footer copyRight={themeConfig.copyRight} />
+        <Footer copyRight={themeConfig.copyRight} setting={setting} />
       </CartProvider>
     </CustomerProvider>
   );
@@ -152,6 +170,23 @@ export const query = `
     }
     themeConfig {
       copyRight
+    }
+    setting {
+      storeName
+      storeEmail
+      storePhoneNumber
+      storeAddress
+      storeCity
+      storeCountry
+      storeInstagram
+      storeFacebook
+      storeWhatsapp
+      storeTiktok
+      storeTwitter
+      helpLinkShipping
+      helpLinkReturns
+      helpLinkFaq
+      helpLinkContact
     }
     addMineCartItemApi: url(routeId: "addMineCartItem")
     loginApi: url(routeId: "customerLoginJson")

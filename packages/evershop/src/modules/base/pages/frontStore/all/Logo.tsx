@@ -9,17 +9,39 @@ interface LogoProps {
       height?: number;
     };
   };
+  setting?: {
+    storeLogo?: string | null;
+    storeLogoAlt?: string | null;
+    storeName?: string | null;
+  };
 }
+
 export default function Logo({
   themeConfig: {
-    logo: { src, alt = 'Evershop', width = 128, height = 128 }
-  }
+    logo: {
+      src: themeSrc,
+      alt: themeAlt = 'Evershop',
+      width = 128,
+      height = 128
+    }
+  },
+  setting
 }: LogoProps) {
+  // Setting (admin-managed) takes priority over themeConfig (file-based).
+  const src = setting?.storeLogo || themeSrc;
+  const alt = setting?.storeLogoAlt || themeAlt || setting?.storeName || 'Logo';
+
   return (
     <div className="logo md:ml-0 flex justify-center items-center">
       {src && (
         <a href="/" className="logo-icon">
-          <img src={src} alt={alt} width={width} height={height} />
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            className="max-h-9 md:max-h-10 lg:max-h-11 xl:max-h-12 w-auto object-contain"
+          />
         </a>
       )}
       {!src && (
@@ -52,7 +74,7 @@ export default function Logo({
 }
 
 export const layout = {
-  areaId: 'headerMiddleCenter',
+  areaId: 'headerMiddleLeft',
   sortOrder: 10
 };
 
@@ -65,6 +87,11 @@ export const query = `
         width
         height
       }
+    }
+    setting {
+      storeLogo
+      storeLogoAlt
+      storeName
     }
   }
 `;

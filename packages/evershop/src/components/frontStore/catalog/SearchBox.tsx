@@ -253,75 +253,106 @@ export function SearchBox({
     }, 150);
   }, []);
 
-  const defaultSearchIcon = () => (
-    <Search className="w-5 h-5 text-foreground hover:text-primary" />
-  );
-
-  const defaultCloseIcon = () => (
-    <X className="w-5 h-5 text-foreground hover:text-primary" />
-  );
+  // Close the bar when clicking outside it (but not when interacting with
+  // the results, which live inside).
+  const containerRef = useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (!showing) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setShowing(false);
+        setShowResults(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, [showing]);
 
   return (
-    <div className="search__box">
-      <a
-        href="#"
-        className="search__icon"
-        onClick={(e) => {
-          e.preventDefault();
-          setShowing(!showing);
-        }}
+    <div className="search__box relative" ref={containerRef}>
+      {/* Expanding bar — width animates from 0 to full when opened. The icon
+          on the right toggles between Search and X. */}
+      <div
+        className={`flex items-center bg-white rounded-full transition-all duration-300 ease-out overflow-hidden ${
+          showing
+            ? 'w-[min(72vw,360px)] ring-1 ring-gray-200 shadow-sm pl-3 pr-1'
+            : 'w-10'
+        }`}
       >
-        {renderSearchIcon ? renderSearchIcon() : defaultSearchIcon()}
-      </a>
-      {showing && (
-        <div className="search__input__container fixed top-0 left-0 right-0 bottom-0 bg-white shadow-md z-50 p-10">
-          <div className="search__input relative flex justify-between">
-            {renderSearchInput
-              ? renderSearchInput({
-                  value: keyword || '',
-                  onChange: handleInputChange,
-                  onKeyDown: handleKeyDown,
-                  onFocus: handleFocus,
-                  onBlur: handleBlur,
-                  placeholder: _('Search'),
-                  ref: InputRef
-                })
-              : defaultSearchInput({
-                  value: keyword || '',
-                  onChange: handleInputChange,
-                  onKeyDown: handleKeyDown,
-                  onFocus: handleFocus,
-                  onBlur: handleBlur,
-                  placeholder: _('Search'),
-                  ref: InputRef
-                })}
-            <a
-              href="#"
-              className="close-icon flex items-center p-3"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowing(false);
-                setShowResults(false);
-              }}
-            >
-              {renderCloseIcon ? renderCloseIcon() : defaultCloseIcon()}
-            </a>
-            {enableAutocomplete &&
-              showResults &&
-              (renderSearchResults
-                ? renderSearchResults({
-                    results: searchResults,
-                    query: keyword || '',
-                    onSelect: handleResultSelect,
-                    isLoading: isSearching
-                  })
-                : defaultSearchResults({
-                    results: searchResults,
-                    query: keyword || '',
-                    onSelect: handleResultSelect,
-                    isLoading: isSearching
-                  }))}
-          </div>
+        {/* Animated input wrapper — only takes space when open */}
+        <div
+          className={`transition-all duration-300 ease-out ${
+            showing ? 'flex-1 opacity-100 ml-1' : 'w-0 opacity-0 ml-0 pointer-events-none'
+          }`}
+          aria-hidden={!showing}
+        >
+          {renderSearchInput
+            ? renderSearchInput({
+                value: keyword || '',
+                onChange: handleInputChange,
+                onKeyDown: handleKeyDown,
+                onFocus: handleFocus,
+                onBlur: handleBlur,
+                placeholder: _('Buscar productos...'),
+                ref: InputRef
+              })
+            : (
+              <input
+                ref={InputRef}
+                type="text"
+                placeholder={_('Buscar productos...')}
+                value={keyword || ''}
+                onChange={(e) => handleInputChange(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                enterKeyHint="search"
+                className="w-full bg-transparent outline-none text-sm py-2 placeholder:text-gray-400"
+                tabIndex={showing ? 0 : -1}
+              />
+            )}
+        </div>
+
+        {/* Toggle: search ↔ close. Same rounded circular button. */}
+        <button
+          type="button"
+          className="search__icon shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+          aria-label={showing ? 'Cerrar búsqueda' : 'Buscar'}
+          onClick={() => {
+            if (showing) {
+              setShowing(false);
+              setShowResults(false);
+              setKeyword('');
+            } else {
+              setShowing(true);
+            }
+          }}
+        >
+          <span className={`absolute transition-all duration-200 ${showing ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'}`}>
+            <Search className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className={`absolute transition-all duration-200 ${showing ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`}>
+            <X className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+        </button>
+      </div>
+
+      {/* Autocomplete results dropdown — anchored to the expanded bar */}
+      {showing && enableAutocomplete && showResults && (
+        <div className="absolute top-full right-0 mt-2 w-[min(80vw,420px)] z-50">
+          {renderSearchResults
+            ? renderSearchResults({
+                results: searchResults,
+                query: keyword || '',
+                onSelect: handleResultSelect,
+                isLoading: isSearching
+              })
+            : defaultSearchResults({
+                results: searchResults,
+                query: keyword || '',
+                onSelect: handleResultSelect,
+                isLoading: isSearching
+              })}
         </div>
       )}
     </div>
@@ -364,22 +395,27 @@ const defaultSearchResults = (props: {
   isLoading: boolean;
 }) => {
   return (
-    <div className="search__results absolute top-full left-0 right-0 bg-white border border-border rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+    <div className="search__results bg-white border border-gray-100 rounded-xl shadow-xl max-h-96 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
       {props.isLoading && (
-        <div className="p-3 text-center text-gray-500">
-          <span>Searching...</span>
+        <div className="p-4 text-center text-gray-500 text-sm">
+          <span className="inline-flex items-center gap-2">
+            <span className="inline-block w-4 h-4 rounded-full border-2 border-rose-300 border-t-rose-600 animate-spin" />
+            Buscando…
+          </span>
         </div>
       )}
-      {!props.isLoading && props.results.length === 0 && (
-        <div className="p-3 text-center text-gray-500">
-          <span>No results found for &ldquo;{props.query}&rdquo;</span>
+      {!props.isLoading && props.results.length === 0 && props.query.length > 0 && (
+        <div className="p-6 text-center text-gray-500 text-sm">
+          <div className="text-3xl mb-1">🔍</div>
+          <div>No encontramos resultados para</div>
+          <div className="font-semibold text-gray-700 mt-0.5">&ldquo;{props.query}&rdquo;</div>
         </div>
       )}
       {!props.isLoading &&
         props.results.map((result) => (
           <div
             key={result.id}
-            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-border last:border-b-0"
+            className="flex items-center gap-3 p-3 hover:bg-rose-50/60 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
             onClick={(e) => {
               e.preventDefault();
               props.onSelect(result);
@@ -393,22 +429,25 @@ const defaultSearchResults = (props: {
             role="button"
             tabIndex={0}
           >
-            {result.image && (
+            {result.image ? (
               <Image
                 src={result.image}
                 alt={result.title}
                 width={100}
                 height={100}
-                className="w-10 h-10 object-cover rounded mr-3 shrink-0"
+                className="w-11 h-11 object-cover rounded-md shrink-0"
               />
+            ) : (
+              <div className="w-11 h-11 rounded-md bg-gray-100 flex items-center justify-center shrink-0 text-gray-400">
+                📦
+              </div>
             )}
             <div className="flex-1 min-w-0">
-              <div className="font-medium truncate">{result.title}</div>
-              {result.price && <div className="text-sm">{result.price}</div>}
-              {result.type && (
-                <div className="text-xs text-gray-400 capitalize">
-                  {result.type}
-                </div>
+              <div className="font-medium text-sm text-gray-900 truncate">
+                {result.title}
+              </div>
+              {result.price && (
+                <div className="text-sm font-bold text-rose-600">{result.price}</div>
               )}
             </div>
           </div>

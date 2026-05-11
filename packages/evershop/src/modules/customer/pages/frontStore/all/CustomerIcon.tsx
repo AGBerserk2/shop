@@ -18,8 +18,13 @@ export default function UserIcon({
 }: UserIconProps) {
   return (
     <div className="self-center customer-icon">
-      <a href={customer ? accountUrl : loginUrl}>
-        <CircleUser className="w-5 h-5 text-foreground hover:text-primary" />
+      <a
+        href={customer ? accountUrl : loginUrl}
+        className="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+        aria-label={customer ? `Cuenta de ${customer.fullName}` : 'Iniciar sesión'}
+        title={customer ? customer.fullName || 'Mi cuenta' : 'Iniciar sesión'}
+      >
+        <CircleUser className="w-[18px] h-[18px]" strokeWidth={1.75} />
       </a>
     </div>
   );

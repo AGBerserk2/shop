@@ -446,7 +446,7 @@ export const CompactPaginationRenderer: React.FC<{
           disabled={!hasPrev || isLoading}
           className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Previous
+          Anterior
         </button>
 
         <span className="text-sm text-gray-600">
@@ -458,7 +458,7 @@ export const CompactPaginationRenderer: React.FC<{
           disabled={!hasNext || isLoading}
           className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Next
+          Siguiente
         </button>
       </div>
     </div>
@@ -524,7 +524,7 @@ export const InputPaginationRenderer: React.FC<{
           onSubmit={handleInputSubmit}
           className="flex items-center space-x-2"
         >
-          <span className="text-sm">Page</span>
+          <span className="text-sm">Página</span>
           <input
             type="number"
             min="1"

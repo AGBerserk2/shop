@@ -214,7 +214,7 @@ interface CustomerState {
 type CustomerAction =
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_CUSTOMER'; payload: Customer | undefined }
-  | { type: 'LOGOUT' };
+  | { type: 'SIGN OUT' };
 
 const initialState: CustomerState = {
   customer: undefined,
@@ -234,7 +234,7 @@ const customerReducer = (
         draft.customer = action.payload;
         draft.isLoading = false;
         break;
-      case 'LOGOUT':
+      case 'SIGN OUT':
         draft.customer = undefined;
         draft.isLoading = false;
         break;
@@ -441,10 +441,10 @@ export function CustomerProvider({
       );
 
       // After successful logout, clear customer data locally
-      dispatch({ type: 'LOGOUT' });
+      dispatch({ type: 'SIGN OUT' });
     } catch (error) {
       // Even if logout API fails, clear local customer data
-      dispatch({ type: 'LOGOUT' });
+      dispatch({ type: 'SIGN OUT' });
       throw error;
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });

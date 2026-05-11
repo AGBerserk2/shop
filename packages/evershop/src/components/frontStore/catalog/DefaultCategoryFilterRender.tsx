@@ -84,7 +84,7 @@ export const DefaultCategoryFilterRender: React.FC<{
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="flex items-center justify-between text-left flex-1 hover:text-primary transition-colors"
         >
-          <span className="font-medium">Categories</span>
+          <span className="font-medium">Categorías</span>
           <svg
             className={`w-4 h-4 transition-transform ${
               isCollapsed ? 'rotate-180' : ''
