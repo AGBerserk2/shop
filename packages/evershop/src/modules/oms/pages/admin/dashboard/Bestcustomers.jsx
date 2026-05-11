@@ -25,7 +25,7 @@ export default function BestCustomers({ listUrl, setting }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Best customers</CardTitle>
+        <CardTitle>Mejores clientes</CardTitle>
         <CardDescription>
           A list of customers who have placed the most orders
         </CardDescription>
@@ -39,8 +39,8 @@ export default function BestCustomers({ listUrl, setting }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Full name</TableHead>
-              <TableHead>Orders</TableHead>
+              <TableHead>Nombre</TableHead>
+              <TableHead>Pedidos</TableHead>
               <TableHead>Total</TableHead>
             </TableRow>
           </TableHeader>

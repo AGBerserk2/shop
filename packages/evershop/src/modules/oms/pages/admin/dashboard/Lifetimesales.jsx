@@ -35,10 +35,10 @@ export default function LifetimeSale({ api }) {
   const { orders, total, completed_percentage, cancelled_percentage } = data;
 
   const chartData = [
-    { name: 'Completed', value: completed_percentage },
-    { name: 'Cancelled', value: cancelled_percentage },
+    { name: 'Completado', value: completed_percentage },
+    { name: 'Cancelado', value: cancelled_percentage },
     {
-      name: 'Others',
+      name: 'Otros',
       value: 100 - completed_percentage - cancelled_percentage
     }
   ];
@@ -64,9 +64,9 @@ export default function LifetimeSale({ api }) {
 
   if (fetching) {
     return (
-      <Card title="Lifetime Sales">
+      <Card title="Ventas totales">
         <CardHeader>
-          <CardTitle>Lifetime Sales</CardTitle>
+          <CardTitle>Ventas totales</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="skeleton-wrapper-lifetime">
@@ -85,11 +85,11 @@ export default function LifetimeSale({ api }) {
     );
   } else {
     return (
-      <Card title="Lifetime Sales">
+      <Card title="Ventas totales">
         <CardHeader>
-          <CardTitle>Lifetime Sales</CardTitle>
+          <CardTitle>Ventas totales</CardTitle>
           <CardDescription>
-            Overview of total sales and order status over the lifetime of your
+            Resumen total de ventas y estados de pedido desde el inicio de tu tienda
           </CardDescription>
         </CardHeader>
         <CardContent>

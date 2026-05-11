@@ -47,11 +47,11 @@ export default function SaleStatistic({ api }) {
 
   if (fetching) {
     return (
-      <Card title="Sale Statistics">
+      <Card title="Estadísticas de venta">
         <CardHeader>
-          <CardTitle>Sale Statistics</CardTitle>
+          <CardTitle>Estadísticas de venta</CardTitle>
           <CardDescription>
-            Overview of sales data over selected periods
+            Resumen de ventas por período seleccionado
           </CardDescription>
         </CardHeader>
         <div className="skeleton-wrapper-statistic">
@@ -63,31 +63,31 @@ export default function SaleStatistic({ api }) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Sale Statistics</CardTitle>
+          <CardTitle>Estadísticas de venta</CardTitle>
           <CardDescription>
-            Overview of sales data over selected periods
+            Resumen de ventas por período seleccionado
           </CardDescription>
           <CardAction>
             <ButtonGroup>
               <Button onClick={() => setPeriod('daily')} variant={'outline'}>
                 {period === 'daily' ? (
-                  <span className="text-primary">Daily</span>
+                  <span className="text-primary">Diario</span>
                 ) : (
-                  'Daily'
+                  'Diario'
                 )}
               </Button>
               <Button onClick={() => setPeriod('weekly')} variant={'outline'}>
                 {period === 'weekly' ? (
-                  <span className="text-primary">Weekly</span>
+                  <span className="text-primary">Semanal</span>
                 ) : (
-                  'Weekly'
+                  'Semanal'
                 )}
               </Button>
               <Button onClick={() => setPeriod('monthly')} variant={'outline'}>
                 {period === 'monthly' ? (
-                  <span className="text-primary">Monthly</span>
+                  <span className="text-primary">Mensual</span>
                 ) : (
-                  'Monthly'
+                  'Mensual'
                 )}
               </Button>
             </ButtonGroup>

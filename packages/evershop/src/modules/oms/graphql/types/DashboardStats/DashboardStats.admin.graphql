@@ -1,0 +1,42 @@
+"""
+KPI snapshot for the admin dashboard. Combines OMS, catalog and review numbers
+into a single resolver so the dashboard hits the DB once per render instead of
+firing one query per card.
+"""
+type DashboardStats {
+  revenue: DashboardMoney!
+  orderCount: DashboardCount!
+  averageOrderValue: DashboardMoney!
+  pendingFulfillment: Int!
+  unpaidOrders: Int!
+  pendingReviews: Int!
+  outOfStockProducts: Int!
+  lowStockProducts: Int!
+  newCustomers: Int!
+}
+
+"""
+A value paired with the same metric for the previous period (same length, immediately
+before "from"). Lets the card show "↑ 12% vs período anterior".
+"""
+type DashboardMoney {
+  value: Float!
+  text: String!
+  previousValue: Float!
+  changePct: Float
+}
+
+type DashboardCount {
+  value: Int!
+  previousValue: Int!
+  changePct: Float
+}
+
+extend type Query {
+  """
+  Aggregate dashboard KPIs.
+  Pass ISO datetimes for `from` and `to`. If omitted, defaults to the current
+  calendar day in the store timezone.
+  """
+  dashboardStats(from: String, to: String): DashboardStats!
+}
