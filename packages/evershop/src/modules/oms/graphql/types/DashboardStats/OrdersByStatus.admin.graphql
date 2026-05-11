@@ -1,0 +1,25 @@
+"""
+Orders grouped by their current status, with operational timing.
+Drives the orders-by-status report on the dashboard.
+"""
+type OrdersByStatus {
+  total: Int!
+  buckets: [OrderStatusBucket!]!
+  averageDaysToFulfill: Float
+  averageDaysToComplete: Float
+}
+
+type OrderStatusBucket {
+  status: String!
+  count: Int!
+  pct: Float!
+  avgAgeHours: Float
+}
+
+extend type Query {
+  """
+  Orders grouped by status across a date range. If from/to are omitted, the
+  resolver defaults to the last 30 days based on order.created_at.
+  """
+  ordersByStatus(from: String, to: String): OrdersByStatus!
+}

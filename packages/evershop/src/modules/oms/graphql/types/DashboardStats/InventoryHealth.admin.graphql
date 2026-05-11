@@ -1,0 +1,29 @@
+"""
+Snapshot of stock health for the dashboard: which products are out of stock,
+which are running low, and totals so the admin can drill into action.
+"""
+type InventoryHealth {
+  outOfStockTotal: Int!
+  lowStockTotal: Int!
+  threshold: Int!
+  outOfStock: [InventoryHealthItem!]!
+  lowStock: [InventoryHealthItem!]!
+}
+
+type InventoryHealthItem {
+  productId: Int!
+  uuid: String!
+  name: String
+  sku: String
+  qty: Int!
+  imageUrl: String
+  editUrl: String!
+}
+
+extend type Query {
+  """
+  Inventory health snapshot. `threshold` defines what counts as low stock
+  (default 5). `limit` caps the list of items returned (default 10 each).
+  """
+  inventoryHealth(threshold: Int, limit: Int): InventoryHealth!
+}

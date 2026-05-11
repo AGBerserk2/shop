@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import React from 'react';
 import { useQuery } from 'urql';
-import { useDateRange, DateRangePicker, DateRangeProvider } from './DateRange.js';
+import { useDateRange, DateRangePicker } from './DateRange.js';
 
 const STATS_QUERY = `
   query DashboardStats($from: String, $to: String) {
@@ -251,11 +251,8 @@ function KpiCardsInner() {
 }
 
 export default function KpiCards() {
-  return (
-    <DateRangeProvider>
-      <KpiCardsInner />
-    </DateRangeProvider>
-  );
+  // DateRangeProvider is hoisted to Layout.jsx so all widgets share the picker.
+  return <KpiCardsInner />;
 }
 
 export const layout = {
