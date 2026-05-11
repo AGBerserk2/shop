@@ -1,0 +1,32 @@
+"""
+Reputation snapshot built from product_review. Combines global rating
+stats with the products that drag the average up or down so the operator
+knows where to act.
+"""
+type ReviewsReputationReport {
+  averageRating: Float!
+  totalReviews: Int!
+  totalApproved: Int!
+  totalPending: Int!
+  ratingDistribution: [Int!]!
+  reviewsInPeriod: Int!
+  ordersInPeriod: Int!
+  reviewRate: Float!
+  topProducts: [ReputationProduct!]!
+  worstProducts: [ReputationProduct!]!
+}
+
+type ReputationProduct {
+  productId: Int!
+  uuid: String!
+  name: String
+  sku: String
+  averageRating: Float!
+  reviewCount: Int!
+  imageUrl: String
+  editUrl: String!
+}
+
+extend type Query {
+  reviewsReputation(from: String, to: String, limit: Int): ReviewsReputationReport!
+}

@@ -1,0 +1,29 @@
+"""
+Customer cohort retention. Customers grouped by the month of their first
+order; each row shows how many of them placed a subsequent order in the
+following N months. Used to spot retention drop-offs.
+"""
+type CohortAnalysisReport {
+  months: Int!
+  cohorts: [Cohort!]!
+}
+
+type Cohort {
+  """ISO month label of the cohort, e.g. '2026-05'."""
+  month: String!
+  newCustomers: Int!
+  """Retention array: index 0 = month 0 (acquisition), index 1 = next month, etc.
+  Each entry has count + pct."""
+  retention: [CohortRetention!]!
+}
+
+type CohortRetention {
+  monthOffset: Int!
+  count: Int!
+  pct: Float!
+}
+
+extend type Query {
+  """months: how many months of retention to compute. Default 6 (acquisition + 5 follow-ups)."""
+  customerCohorts(months: Int): CohortAnalysisReport!
+}

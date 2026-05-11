@@ -1,0 +1,22 @@
+"""
+Chronological feed of recent activity in the store, built by union'ing
+existing tables (no separate activity_log table). Useful as a quick
+"what happened lately" pulse on the dashboard.
+"""
+type ActivityFeedReport {
+  items: [ActivityItem!]!
+}
+
+type ActivityItem {
+  id: String!
+  type: String!
+  timestamp: String!
+  title: String!
+  subtitle: String
+  href: String
+  amount: String
+}
+
+extend type Query {
+  activityFeed(limit: Int): ActivityFeedReport!
+}
