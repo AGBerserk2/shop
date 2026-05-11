@@ -115,7 +115,7 @@ function CollectionProductsSetting({
                     No collections found for query &quot;{inputValue}&rdquo;
                   </p>
                 ) : (
-                  <p>You have no collections to display</p>
+                  <p>No hay colecciones para mostrar</p>
                 )}
               </div>
             )}
