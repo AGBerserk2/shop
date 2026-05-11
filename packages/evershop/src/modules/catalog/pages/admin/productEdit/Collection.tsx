@@ -23,9 +23,9 @@ export default function Collections({
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Collections</CardTitle>
+        <CardTitle>Colecciones</CardTitle>
         <CardDescription>
-          Manage the collections associated with this product.
+          Gestiona las colecciones asociadas a este producto.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">

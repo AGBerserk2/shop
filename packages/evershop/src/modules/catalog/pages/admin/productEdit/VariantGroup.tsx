@@ -47,7 +47,7 @@ const VariantGroup: React.FC<VariantGroupProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Variant Group</CardTitle>
+        <CardTitle>Grupo de variantes</CardTitle>
         <CardDescription>
           Manage the variant group of the product.
         </CardDescription>

@@ -56,7 +56,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
             >
               <div className="flex justify-start items-center gap-2">
                 <LogOut className="w-4 h-4" />
-                <span>Logout</span>
+                <span>Cerrar sesión</span>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>

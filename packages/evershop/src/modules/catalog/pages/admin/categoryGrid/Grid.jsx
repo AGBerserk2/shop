@@ -120,7 +120,7 @@ export default function CategoryGrid({
         <Form submitBtn={false} id="categoryGridFilter">
           <InputField
             name="name"
-            placeholder="Search"
+            placeholder="Buscar"
             defaultValue={currentFilters.find((f) => f.key === 'name')?.value}
             onKeyPress={(e) => {
               // If the user press enter, we should submit the form
@@ -192,7 +192,7 @@ export default function CategoryGrid({
                       default: () => (
                         <SortableHeader
                           name="status"
-                          title="Status"
+                          title="Estado"
                           currentFilters={currentFilters}
                         />
                       )

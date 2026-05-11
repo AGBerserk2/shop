@@ -65,7 +65,7 @@ export default function General({ collection }: GeneralProps) {
         default: (
           <Editor
             name="description"
-            label="Description"
+            label="Descripción"
             value={collection?.description || []}
           />
         )
@@ -77,7 +77,7 @@ export default function General({ collection }: GeneralProps) {
   return (
     <Card title="General">
       <CardHeader>
-        <CardTitle>General Information</CardTitle>
+        <CardTitle>Información general</CardTitle>
         <CardDescription>
           Manage general information about the collection.
         </CardDescription>

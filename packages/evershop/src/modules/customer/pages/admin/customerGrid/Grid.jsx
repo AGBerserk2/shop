@@ -58,7 +58,7 @@ function Actions({ customers = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Disable ${selectedIds.length} customers`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -79,7 +79,7 @@ function Actions({ customers = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Enable ${selectedIds.length} customers`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -160,7 +160,7 @@ export default function CustomerGrid({
                     default: () => (
                       <InputField
                         name="keyword"
-                        placeholder="Search"
+                        placeholder="Buscar"
                         defaultValue={
                           currentFilters.find((f) => f.key === 'keyword')?.value
                         }
@@ -196,13 +196,13 @@ export default function CustomerGrid({
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue>Status</SelectValue>
+                          <SelectValue>Estado</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectLabel>Status</SelectLabel>
-                            <SelectItem value="1">Enabled</SelectItem>
-                            <SelectItem value="0">Disabled</SelectItem>
+                            <SelectLabel>Estado</SelectLabel>
+                            <SelectItem value="1">Habilitado</SelectItem>
+                            <SelectItem value="0">Deshabilitado</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -252,7 +252,7 @@ export default function CustomerGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Full Name"
+                          title="Nombre completo"
                           name="full_name"
                           currentFilters={currentFilters}
                         />
@@ -264,7 +264,7 @@ export default function CustomerGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Email"
+                          title="Correo"
                           name="email"
                           currentFilters={currentFilters}
                         />
@@ -276,7 +276,7 @@ export default function CustomerGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title="Estado"
                           name="status"
                           currentFilters={currentFilters}
                         />

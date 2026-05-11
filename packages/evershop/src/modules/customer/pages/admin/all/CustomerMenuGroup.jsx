@@ -7,12 +7,12 @@ export default function CustomerMenuGroup({ customerGrid }) {
   return (
     <NavigationItemGroup
       id="customerMenuGroup"
-      name="Customer"
+      name="Clientes"
       items={[
         {
           Icon: User,
           url: customerGrid,
-          title: 'Customers'
+          title: 'Clientes'
         }
       ]}
     />

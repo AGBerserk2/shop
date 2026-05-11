@@ -9,7 +9,7 @@ export function Shipping({ method, cost }: ShippingProps) {
   return (
     <div className="flex items-start justify-between gap-4">
       <span className="text-sm text-muted-foreground min-w-[8.75rem]">
-        Shipping
+        Envío
       </span>
       <div className="flex-1 flex items-start justify-between gap-2">
         <div className="text-sm text-muted-foreground">{method}</div>

@@ -20,7 +20,7 @@ export default function Status({ category }: CategoryStatusProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Status</CardTitle>
+        <CardTitle>Estado</CardTitle>
         <CardDescription>
           Manage the status settings of the category.
         </CardDescription>
@@ -28,7 +28,7 @@ export default function Status({ category }: CategoryStatusProps) {
       <CardContent>
         <RadioGroupField
           name="status"
-          label="Status"
+          label="Estado"
           options={[
             { label: 'Disabled', value: 0 },
             { label: 'Enabled', value: 1 }

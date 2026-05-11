@@ -14,7 +14,7 @@ export function WidgetTypeRow({ code, types }: WidgetTypeRowProps) {
   if (!type) {
     return (
       <TableCell>
-        <div>Unknown</div>
+        <div>Desconocido</div>
       </TableCell>
     );
   } else {

@@ -121,7 +121,7 @@ export default function CollectionGrid({
           <Form submitBtn={false} id="collectionGridFilter">
             <InputField
               name="name"
-              placeholder="Search"
+              placeholder="Buscar"
               defaultValue={currentFilters.find((f) => f.key === 'name')?.value}
               onKeyPress={(e) => {
                 // If the user press enter, we should submit the form
@@ -204,7 +204,7 @@ export default function CollectionGrid({
                       component: {
                         default: () => (
                           <SortableHeader
-                            title="Code"
+                            title="Código"
                             name="code"
                             currentFilters={currentFilters}
                           />

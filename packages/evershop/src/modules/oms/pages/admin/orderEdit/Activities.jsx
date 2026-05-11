@@ -44,7 +44,7 @@ export default function Activities({ order: { activities = [] } }) {
   return (
     <div className="mt-5">
       <h3 className="text-base font-semibold pb-5 border-b border-divider">
-        Activities
+        Actividades
       </h3>
       <ul className="relative py-5 mt-5 before:absolute before:content-[''] before:block before:h-full before:w-0.5 before:top-0 before:left-[0.563rem] before:bg-divider">
         {dailyActivities.map((group, i) => (

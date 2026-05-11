@@ -139,13 +139,13 @@ export default function Products({
     <Dialog>
       <Card>
         <CardHeader>
-          <CardTitle>Products</CardTitle>
+          <CardTitle>Productos</CardTitle>
           <CardDescription>
-            Manage the products assigned to this category.
+            Gestiona los productos asignados a esta categoría.
           </CardDescription>
           <CardAction>
             <DialogTrigger>
-              <Button variant="link">Add Products</Button>
+              <Button variant="link">Agregar productos</Button>
             </DialogTrigger>
           </CardAction>
         </CardHeader>
@@ -277,7 +277,7 @@ export default function Products({
       </Card>
       <DialogContent className="sm:max-w-[90vw] lg:max-w-200">
         <DialogHeader>
-          <DialogTitle>Add Products</DialogTitle>
+          <DialogTitle>Agregar productos</DialogTitle>
           <DialogDescription>
             Add products to this category by selecting them from the list below.
           </DialogDescription>

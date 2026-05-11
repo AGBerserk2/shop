@@ -10,7 +10,7 @@ export default function NewProductButton({
   return (
     <Button
       onClick={() => (window.location.href = newProductUrl)}
-      title="New Product"
+      title="Nuevo producto"
     >
       New Product
     </Button>

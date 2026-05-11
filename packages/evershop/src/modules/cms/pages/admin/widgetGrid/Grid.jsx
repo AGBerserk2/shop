@@ -64,7 +64,7 @@ function Actions({ widgets = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Disable ${selectedIds.length} widgets`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -85,7 +85,7 @@ function Actions({ widgets = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Enable ${selectedIds.length} widgets`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -189,7 +189,7 @@ export default function WidgetGrid({
                   default: () => (
                     <InputField
                       name="name"
-                      placeholder="Search"
+                      placeholder="Buscar"
                       defaultValue={
                         currentFilters.find((f) => f.key === 'name')?.value
                       }
@@ -256,7 +256,7 @@ export default function WidgetGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Name"
+                          title="Nombre"
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -268,7 +268,7 @@ export default function WidgetGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Type"
+                          title="Tipo"
                           name="type"
                           currentFilters={currentFilters}
                         />
@@ -280,7 +280,7 @@ export default function WidgetGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title="Estado"
                           name="status"
                           currentFilters={currentFilters}
                         />

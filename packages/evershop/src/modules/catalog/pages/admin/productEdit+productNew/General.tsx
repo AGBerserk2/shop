@@ -92,7 +92,7 @@ const ProductCategory: React.FC<{
     );
   }
   if (fetching) {
-    return <span>Loading...</span>;
+    return <span>Cargando...</span>;
   }
   return (
     <div>
@@ -153,7 +153,7 @@ const CategorySelect: React.FC<{
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <div className="space-y-3">
-        <Label>Category</Label>
+        <Label>Categoría</Label>
         {category && (
           <div className="border rounded border-border p-2">
             <ProductCategory
@@ -182,7 +182,7 @@ const CategorySelect: React.FC<{
         )}
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Select Category</DialogTitle>
+            <DialogTitle>Seleccionar categoría</DialogTitle>
           </DialogHeader>
           <CategorySelector
             onSelect={onSelect}
@@ -246,7 +246,7 @@ export default function General({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>General Information</CardTitle>
+        <CardTitle>Información general</CardTitle>
         <CardDescription>
           Manage the general information of the product.
         </CardDescription>
@@ -301,7 +301,7 @@ export default function General({
                 default: (
                   <SelectField
                     name="tax_class"
-                    label="Tax Class"
+                    label="Clase de impuesto"
                     options={taxClasses.map((taxClass) => ({
                       value: taxClass.value,
                       label: taxClass.text
@@ -320,7 +320,7 @@ export default function General({
                 default: (
                   <Editor
                     name="description"
-                    label="Description"
+                    label="Descripción"
                     value={product?.description}
                   />
                 )

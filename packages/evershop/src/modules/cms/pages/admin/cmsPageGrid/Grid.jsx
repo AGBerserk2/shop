@@ -62,7 +62,7 @@ function Actions({ pages = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Disable ${selectedIds.length} pages`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -83,7 +83,7 @@ function Actions({ pages = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Enable ${selectedIds.length} pages`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -186,7 +186,7 @@ export default function CMSPageGrid({
                   default: () => (
                     <InputField
                       name="name"
-                      placeholder="Search"
+                      placeholder="Buscar"
                       defaultValue={
                         currentFilters.find((f) => f.key === 'name')?.value
                       }
@@ -253,7 +253,7 @@ export default function CMSPageGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Name"
+                          title="Nombre"
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -265,7 +265,7 @@ export default function CMSPageGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title="Estado"
                           name="status"
                           currentFilters={currentFilters}
                         />

@@ -55,13 +55,13 @@ function Actions({ orders = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Mark as shipped',
+      name: 'Marcar como enviado',
       onAction: () => {
         openAlert({
           heading: `Fullfill ${selectedIds.length} orders`,
           content: (
             <div className="form-field mb-0">
-              Are you sure you want to mark the selected orders as shipped?
+              ¿Marcar los pedidos seleccionados como enviados?
             </div>
           ),
           primaryAction: {
@@ -70,7 +70,7 @@ function Actions({ orders = [], selectedIds = [] }) {
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Mark as shipped',
+            title: 'Marcar como enviado',
             onAction: async () => {
               await fullFillOrders();
             },
@@ -149,7 +149,7 @@ export default function OrderGrid({
                     default: () => (
                       <InputField
                         name="keyword"
-                        placeholder="Search"
+                        placeholder="Buscar"
                         defaultValue={
                           currentFilters.find((f) => f.key === 'keyword')?.value
                         }
@@ -192,11 +192,11 @@ export default function OrderGrid({
                           }}
                         >
                           <SelectTrigger>
-                            <SelectValue>Payment Status</SelectValue>
+                            <SelectValue>Estado del pago</SelectValue>
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectLabel>Payment Status</SelectLabel>
+                              <SelectLabel>Estado del pago</SelectLabel>
                               {paymentStatusList.map((status, index) => (
                                 <SelectItem key={index} value={status.code}>
                                   {status.name}
@@ -230,11 +230,11 @@ export default function OrderGrid({
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue>Shipment Status</SelectValue>
+                          <SelectValue>Estado del envío</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectLabel>Shipment Status</SelectLabel>
+                            <SelectLabel>Estado del envío</SelectLabel>
                             {shipmentStatusList.map((status, index) => (
                               <SelectItem key={index} value={status.code}>
                                 {status.name}
@@ -304,7 +304,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Date"
+                          title="Fecha"
                           name="created_at"
                           currentFilters={currentFilters}
                         />
@@ -328,7 +328,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Shipment Status"
+                          title="Estado del envío"
                           name="shipment_status"
                           currentFilters={currentFilters}
                         />
@@ -340,7 +340,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Payment Status"
+                          title="Estado del pago"
                           name="payment_status"
                           currentFilters={currentFilters}
                         />

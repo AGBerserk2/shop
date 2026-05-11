@@ -21,8 +21,8 @@ export default function General({ attribute }: GeneralProps) {
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Setting</CardTitle>
-        <CardDescription>Manage the setting of the attribute.</CardDescription>
+        <CardTitle>Configuración</CardTitle>
+        <CardDescription>Gestiona la configuración del atributo.</CardDescription>
       </CardHeader>
       <CardContent>
         <RadioGroupField

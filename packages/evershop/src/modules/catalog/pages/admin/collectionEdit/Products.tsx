@@ -140,13 +140,13 @@ export default function Products({
     <Dialog>
       <Card>
         <CardHeader>
-          <CardTitle>Products</CardTitle>
+          <CardTitle>Productos</CardTitle>
           <CardDescription>
-            Manage the products assigned to this collection.
+            Gestiona los productos asignados a esta colección.
           </CardDescription>
           <CardAction>
             <DialogTrigger>
-              <Button variant="link">Add Products</Button>
+              <Button variant="link">Agregar productos</Button>
             </DialogTrigger>
           </CardAction>
         </CardHeader>
@@ -276,7 +276,7 @@ export default function Products({
       </Card>
       <DialogContent className="sm:max-w-[90vw] lg:max-w-200">
         <DialogHeader>
-          <DialogTitle>Add Products</DialogTitle>
+          <DialogTitle>Agregar productos</DialogTitle>
           <DialogDescription>
             Select products to add to this collection.
           </DialogDescription>

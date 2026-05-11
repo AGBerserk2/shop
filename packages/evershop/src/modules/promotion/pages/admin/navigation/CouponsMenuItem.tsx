@@ -7,5 +7,5 @@ interface CouponsMenuItemProps {
 }
 
 export default function CouponsMenuItem({ url }: CouponsMenuItemProps) {
-  return <NavigationItem Icon={Gift} title="Coupons" url={url} />;
+  return <NavigationItem Icon={Gift} title="Cupones" url={url} />;
 }

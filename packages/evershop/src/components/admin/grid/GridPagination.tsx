@@ -83,7 +83,7 @@ export function GridPagination({ total, limit, page }: GridPaginationProps) {
     <div className="pagination flex w-full mt-3">
       <div className="flex justify-between w-full space-x-2">
         <ButtonGroup>
-          <Button variant={'outline'}>Show</Button>
+          <Button variant={'outline'}>Mostrar</Button>
           <Select
             value={limit.toString()}
             onValueChange={(value) => {

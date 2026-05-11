@@ -22,7 +22,7 @@ FullName.propTypes = {
 function Group({ group }) {
   return (
     <CardContent className="pt-3 border-t border-border">
-      <CardTitle className="mb-2">Group</CardTitle>
+      <CardTitle className="mb-2">Grupo</CardTitle>
       <div>
         <span>{group?.groupName || 'Default'}</span>
       </div>
@@ -39,7 +39,7 @@ Group.propTypes = {
 function Email({ email }) {
   return (
     <CardContent className="pt-3 border-t border-border">
-      <CardTitle className="mb-2">Email</CardTitle>
+      <CardTitle className="mb-2">Correo</CardTitle>
       <div>
         <span>{email}</span>
       </div>
@@ -54,7 +54,7 @@ Email.propTypes = {
 function Status({ status }) {
   return (
     <CardContent className="pt-3 border-t border-border">
-      <CardTitle className="mb-2">Status</CardTitle>
+      <CardTitle className="mb-2">Estado</CardTitle>
       <div>
         <span>{parseInt(status, 10) === 1 ? 'Enabled' : 'Disabled'}</span>
       </div>

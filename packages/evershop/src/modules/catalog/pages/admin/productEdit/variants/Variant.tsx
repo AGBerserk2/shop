@@ -55,9 +55,9 @@ export const Variant: React.FC<{
       <TableCell>{variant.product?.inventory?.qty}</TableCell>
       <TableCell>
         {variant.product?.status === 1 ? (
-          <span className="text-primary font-medium">Enabled</span>
+          <span className="text-primary font-medium">Habilitado</span>
         ) : (
-          <span className="text-destructive font-medium">Disabled</span>
+          <span className="text-destructive font-medium">Deshabilitado</span>
         )}
       </TableCell>
       <TableCell>

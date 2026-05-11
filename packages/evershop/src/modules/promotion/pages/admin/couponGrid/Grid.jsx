@@ -74,7 +74,7 @@ function Actions({ coupons = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Disable ${selectedIds.length} coupons`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -95,7 +95,7 @@ function Actions({ coupons = [], selectedIds = [] }) {
       onAction: () => {
         openAlert({
           heading: `Enable ${selectedIds.length} coupons`,
-          content: 'Are you sure?',
+          content: '¿Estás seguro?',
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -199,7 +199,7 @@ export default function CouponGrid({
                     default: () => (
                       <InputField
                         name="coupon"
-                        placeholder="Search"
+                        placeholder="Buscar"
                         defaultValue={
                           currentFilters.find((f) => f.key === 'coupon')?.value
                         }
@@ -237,13 +237,13 @@ export default function CouponGrid({
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue>Status</SelectValue>
+                          <SelectValue>Estado</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectLabel>Status</SelectLabel>
-                            <SelectItem value="1">Enabled</SelectItem>
-                            <SelectItem value="0">Disabled</SelectItem>
+                            <SelectLabel>Estado</SelectLabel>
+                            <SelectItem value="1">Habilitado</SelectItem>
+                            <SelectItem value="0">Deshabilitado</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -272,7 +272,7 @@ export default function CouponGrid({
                           <SelectGroup>
                             <SelectLabel>Free shipping ?</SelectLabel>
                             <SelectItem value="1">Free shipping</SelectItem>
-                            <SelectItem value="0">No free shipping</SelectItem>
+                            <SelectItem value="0">Sin envío gratis</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -344,7 +344,7 @@ export default function CouponGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title="Estado"
                           name="status"
                           currentFilters={currentFilters}
                         />

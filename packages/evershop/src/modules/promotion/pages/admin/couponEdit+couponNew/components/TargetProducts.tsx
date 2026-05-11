@@ -243,7 +243,7 @@ function Products({
               });
             }}
           >
-            <span>Add product</span>
+            <span>Agregar producto</span>
           </Button>
         </div>
       </div>

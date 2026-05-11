@@ -88,7 +88,7 @@ export default function Customer({
         )}
       </CardContent>
       <CardContent className="border-t border-border pt-3">
-        <CardTitle className="mb-2">Shipping Address</CardTitle>
+        <CardTitle className="mb-2">Dirección de envío</CardTitle>
         {!noShippingRequired && <AddressSummary address={shippingAddress} />}
         {noShippingRequired && (
           <span className="text-muted-foreground">

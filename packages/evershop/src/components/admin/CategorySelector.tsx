@@ -152,7 +152,7 @@ const CategorySelector: React.FC<{
                 {inputValue ? (
                   <p>No categories found for query &quot;{inputValue}&rdquo;</p>
                 ) : (
-                  <p>You have no categories to display</p>
+                  <p>No hay categorías para mostrar</p>
                 )}
               </div>
             )}

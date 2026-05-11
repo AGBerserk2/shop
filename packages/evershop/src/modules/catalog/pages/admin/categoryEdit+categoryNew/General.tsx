@@ -88,7 +88,7 @@ const ParentCategory: React.FC<{
         )}
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Select Parent Category</DialogTitle>
+            <DialogTitle>Seleccionar categoría padre</DialogTitle>
           </DialogHeader>
           <CategoryTree
             selectedCategories={category ? [category] : []}
@@ -165,7 +165,7 @@ export default function General({ category }: GeneralProps) {
         default: (
           <Editor
             name="description"
-            label="Description"
+            label="Descripción"
             value={category?.description || []}
           />
         )

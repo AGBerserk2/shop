@@ -232,7 +232,7 @@ function MethodForm({
           {!method ? (
             <ReactSelectCreatableField
               name="method_id"
-              label="Shipping Method"
+              label="Método de envío"
               placeholder="Select or create shipping method"
               isClearable
               isDisabled={isLoading}
@@ -305,7 +305,7 @@ function MethodForm({
           )}
           <ToggleField
             name="is_enabled"
-            label="Status"
+            label="Estado"
             trueLabel="Enable"
             falseLabel="Disable"
             defaultValue={method?.isEnabled || 0}
@@ -354,7 +354,7 @@ function MethodForm({
         <div className="border-border">
           <div className="flex justify-end gap-2">
             <Button
-              title="Save"
+              title="Guardar"
               variant="default"
               onClick={async () => {
                 const result = await form.trigger();

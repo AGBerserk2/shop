@@ -154,7 +154,7 @@ const AttributeGroupSelector: React.FC<{
                     &rdquo;
                   </p>
                 ) : (
-                  <p>You have no attribute groups to display</p>
+                  <p>No hay grupos de atributos para mostrar</p>
                 )}
               </div>
             )}

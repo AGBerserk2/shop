@@ -140,7 +140,7 @@ export default function AttributeGrid({
         <Form submitBtn={false} id="attributeGridFilter">
           <InputField
             name="name"
-            placeholder="Search"
+            placeholder="Buscar"
             defaultValue={currentFilters.find((f) => f.key === 'name')?.value}
             onKeyPress={(e) => {
               // If the user press enter, we should submit the form
@@ -207,7 +207,7 @@ export default function AttributeGrid({
                   },
                   {
                     component: {
-                      default: () => <DummyColumnHeader title="Groups" />
+                      default: () => <DummyColumnHeader title="Grupos" />
                     },
                     sortOrder: 15
                   },
@@ -216,7 +216,7 @@ export default function AttributeGrid({
                       default: () => (
                         <SortableHeader
                           name="type"
-                          title="Type"
+                          title="Tipo"
                           currentFilters={currentFilters}
                         />
                       )

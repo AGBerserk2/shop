@@ -24,7 +24,7 @@ export default function General({ page }: CmsPageGeneralProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>General Information</CardTitle>
+        <CardTitle>Información general</CardTitle>
         <CardDescription>
           Provide the basic information for the CMS page.
         </CardDescription>
@@ -46,7 +46,7 @@ export default function General({ page }: CmsPageGeneralProps) {
           <div className="space-y-2">
             <RadioGroupField
               name="status"
-              label="Status"
+              label="Estado"
               options={[
                 { value: 1, label: 'Enabled' },
                 { value: 0, label: 'Disabled' }

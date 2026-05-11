@@ -80,7 +80,7 @@ export default function Seo({ category }: CategorySeoProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Search engine optimize</CardTitle>
+        <CardTitle>Optimización para buscadores</CardTitle>
         <CardDescription>
           Manage the SEO settings of the category.
         </CardDescription>

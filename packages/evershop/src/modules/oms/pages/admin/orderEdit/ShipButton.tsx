@@ -77,14 +77,14 @@ export default function ShipButton({
                         <InputField
                           type="text"
                           name="tracking_number"
-                          label="Tracking number"
-                          placeholder="Tracking number"
+                          label="Número de seguimiento"
+                          placeholder="Número de seguimiento"
                         />
                       </div>
                       <div>
                         <SelectField
                           name="carrier"
-                          label="Carrier"
+                          label="Transportista"
                           options={carriers}
                         />
                       </div>

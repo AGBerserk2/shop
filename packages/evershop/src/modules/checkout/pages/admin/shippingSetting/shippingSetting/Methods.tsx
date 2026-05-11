@@ -29,11 +29,11 @@ export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
       <Table>
         <TableHeader>
           <TableRow className="text-xs">
-            <TableHead className="border-none">Method</TableHead>
-            <TableHead className="border-none">Status</TableHead>
-            <TableHead className="border-none">Cost</TableHead>
+            <TableHead className="border-none">Método</TableHead>
+            <TableHead className="border-none">Estado</TableHead>
+            <TableHead className="border-none">Costo</TableHead>
             <TableHead className="border-none">Condition</TableHead>
-            <TableHead className="border-none">Action</TableHead>
+            <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

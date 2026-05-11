@@ -75,10 +75,10 @@ function RateForm({
           <div>
             <InputField
               name="name"
-              placeholder="Name"
+              placeholder="Nombre"
               required
               validation={{ required: 'Name is required' }}
-              label="Name"
+              label="Nombre"
               defaultValue={rate?.name}
             />
           </div>
@@ -99,8 +99,8 @@ function RateForm({
           <div>
             <InputField
               name="country"
-              label="Country"
-              placeholder="Country"
+              label="País"
+              placeholder="País"
               required
               validation={{ required: 'Country is required' }}
               defaultValue={rate?.country}
@@ -121,8 +121,8 @@ function RateForm({
           <div>
             <InputField
               name="postcode"
-              label="Postcode"
-              placeholder="Postcode"
+              label="Código postal"
+              placeholder="Código postal"
               required
               validation={{ required: 'Postcode is required' }}
               defaultValue={rate?.postcode}
@@ -155,11 +155,11 @@ function RateForm({
         </div>
       </div>
       <div className="flex justify-end gap-2">
-        <Button title="Cancel" variant="secondary" onClick={closeModal}>
+        <Button title="Cancelar" variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
         <Button
-          title="Save"
+          title="Guardar"
           variant="default"
           onClick={async () => {
             const result = await form.trigger();

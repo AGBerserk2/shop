@@ -164,7 +164,7 @@ const ProductSelector: React.FC<{
               {inputValue ? (
                 <p>No products found for query &quot;{inputValue}&rdquo;</p>
               ) : (
-                <p>You have no products to display</p>
+                <p>No hay productos para mostrar</p>
               )}
             </div>
           )}

@@ -123,16 +123,16 @@ export default function General({ widget, routes }: GeneralProps) {
         <InputField
           name="name"
           defaultValue={widget?.name}
-          label="Name"
+          label="Nombre"
           required
           validation={{ required: 'Name is required' }}
-          placeholder="Name"
+          placeholder="Nombre"
         />
       </CardContent>
       <CardContent className="pt-3 border-t border-border">
         <RadioGroupField
           name="status"
-          label="Status"
+          label="Estado"
           defaultValue={widget?.status}
           required
           validation={{ required: 'Status is required' }}
@@ -176,7 +176,7 @@ export default function General({ widget, routes }: GeneralProps) {
             data-slot="field-label"
             className="text-sm font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50 items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed has-data-checked:bg-primary/5 has-data-checked:border-primary dark:has-data-checked:bg-primary/10 gap-1 group-data-[disabled=true]/field:opacity-50 has-[&gt;[data-slot=field]]:rounded-md has-[&gt;[data-slot=field]]:border [&amp;&gt;*]:data-[slot=field]:p-3 group/field-label peer/field-label flex w-fit leading-snug has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col"
           >
-            Pages
+            Páginas
           </label>
           <Controller
             name="route"

@@ -77,8 +77,8 @@ function ZoneForm({
         />
         <ReactSelectField
           name="country"
-          label="Country"
-          aria-label="Country"
+          label="País"
+          aria-label="País"
           placeholder="Select country"
           required
           validation={{ required: 'Country is required' }}
@@ -104,7 +104,7 @@ function ZoneForm({
         />
         <div className="flex justify-end gap-2">
           <Button
-            title="Save"
+            title="Guardar"
             variant="default"
             onClick={() => {
               const form = document.getElementById(

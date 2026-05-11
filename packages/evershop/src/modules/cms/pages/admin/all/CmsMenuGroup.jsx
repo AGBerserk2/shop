@@ -12,7 +12,7 @@ export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
         {
           Icon: Book,
           url: cmsPageGrid,
-          title: 'Pages'
+          title: 'Páginas'
         },
         {
           Icon: Puzzle,

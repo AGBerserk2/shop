@@ -247,7 +247,7 @@ export const VariantModal: React.FC<
             <div>
               <NumberField
                 name="variant_qty"
-                label="Quantity"
+                label="Cantidad"
                 required
                 placeholder="Enter quantity"
                 validation={{
@@ -262,7 +262,7 @@ export const VariantModal: React.FC<
             <div>
               <ToggleField
                 name="variant_status"
-                label="Status"
+                label="Estado"
                 trueValue={true}
                 falseValue={false}
                 defaultValue={variant?.product.status === 1}
@@ -282,7 +282,7 @@ export const VariantModal: React.FC<
       </div>
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline">Cancelar</Button>
         </DialogClose>
         <Button
           isLoading={saving}

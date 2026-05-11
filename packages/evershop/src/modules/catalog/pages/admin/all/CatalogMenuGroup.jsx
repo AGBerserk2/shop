@@ -12,27 +12,27 @@ export default function CatalogMenuGroup({
   return (
     <NavigationItemGroup
       id="catalogMenuGroup"
-      name="Catalog"
+      name="Catálogo"
       items={[
         {
           Icon: Box,
           url: productGrid,
-          title: 'Products'
+          title: 'Productos'
         },
         {
           Icon: Link,
           url: categoryGrid,
-          title: 'Categories'
+          title: 'Categorías'
         },
         {
           Icon: Tag,
           url: collectionGrid,
-          title: 'Collections'
+          title: 'Colecciones'
         },
         {
           Icon: Hash,
           url: attributeGrid,
-          title: 'Attributes'
+          title: 'Atributos'
         }
       ]}
     />

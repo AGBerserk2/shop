@@ -260,7 +260,7 @@ const BuyXGetYList: React.FC<{
               } as Field);
             }}
           >
-            <span>Add product</span>
+            <span>Agregar producto</span>
           </a>
         </div>
       </div>

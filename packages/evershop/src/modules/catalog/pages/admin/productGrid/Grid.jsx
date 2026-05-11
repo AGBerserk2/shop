@@ -203,7 +203,7 @@ export default function ProductGrid({
                     default: () => (
                       <InputField
                         name="keyword"
-                        placeholder="Search"
+                        placeholder="Buscar"
                         defaultValue={
                           currentFilters.find((f) => f.key === 'keyword')?.value
                         }
@@ -239,13 +239,13 @@ export default function ProductGrid({
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue>Status</SelectValue>
+                          <SelectValue>Estado</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectLabel>Status</SelectLabel>
-                            <SelectItem value="1">Enabled</SelectItem>
-                            <SelectItem value="0">Disabled</SelectItem>
+                            <SelectLabel>Estado</SelectLabel>
+                            <SelectItem value="1">Habilitado</SelectItem>
+                            <SelectItem value="0">Deshabilitado</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -267,11 +267,11 @@ export default function ProductGrid({
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue>Product type</SelectValue>
+                          <SelectValue>Tipo de producto</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectLabel>Product type</SelectLabel>
+                            <SelectLabel>Tipo de producto</SelectLabel>
                             <SelectItem value="simple">Simple</SelectItem>
                             <SelectItem value="configurable">
                               Configurable
@@ -327,7 +327,7 @@ export default function ProductGrid({
                         <TableHead>
                           <div className="table-header id-header">
                             <div className="font-medium uppercase text-xs">
-                              <span>Thumbnail</span>
+                              <span>Miniatura</span>
                             </div>
                           </div>
                         </TableHead>
@@ -339,7 +339,7 @@ export default function ProductGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Name"
+                          title="Nombre"
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -351,7 +351,7 @@ export default function ProductGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Price"
+                          title="Precio"
                           name="price"
                           currentFilters={currentFilters}
                         />
@@ -369,7 +369,7 @@ export default function ProductGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Stock"
+                          title="Inventario"
                           name="qty"
                           currentFilters={currentFilters}
                         />
@@ -381,7 +381,7 @@ export default function ProductGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title="Estado"
                           name="status"
                           currentFilters={currentFilters}
                         />

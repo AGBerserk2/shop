@@ -55,7 +55,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
           <TableRow>
             <TableHead className="border-none">Min Weight</TableHead>
             <TableHead className="border-none">Shipping Cost</TableHead>
-            <TableHead className="border-none">Action</TableHead>
+            <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

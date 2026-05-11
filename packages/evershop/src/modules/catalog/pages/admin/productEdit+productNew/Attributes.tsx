@@ -153,7 +153,7 @@ export default function Attributes({
     <Card>
       <CardHeader>
         <CardTitle>Attribute group</CardTitle>
-        <CardDescription>Manage the attributes.</CardDescription>
+        <CardDescription>Gestiona los atributos.</CardDescription>
       </CardHeader>
       <CardContent>
         <div>
@@ -178,7 +178,7 @@ export default function Attributes({
           {!product?.variantGroupId && (
             <SelectField
               name="group_id"
-              label="Attribute group"
+              label="Grupo de atributos"
               options={items.map((group) => ({
                 value: group.groupId,
                 label: group.groupName

@@ -41,7 +41,7 @@ export default function Shipping({ product, setting }: ShippingProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Shipping</CardTitle>
+        <CardTitle>Envío</CardTitle>
         <CardDescription>
           Manage the shipping settings of the product.
         </CardDescription>

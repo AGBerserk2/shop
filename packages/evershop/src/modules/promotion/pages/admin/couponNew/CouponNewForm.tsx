@@ -33,7 +33,7 @@ export default function CouponNewForm({ action, gridUrl }: CouponNewFormProps) {
       <div className="grid grid-cols-1 gap-5">
         <Card>
           <CardHeader>
-            <CardTitle>General Information</CardTitle>
+            <CardTitle>Información general</CardTitle>
             <CardDescription>
               The general information about the coupon.
             </CardDescription>

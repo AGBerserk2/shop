@@ -64,7 +64,7 @@ export default function ProductEditForm({
       if (result.error) {
         toast.error(result.error.message);
       } else {
-        toast.success('Product updated successfully');
+        toast.success('Producto actualizado correctamente');
         form.setValue('product_id', result.data.uuid);
       }
     } catch (error) {

@@ -29,12 +29,12 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="border-none">Name</TableHead>
-            <TableHead className="border-none">Country</TableHead>
+            <TableHead className="border-none">Nombre</TableHead>
+            <TableHead className="border-none">País</TableHead>
             <TableHead className="border-none">Rate</TableHead>
             <TableHead className="border-none">Compound</TableHead>
             <TableHead className="border-none">Priority</TableHead>
-            <TableHead className="border-none">Action</TableHead>
+            <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

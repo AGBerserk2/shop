@@ -102,7 +102,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
 
   return (
     <div>
-      <div className="mb-2">Select groups the attribute belongs to</div>
+      <div className="mb-2">Seleccionar grupos a los que pertenece el atributo</div>
       <div className="grid gap-5 grid-cols-2">
         <div>
           <Controller
@@ -265,7 +265,7 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
         <div className="space-y-2">
           <InputField
             name="attribute_name"
-            label="Name"
+            label="Nombre"
             placeholder="Enter attribute name"
             required
             defaultValue={attribute?.attributeName}
@@ -274,7 +274,7 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
 
           <InputField
             name="attribute_code"
-            label="Code"
+            label="Código"
             placeholder="Enter attribute code"
             required
             defaultValue={attribute?.attributeCode}
@@ -292,7 +292,7 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
                   { label: 'Multiselect', value: 'multiselect' },
                   { label: 'Textarea', value: 'textarea' }
                 ]}
-                label="Type"
+                label="Tipo"
                 defaultValue={attribute?.type}
                 required
                 disabled={!!attribute?.attributeId}

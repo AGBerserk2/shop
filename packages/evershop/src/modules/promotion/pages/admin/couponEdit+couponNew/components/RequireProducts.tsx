@@ -49,7 +49,7 @@ export function RequiredProducts({
   return (
     <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
       <div>
-        <span>Order must contains product matched bellow conditions(All)</span>
+        <span>El pedido debe contener productos que cumplan todas las condiciones</span>
       </div>
       <Table>
         <TableHeader>
@@ -231,7 +231,7 @@ export function RequiredProducts({
               });
             }}
           >
-            <span>Add product</span>
+            <span>Agregar producto</span>
           </Button>
         </div>
       </div>

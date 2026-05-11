@@ -112,7 +112,7 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
         </InputGroupAddon>
         <InputGroupInput
           type="text"
-          placeholder="Search"
+          placeholder="Buscar"
           ref={InputRef}
           onChange={(e) => setKeyword(e.target.value)}
         />

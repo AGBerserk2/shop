@@ -71,8 +71,8 @@ export default function AddTrackingButton({
                   <InputField
                     type="text"
                     name="tracking_number"
-                    label="Tracking number"
-                    placeholder="Tracking number"
+                    label="Número de seguimiento"
+                    placeholder="Número de seguimiento"
                     defaultValue={shipment.trackingNumber || ''}
                     required
                     validation={{
@@ -83,7 +83,7 @@ export default function AddTrackingButton({
                 <div>
                   <SelectField
                     name="carrier"
-                    label="Carrier"
+                    label="Transportista"
                     defaultValue={shipment.carrier || ''}
                     required
                     options={carriers}
@@ -100,7 +100,7 @@ export default function AddTrackingButton({
             <DialogFooter>
               <DialogClose>
                 <Button
-                  title="Cancel"
+                  title="Cancelar"
                   variant="outline"
                   onClick={() => {
                     setDialogOpen(false);
@@ -110,7 +110,7 @@ export default function AddTrackingButton({
                 </Button>
               </DialogClose>
               <Button
-                title="Save"
+                title="Guardar"
                 variant="default"
                 isLoading={form.formState.isSubmitting}
                 onClick={async () => {

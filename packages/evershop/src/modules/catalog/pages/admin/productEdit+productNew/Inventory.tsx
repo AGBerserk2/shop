@@ -29,7 +29,7 @@ export default function Inventory({ product }: InventoryProps) {
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Inventory</CardTitle>
+        <CardTitle>Inventario</CardTitle>
         <CardDescription>
           Manage the inventory settings of the product.
         </CardDescription>
@@ -62,8 +62,8 @@ export default function Inventory({ product }: InventoryProps) {
         <NumberField
           name="qty"
           defaultValue={inventory.qty}
-          placeholder="Quantity"
-          label="Quantity"
+          placeholder="Cantidad"
+          label="Cantidad"
           required
         />
       </CardContent>

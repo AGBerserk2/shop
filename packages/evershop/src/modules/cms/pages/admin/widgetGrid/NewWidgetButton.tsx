@@ -58,11 +58,11 @@ export default function NewWidgetButton({ widgetTypes }: NewWidgetButtonProps) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>New Widget</Button>
+        <Button>Nuevo widget</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Widget</DialogTitle>
+          <DialogTitle>Nuevo widget</DialogTitle>
         </DialogHeader>
         <WidgetTypes types={widgetTypes} />
       </DialogContent>

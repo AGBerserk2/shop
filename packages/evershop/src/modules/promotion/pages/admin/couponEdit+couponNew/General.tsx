@@ -79,7 +79,7 @@ export default function General({ coupon }: { coupon?: Coupon }) {
             default: (
               <TextareaField
                 name="description"
-                label="Description"
+                label="Descripción"
                 defaultValue={coupon?.description || ''}
                 placeholder="Enter description"
                 required
@@ -96,7 +96,7 @@ export default function General({ coupon }: { coupon?: Coupon }) {
             default: (
               <RadioGroupField
                 name="status"
-                label="Status"
+                label="Estado"
                 options={[
                   { label: 'Enabled', value: 1 },
                   { label: 'Disabled', value: 0 }

@@ -128,7 +128,7 @@ export const CreateVariantGroup: React.FC<{
         {(data?.attributes?.items || []).length > 0 && (
           <div className="space-y-2">
             <div>
-              <span>Select the list of attribute</span>
+              <span>Seleccionar la lista de atributos</span>
             </div>
             {(data?.attributes?.items || []).map((a) => (
               <label key={a.attributeCode} className="flex items-center gap-2">

@@ -22,7 +22,7 @@ export default function Seo({ page }: CmsPageSeoProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>SEO Information</CardTitle>
+        <CardTitle>Información SEO</CardTitle>
         <CardDescription>
           Provide the SEO details for the CMS page.
         </CardDescription>

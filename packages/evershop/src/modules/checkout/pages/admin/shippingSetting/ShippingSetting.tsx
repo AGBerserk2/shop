@@ -22,7 +22,7 @@ export default function ShippingSetting({
         <div className="col-span-4">
           <Card>
             <CardHeader>
-              <CardTitle>Shipping</CardTitle>
+              <CardTitle>Envío</CardTitle>
               <CardDescription>
                 Choose where you ship and how much you charge for shipping.
               </CardDescription>

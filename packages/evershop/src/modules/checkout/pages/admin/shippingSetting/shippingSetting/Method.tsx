@@ -46,9 +46,9 @@ function Method({ method, reload }: MethodProps) {
         <td className="border-none py-2">{method.name}</td>
         <td className="border-none py-2">
           {method.isEnabled ? (
-            <span className="text-green-700">Enabled</span>
+            <span className="text-green-700">Habilitado</span>
           ) : (
-            <span className="text-destructive">Disabled</span>
+            <span className="text-destructive">Deshabilitado</span>
           )}
         </td>
         <td className="border-none py-2">

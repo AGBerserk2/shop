@@ -19,7 +19,7 @@ const SubmitButton: React.FC = () => {
   return (
     <div className="form-submit-button flex border-t border-border mt-4 pt-4 justify-between">
       <Button type="submit" size="lg" isLoading={isSubmitting}>
-        SIGN IN
+        INICIAR SESIÓN
       </Button>
     </div>
   );
@@ -82,12 +82,12 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
                 default: (
                   <EmailField
                     prefixIcon={<Mail className="h-5 w-5" />}
-                    label="Email"
+                    label="Correo"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Correo"
                     required
                     validation={{
-                      required: 'Email is required'
+                      required: 'El correo es obligatorio'
                     }}
                   />
                 )
@@ -99,12 +99,12 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
                 default: (
                   <PasswordField
                     prefixIcon={<LockKeyhole className="h-5 w-5" />}
-                    label="Password"
+                    label="Contraseña"
                     name="password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     required
                     validation={{
-                      required: 'Password is required'
+                      required: 'La contraseña es obligatoria'
                     }}
                     showToggle
                   />

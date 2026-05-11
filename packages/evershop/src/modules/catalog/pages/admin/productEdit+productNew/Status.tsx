@@ -21,7 +21,7 @@ export default function Status({ product }: StatusProps) {
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Product Status</CardTitle>
+        <CardTitle>Estado del producto</CardTitle>
         <CardDescription>
           Set the status and visibility of the product.
         </CardDescription>
@@ -29,7 +29,7 @@ export default function Status({ product }: StatusProps) {
       <CardContent>
         <RadioGroupField
           name="status"
-          label="Status"
+          label="Estado"
           options={[
             { value: 0, label: 'Disabled' },
             { value: 1, label: 'Enabled' }

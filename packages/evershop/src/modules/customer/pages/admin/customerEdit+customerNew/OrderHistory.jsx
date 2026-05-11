@@ -19,7 +19,7 @@ export default function OrderHistory({ customer: { orders = [] } }) {
       </CardHeader>
       {orders.length < 1 && (
         <CardContent>
-          <div>Customer does not have any order yet.</div>
+          <div>El cliente todavía no tiene pedidos.</div>
         </CardContent>
       )}
       {orders.length > 0 && (

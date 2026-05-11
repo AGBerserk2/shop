@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function NewProductQuickLink({ productNew }) {
-  return <NavigationItem Icon={BoxIcon} title="New Product" url={productNew} />;
+  return <NavigationItem Icon={BoxIcon} title="Nuevo producto" url={productNew} />;
 }
 
 NewProductQuickLink.propTypes = {

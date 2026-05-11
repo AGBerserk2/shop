@@ -55,7 +55,7 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
           <TableRow>
             <TableHead className="border-none">Min Price</TableHead>
             <TableHead className="border-none">Shipping Cost</TableHead>
-            <TableHead className="border-none">Action</TableHead>
+            <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

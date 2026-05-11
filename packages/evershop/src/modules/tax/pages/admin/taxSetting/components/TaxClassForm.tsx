@@ -35,11 +35,11 @@ function TaxClassForm({
         validation={{ required: 'Tax class name is required' }}
       />
       <div className="flex justify-end gap-2 mt-3">
-        <Button title="Cancel" variant="secondary" onClick={closeModal}>
+        <Button title="Cancelar" variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
         <Button
-          title="Save"
+          title="Guardar"
           variant="default"
           onClick={() => {
             (

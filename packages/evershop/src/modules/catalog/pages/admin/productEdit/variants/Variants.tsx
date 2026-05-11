@@ -154,17 +154,17 @@ export const Variants: React.FC<VariantsProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Image</TableHead>
+              <TableHead>Imagen</TableHead>
               {variantGroup.attributes.map((attribute) => (
                 <TableHead key={attribute.attributeId}>
                   {attribute.attributeName}
                 </TableHead>
               ))}
               <TableHead>Sku</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Precio</TableHead>
+              <TableHead>Inventario</TableHead>
+              <TableHead>Estado</TableHead>
+              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

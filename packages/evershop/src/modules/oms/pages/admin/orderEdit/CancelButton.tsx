@@ -41,11 +41,11 @@ export default function CancelButton({
     >
       <Dialog>
         <DialogTrigger>
-          <Button variant="destructive">Cancel Order</Button>
+          <Button variant="destructive">Cancelar pedido</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Cancel Order</DialogTitle>
+            <DialogTitle>Cancelar pedido</DialogTitle>
           </DialogHeader>
           <Form
             form={form}
@@ -76,7 +76,7 @@ export default function CancelButton({
           </Form>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">Cancelar</Button>
             </DialogClose>
             <Button
               variant="default"
