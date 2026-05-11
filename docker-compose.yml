@@ -26,9 +26,9 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: evershop
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - myevershop
 

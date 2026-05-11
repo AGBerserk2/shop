@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "node ./packages/evershop/dist/bin/dev/index.js",
     "start": "node ./packages/evershop/dist/bin/start/index.js",
+    "start:forever": "bash scripts/start-forever.sh",
     "build": "node ./packages/evershop/dist/bin/build/index.js",
     "build-fast": "evershop build -- --skip-minify",
     "setup": "evershop install",
