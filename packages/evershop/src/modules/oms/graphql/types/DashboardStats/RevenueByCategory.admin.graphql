@@ -1,0 +1,25 @@
+"""
+Revenue aggregated by category over a date range. Used by the
+dashboard's "Ingresos por categoría" widget to spot the categories
+pulling weight vs the ones lagging.
+"""
+type RevenueByCategoryReport {
+  totalRevenue: Float!
+  totalRevenueText: String!
+  categories: [CategoryRevenue!]!
+  uncategorizedRevenue: Float!
+}
+
+type CategoryRevenue {
+  categoryId: Int
+  name: String!
+  revenue: Float!
+  revenueText: String!
+  unitsSold: Int!
+  orderCount: Int!
+  pct: Float!
+}
+
+extend type Query {
+  revenueByCategory(from: String, to: String, limit: Int): RevenueByCategoryReport!
+}

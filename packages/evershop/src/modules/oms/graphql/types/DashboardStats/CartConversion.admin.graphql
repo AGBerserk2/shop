@@ -1,0 +1,22 @@
+"""
+Funnel from active cart → checkout (= cart with shipping/billing info) →
+completed order. Helps see where shoppers drop off.
+
+We can't track unauthenticated browsing without analytics instrumentation,
+so the funnel starts at "cart created". A future iteration that instruments
+page views could prepend a 'visits' stage.
+"""
+type CartConversionReport {
+  carts: Int!
+  cartsWithItems: Int!
+  cartsWithCheckout: Int!
+  orders: Int!
+  conversionRate: Float!
+  abandonmentRate: Float!
+  abandonedCartTotal: Float!
+  abandonedCartTotalText: String!
+}
+
+extend type Query {
+  cartConversion(from: String, to: String): CartConversionReport!
+}

@@ -1,0 +1,30 @@
+"""
+Coupon usage report. Counts how many orders applied each coupon, the total
+discount handed out and the gross revenue those orders produced, so the
+operator can quickly see which promos paid off.
+"""
+type CouponPerformanceReport {
+  totalCoupons: Int!
+  totalRedemptions: Int!
+  totalDiscount: Float!
+  totalDiscountText: String!
+  coupons: [CouponPerformance!]!
+}
+
+type CouponPerformance {
+  code: String!
+  description: String
+  status: Int!
+  discountType: String!
+  discountAmount: Float
+  redemptions: Int!
+  totalDiscount: Float!
+  totalDiscountText: String!
+  revenue: Float!
+  revenueText: String!
+  freeShipping: Boolean!
+}
+
+extend type Query {
+  couponPerformance(from: String, to: String): CouponPerformanceReport!
+}
