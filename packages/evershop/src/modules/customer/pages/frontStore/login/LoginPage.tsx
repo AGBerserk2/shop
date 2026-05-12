@@ -9,6 +9,13 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import './LoginPage.scss';
 
+interface FirebaseWebConfig {
+  apiKey: string | null;
+  authDomain: string | null;
+  projectId: string | null;
+  appId: string | null;
+}
+
 interface LoginPageProps {
   homeUrl: string;
   registerUrl: string;
@@ -16,22 +23,8 @@ interface LoginPageProps {
   loginGoogleUrl: string;
   setting?: {
     storeName: string | null;
-    googleClientId: string | null;
+    firebaseConfig: FirebaseWebConfig | null;
   };
-}
-
-declare global {
-  interface Window {
-    google?: {
-      accounts?: {
-        id?: {
-          initialize: (config: any) => void;
-          renderButton: (el: HTMLElement, options: any) => void;
-          prompt: () => void;
-        };
-      };
-    };
-  }
 }
 
 function SubmitBtn() {
@@ -50,6 +43,29 @@ function SubmitBtn() {
   );
 }
 
+function GoogleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
+      <path
+        fill="#4285F4"
+        d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.49h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.63z"
+      />
+      <path
+        fill="#34A853"
+        d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.92-2.26c-.81.54-1.84.87-3.04.87-2.34 0-4.32-1.58-5.03-3.7H.96v2.32A9 9 0 0 0 9 18z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M3.97 10.73a5.41 5.41 0 0 1 0-3.45V4.96H.96a9 9 0 0 0 0 8.08l3.01-2.31z"
+      />
+      <path
+        fill="#EA4335"
+        d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 .96 4.96L3.97 7.28C4.68 5.16 6.66 3.58 9 3.58z"
+      />
+    </svg>
+  );
+}
+
 export default function LoginPage({
   homeUrl,
   registerUrl,
@@ -58,86 +74,79 @@ export default function LoginPage({
   setting
 }: LoginPageProps) {
   const storeName = setting?.storeName || 'Anroy';
-  const googleClientId = setting?.googleClientId || null;
+  const firebaseConfig = setting?.firebaseConfig || null;
+  const firebaseReady =
+    !!firebaseConfig?.apiKey && !!firebaseConfig?.projectId;
+
   const { login } = useCustomerDispatch();
   const appDispatch = useAppDispatch();
-  const googleBtnRef = React.useRef<HTMLDivElement | null>(null);
-  const [googleReady, setGoogleReady] = React.useState(false);
   const [googleLoading, setGoogleLoading] = React.useState(false);
 
-  const handleGoogleCredential = React.useCallback(
-    async (credential: string) => {
-      setGoogleLoading(true);
-      try {
-        const res = await fetch(loginGoogleUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ credential })
-        });
-        const json = await res.json();
-        if (!res.ok) {
-          throw new Error(
-            json?.error?.message || 'No pudimos iniciar sesión con Google'
-          );
-        }
-        const ajaxUrl = (() => {
-          const u = new URL(window.location.href);
-          u.searchParams.set('ajax', 'true');
-          return u.toString();
-        })();
-        await appDispatch.fetchPageData(ajaxUrl);
-        window.location.href = homeUrl;
-      } catch (e: any) {
-        toast.error(e?.message || 'Error con Google');
-        setGoogleLoading(false);
+  const handleGoogleLogin = React.useCallback(async () => {
+    if (!firebaseReady || googleLoading) return;
+    setGoogleLoading(true);
+    try {
+      // Lazy-load the Firebase SDK so we don't bloat the initial bundle
+      // for visitors that never hit the login page.
+      const [{ initializeApp, getApps, getApp }, authMod] = await Promise.all([
+        import('firebase/app'),
+        import('firebase/auth')
+      ]);
+      const cfg = {
+        apiKey: firebaseConfig!.apiKey!,
+        authDomain:
+          firebaseConfig!.authDomain ||
+          `${firebaseConfig!.projectId}.firebaseapp.com`,
+        projectId: firebaseConfig!.projectId!,
+        appId: firebaseConfig!.appId || undefined
+      };
+      const app = getApps().length ? getApp() : initializeApp(cfg);
+      const auth = authMod.getAuth(app);
+      auth.languageCode = 'es';
+      const provider = new authMod.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await authMod.signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+
+      const res = await fetch(loginGoogleUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: idToken })
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          json?.error?.message || 'No pudimos iniciar sesión con Google'
+        );
       }
-    },
-    [loginGoogleUrl, appDispatch, homeUrl]
-  );
 
-  // Load Google Identity Services and render the official button. The
-  // script is small and Google caches it aggressively. We bail gracefully
-  // if the store has no client ID configured yet.
-  React.useEffect(() => {
-    if (!googleClientId) return;
-
-    const renderButton = () => {
-      if (!window.google?.accounts?.id || !googleBtnRef.current) return;
-      window.google.accounts.id.initialize({
-        client_id: googleClientId,
-        callback: (resp: { credential?: string }) => {
-          if (resp?.credential) handleGoogleCredential(resp.credential);
-        },
-        ux_mode: 'popup',
-        auto_select: false
-      });
-      googleBtnRef.current.innerHTML = '';
-      window.google.accounts.id.renderButton(googleBtnRef.current, {
-        type: 'standard',
-        theme: 'outline',
-        size: 'large',
-        text: 'continue_with',
-        shape: 'pill',
-        logo_alignment: 'left',
-        width: 320
-      });
-      setGoogleReady(true);
-    };
-
-    const existing = document.getElementById('gsi-client');
-    if (existing) {
-      renderButton();
-      return;
+      const ajaxUrl = (() => {
+        const u = new URL(window.location.href);
+        u.searchParams.set('ajax', 'true');
+        return u.toString();
+      })();
+      await appDispatch.fetchPageData(ajaxUrl);
+      window.location.href = homeUrl;
+    } catch (e: any) {
+      // Common Firebase Auth error codes get nicer Spanish messages
+      const code = e?.code as string | undefined;
+      const map: Record<string, string> = {
+        'auth/popup-closed-by-user': 'Cerraste la ventana antes de terminar',
+        'auth/cancelled-popup-request': 'Se canceló la ventana anterior',
+        'auth/popup-blocked':
+          'Tu navegador bloqueó la ventana emergente. Permitila e intentá de nuevo.',
+        'auth/network-request-failed': 'Problema de conexión con Google',
+        'auth/unauthorized-domain':
+          'Este dominio no está autorizado en Firebase'
+      };
+      toast.error(
+        (code && map[code]) ||
+          e?.message ||
+          'Error al iniciar sesión con Google'
+      );
+      setGoogleLoading(false);
     }
-
-    const script = document.createElement('script');
-    script.id = 'gsi-client';
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = renderButton;
-    document.head.appendChild(script);
-  }, [googleClientId, handleGoogleCredential]);
+  }, [firebaseReady, firebaseConfig, googleLoading, loginGoogleUrl, appDispatch, homeUrl]);
 
   return (
     <div className="anroy-login-shell">
@@ -159,7 +168,9 @@ export default function LoginPage({
           </p>
           <div className="anroy-login-hero__bottom">
             <span className="anroy-login-hero__dot" aria-hidden />
-            <span className="text-sm">Hecho a mano en República Dominicana</span>
+            <span className="text-sm">
+              Hecho a mano en República Dominicana
+            </span>
           </div>
         </div>
 
@@ -180,37 +191,20 @@ export default function LoginPage({
             </p>
           </div>
 
-          {googleClientId && (
+          {firebaseReady && (
             <div className="anroy-login-google">
-              <div
-                ref={googleBtnRef}
-                className={`anroy-login-google__btn ${
-                  googleReady ? 'is-ready' : ''
-                } ${googleLoading ? 'is-loading' : ''}`}
-              />
-              {!googleReady && (
-                <button type="button" className="anroy-login-google__skel" disabled>
-                  <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
-                    <path
-                      fill="#4285F4"
-                      d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.49h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.63z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.92-2.26c-.81.54-1.84.87-3.04.87-2.34 0-4.32-1.58-5.03-3.7H.96v2.32A9 9 0 0 0 9 18z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M3.97 10.73a5.41 5.41 0 0 1 0-3.45V4.96H.96a9 9 0 0 0 0 8.08l3.01-2.31z"
-                    />
-                    <path
-                      fill="#EA4335"
-                      d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 .96 4.96L3.97 7.28C4.68 5.16 6.66 3.58 9 3.58z"
-                    />
-                  </svg>
-                  <span>Cargando Google…</span>
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                disabled={googleLoading}
+                className="anroy-login-google__btn"
+                aria-label="Continuar con Google"
+              >
+                <GoogleIcon />
+                <span>
+                  {googleLoading ? 'Conectando…' : 'Continuar con Google'}
+                </span>
+              </button>
               <div className="anroy-login-divider">
                 <span>o con tu correo</span>
               </div>
@@ -233,7 +227,9 @@ export default function LoginPage({
                 toast.error(e?.message || 'No pudimos iniciar sesión');
               }
             }}
-            onError={(err: any) => toast.error(err?.message || 'Revisá los datos')}
+            onError={(err: any) =>
+              toast.error(err?.message || 'Revisá los datos')
+            }
             submitBtn={false}
           >
             <div className="anroy-login-fields">
@@ -246,7 +242,9 @@ export default function LoginPage({
                 validation={{ required: 'El correo es obligatorio' }}
               />
               <PasswordField
-                prefixIcon={<LockKeyhole className="w-4 h-4" strokeWidth={1.75} />}
+                prefixIcon={
+                  <LockKeyhole className="w-4 h-4" strokeWidth={1.75} />
+                }
                 label="Contraseña"
                 name="password"
                 placeholder="••••••••"
@@ -255,10 +253,7 @@ export default function LoginPage({
                 showToggle
               />
               <div className="text-right -mt-1">
-                <a
-                  className="anroy-login-forgot"
-                  href={forgotPasswordUrl}
-                >
+                <a className="anroy-login-forgot" href={forgotPasswordUrl}>
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
@@ -291,7 +286,12 @@ export const query = `
     loginGoogleUrl: url(routeId: "customerLoginGoogleJson")
     setting {
       storeName
-      googleClientId
+      firebaseConfig {
+        apiKey
+        authDomain
+        projectId
+        appId
+      }
     }
   }
 `;

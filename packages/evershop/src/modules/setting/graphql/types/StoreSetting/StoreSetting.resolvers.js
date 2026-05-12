@@ -142,6 +142,18 @@ export default {
       if (process.env.GOOGLE_CLIENT_ID) return process.env.GOOGLE_CLIENT_ID;
       const r = setting.find((s) => s.name === 'googleClientId');
       return r ? r.value : null;
+    },
+    firebaseConfig: () => {
+      // Built from env vars at request time. The values are public-safe
+      // (apiKey is a project-scoped client key, not a secret) — what
+      // protects the project is the authorized-domains list configured
+      // in the Firebase console.
+      const apiKey = process.env.FIREBASE_WEB_API_KEY || null;
+      const authDomain = process.env.FIREBASE_AUTH_DOMAIN || null;
+      const projectId = process.env.FIREBASE_PROJECT_ID || null;
+      const appId = process.env.FIREBASE_APP_ID || null;
+      if (!apiKey || !projectId) return null;
+      return { apiKey, authDomain, projectId, appId };
     }
   }
 };

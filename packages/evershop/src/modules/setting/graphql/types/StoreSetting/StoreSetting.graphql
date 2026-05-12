@@ -24,4 +24,16 @@ extend type Setting {
   helpLinkContact: String
   storeNotificationFrom: String
   googleClientId: String
+  firebaseConfig: FirebaseWebConfig
+}
+
+"""
+Public Firebase web config — safe to expose to the browser. Used to
+initialize the Firebase JS SDK on the storefront for Google sign-in.
+"""
+type FirebaseWebConfig {
+  apiKey: String
+  authDomain: String
+  projectId: String
+  appId: String
 }
