@@ -77,37 +77,57 @@ function KpiCard({
   value,
   hint,
   icon,
-  tone = 'default'
+  tone = 'default',
+  index = 0
 }: {
   title: string;
   value: React.ReactNode;
   hint?: React.ReactNode;
   icon: React.ReactNode;
   tone?: keyof typeof TONE_STYLES;
+  index?: number;
 }) {
   const t = TONE_STYLES[tone] || TONE_STYLES.default;
 
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow border-border/60">
-      <CardContent className="p-5">
-        <div className="flex items-center gap-4">
-          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ring-1 ${t.ring} ${t.bg} ${t.fg} shrink-0`}>
-            {icon}
-          </div>
-          <div className="min-w-0">
-            <div className="text-2xl font-extrabold tabular-nums leading-tight">{value}</div>
-            <div className="text-xs uppercase tracking-widest text-muted-foreground mt-0.5 truncate">
-              {title}
-            </div>
-          </div>
+    <div
+      className="anroy-card anroy-rise p-5 group"
+      style={{ animationDelay: `${100 + index * 50}ms` }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div
+          className={`anroy-glow w-11 h-11 rounded-xl flex items-center justify-center ring-1 ${t.ring} ${t.bg} ${t.fg} shrink-0 transition-transform group-hover:scale-105`}
+        >
+          {icon}
         </div>
-        {hint && <div className="mt-3">{hint}</div>}
-      </CardContent>
-    </Card>
+        <span className="text-[10px] uppercase tracking-[0.16em] font-medium text-muted-foreground text-right max-w-[120px]">
+          {title}
+        </span>
+      </div>
+      <div className="mt-4">
+        <div className="font-display text-4xl leading-none text-foreground tabular-nums">
+          {value}
+        </div>
+      </div>
+      {hint && <div className="mt-3 min-h-[18px]">{hint}</div>}
+    </div>
   );
 }
 
-function KpiSkeleton() {
+function KpiSkeleton({ index = 0 }: { index?: number }) {
+  return (
+    <div className="anroy-card anroy-rise p-5" style={{ animationDelay: `${100 + index * 50}ms` }}>
+      <div className="flex items-start justify-between">
+        <Skeleton className="w-11 h-11 rounded-xl" />
+        <Skeleton className="h-3 w-16 rounded" />
+      </div>
+      <Skeleton className="h-9 w-24 rounded mt-4" />
+      <Skeleton className="h-3 w-20 rounded mt-3" />
+    </div>
+  );
+}
+
+function KpiSkeletonOld() {
   return (
     <Card>
       <CardContent className="p-5 space-y-3">
@@ -129,123 +149,135 @@ function KpiCardsInner() {
   const stats = data?.dashboardStats;
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-3">
+    <section className="anroy-rise" style={{ animationDelay: '80ms' }}>
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-5">
         <div>
-          <CardTitle>Resumen operativo</CardTitle>
-          <CardDescription>
+          <h2 className="font-display text-2xl md:text-3xl italic text-foreground leading-none">
+            Resumen operativo
+          </h2>
+          <p className="text-xs text-muted-foreground mt-1.5">
             {range.label} · comparado con el período anterior
-          </CardDescription>
+          </p>
         </div>
         <DateRangePicker />
-      </CardHeader>
-      <CardContent>
-        {error && (
-          <div className="text-sm text-destructive">{error.message}</div>
-        )}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {fetching && !stats
-            ? Array.from({ length: 8 }).map((_, i) => <KpiSkeleton key={i} />)
-            : stats && (
-                <>
-                  <KpiCard
-                    title="Ventas"
-                    value={stats.revenue.text}
-                    hint={<ChangeBadge pct={stats.revenue.changePct} />}
-                    icon={<TrendingUp className="w-5 h-5" strokeWidth={1.75} />}
-                    tone="info"
-                  />
-                  <KpiCard
-                    title="Pedidos"
-                    value={stats.orderCount.value}
-                    hint={<ChangeBadge pct={stats.orderCount.changePct} />}
-                    icon={<ShoppingBag className="w-5 h-5" strokeWidth={1.75} />}
-                    tone="mint"
-                  />
-                  <KpiCard
-                    title="Ticket promedio"
-                    value={stats.averageOrderValue.text}
-                    hint={<ChangeBadge pct={stats.averageOrderValue.changePct} />}
-                    icon={<TrendingUp className="w-5 h-5" strokeWidth={1.75} />}
-                    tone="success"
-                  />
-                  <KpiCard
-                    title="Clientes nuevos"
-                    value={stats.newCustomers}
-                    icon={<Users className="w-5 h-5" strokeWidth={1.75} />}
-                    tone="peach"
-                  />
-                  <KpiCard
-                    title="Por enviar"
-                    value={stats.pendingFulfillment}
-                    hint={
-                      stats.pendingFulfillment > 0 ? (
-                        <a
-                          href="/admin/orders?shipment_status=pending"
-                          className="text-xs text-amber-700 hover:underline"
-                        >
-                          Ver pedidos →
-                        </a>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">Sin pendientes</span>
-                      )
-                    }
-                    icon={<PackageOpen className="w-5 h-5" strokeWidth={1.75} />}
-                    tone={stats.pendingFulfillment > 0 ? 'warning' : 'default'}
-                  />
-                  <KpiCard
-                    title="Sin pago"
-                    value={stats.unpaidOrders}
-                    hint={
-                      stats.unpaidOrders > 0 ? (
-                        <a
-                          href="/admin/orders?payment_status=pending"
-                          className="text-xs text-rose-700 hover:underline"
-                        >
-                          Revisar →
-                        </a>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">Todo cobrado</span>
-                      )
-                    }
-                    icon={<CreditCard className="w-5 h-5" strokeWidth={1.75} />}
-                    tone={stats.unpaidOrders > 0 ? 'danger' : 'default'}
-                  />
-                  <KpiCard
-                    title="Reseñas por moderar"
-                    value={stats.pendingReviews}
-                    hint={
-                      stats.pendingReviews > 0 ? (
-                        <a href="/admin/reviews?status=pending" className="text-xs text-amber-700 hover:underline">
-                          Moderar →
-                        </a>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">Al día</span>
-                      )
-                    }
-                    icon={<Star className="w-5 h-5" strokeWidth={1.75} />}
-                    tone={stats.pendingReviews > 0 ? 'warning' : 'default'}
-                  />
-                  <KpiCard
-                    title="Sin stock / bajo"
-                    value={`${stats.outOfStockProducts} / ${stats.lowStockProducts}`}
-                    hint={
-                      stats.outOfStockProducts > 0 ? (
-                        <a href="/admin/products" className="text-xs text-rose-700 hover:underline">
-                          Ver productos →
-                        </a>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">Bien surtido</span>
-                      )
-                    }
-                    icon={<AlertCircle className="w-5 h-5" strokeWidth={1.75} />}
-                    tone={stats.outOfStockProducts > 0 ? 'danger' : stats.lowStockProducts > 0 ? 'warning' : 'default'}
-                  />
-                </>
-              )}
+      </div>
+
+      {error && (
+        <div className="anroy-card p-4 text-sm text-destructive mb-4">
+          {error.message}
         </div>
-      </CardContent>
-    </Card>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        {fetching && !stats
+          ? Array.from({ length: 8 }).map((_, i) => <KpiSkeleton key={i} index={i} />)
+          : stats && (
+              <>
+                <KpiCard
+                  index={0}
+                  title="Ventas"
+                  value={stats.revenue.text}
+                  hint={<ChangeBadge pct={stats.revenue.changePct} />}
+                  icon={<TrendingUp className="w-5 h-5" strokeWidth={1.75} />}
+                  tone="info"
+                />
+                <KpiCard
+                  index={1}
+                  title="Pedidos"
+                  value={stats.orderCount.value}
+                  hint={<ChangeBadge pct={stats.orderCount.changePct} />}
+                  icon={<ShoppingBag className="w-5 h-5" strokeWidth={1.75} />}
+                  tone="mint"
+                />
+                <KpiCard
+                  index={2}
+                  title="Ticket promedio"
+                  value={stats.averageOrderValue.text}
+                  hint={<ChangeBadge pct={stats.averageOrderValue.changePct} />}
+                  icon={<TrendingUp className="w-5 h-5" strokeWidth={1.75} />}
+                  tone="success"
+                />
+                <KpiCard
+                  index={3}
+                  title="Clientes nuevos"
+                  value={stats.newCustomers}
+                  icon={<Users className="w-5 h-5" strokeWidth={1.75} />}
+                  tone="peach"
+                />
+                <KpiCard
+                  index={4}
+                  title="Por enviar"
+                  value={stats.pendingFulfillment}
+                  hint={
+                    stats.pendingFulfillment > 0 ? (
+                      <a
+                        href="/admin/orders?shipment_status=pending"
+                        className="text-xs text-amber-700 hover:underline"
+                      >
+                        Ver pedidos →
+                      </a>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">Sin pendientes</span>
+                    )
+                  }
+                  icon={<PackageOpen className="w-5 h-5" strokeWidth={1.75} />}
+                  tone={stats.pendingFulfillment > 0 ? 'warning' : 'default'}
+                />
+                <KpiCard
+                  index={5}
+                  title="Sin pago"
+                  value={stats.unpaidOrders}
+                  hint={
+                    stats.unpaidOrders > 0 ? (
+                      <a
+                        href="/admin/orders?payment_status=pending"
+                        className="text-xs text-rose-700 hover:underline"
+                      >
+                        Revisar →
+                      </a>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">Todo cobrado</span>
+                    )
+                  }
+                  icon={<CreditCard className="w-5 h-5" strokeWidth={1.75} />}
+                  tone={stats.unpaidOrders > 0 ? 'danger' : 'default'}
+                />
+                <KpiCard
+                  index={6}
+                  title="Reseñas por moderar"
+                  value={stats.pendingReviews}
+                  hint={
+                    stats.pendingReviews > 0 ? (
+                      <a href="/admin/reviews?status=pending" className="text-xs text-amber-700 hover:underline">
+                        Moderar →
+                      </a>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">Al día</span>
+                    )
+                  }
+                  icon={<Star className="w-5 h-5" strokeWidth={1.75} />}
+                  tone={stats.pendingReviews > 0 ? 'warning' : 'default'}
+                />
+                <KpiCard
+                  index={7}
+                  title="Sin stock / bajo"
+                  value={`${stats.outOfStockProducts} / ${stats.lowStockProducts}`}
+                  hint={
+                    stats.outOfStockProducts > 0 ? (
+                      <a href="/admin/products" className="text-xs text-rose-700 hover:underline">
+                        Ver productos →
+                      </a>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">Bien surtido</span>
+                    )
+                  }
+                  icon={<AlertCircle className="w-5 h-5" strokeWidth={1.75} />}
+                  tone={stats.outOfStockProducts > 0 ? 'danger' : stats.lowStockProducts > 0 ? 'warning' : 'default'}
+                />
+              </>
+            )}
+      </div>
+    </section>
   );
 }
 

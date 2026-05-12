@@ -1,9 +1,12 @@
-/* Sidebar redesign — dark navy-teal panel with user profile at the top.
-   Layout reaches the top of the viewport so the user block is visible. */
+/* Responsive sidebar.
+   - Desktop (>=1024px): full sidebar pinned at 16rem with profile block.
+   - Tablet (768-1023px): rail mode 4.5rem wide, labels hidden, expands on
+     hover to 16rem with smooth animation.
+   - Mobile (<768px): drawer that slides in from the left over a backdrop
+     when .open is on the parent. */
 
 .admin-navigation {
   width: 16rem;
-  float: left;
   height: 100vh;
   position: fixed;
   left: 0;
@@ -15,6 +18,9 @@
   padding: 1.25rem 0.75rem;
   border-right: none;
   overflow-y: auto;
+  z-index: 50;
+  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.3s ease;
+  box-shadow: 0 0 24px rgb(0 0 0 / 0.08);
 }
 
 .admin-nav-container {
@@ -42,9 +48,9 @@
 .admin-nav li a {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.625rem 0.875rem;
-  border-radius: 0.5rem;
+  gap: 0.875rem;
+  padding: 0.6875rem 0.875rem;
+  border-radius: 0.625rem;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--sidebar-foreground);
@@ -53,13 +59,14 @@
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
+  white-space: nowrap;
 }
 
 .admin-nav .root-label {
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
   color: rgb(255 255 255 / 0.55);
   padding: 1rem 0.875rem 0.375rem;
 }
@@ -88,8 +95,8 @@
 }
 
 .nav-item.active > a {
-  background-color: var(--sidebar-primary);
-  color: var(--sidebar-primary-foreground);
+  background-color: color-mix(in oklch, var(--sidebar-primary) 22%, transparent);
+  color: var(--sidebar-primary);
   font-weight: 600;
 }
 
@@ -111,18 +118,109 @@
   background-color: rgb(255 255 255 / 0.25);
 }
 
-/* Push the main content over to make room for the wider sidebar */
+/* Main content layout — accounts for the fixed sidebar. */
 .main-content {
   margin-left: 16rem;
   padding: 1.5rem;
+  position: relative;
+  z-index: 1;
+  transition: margin-left 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Hide the legacy top header — the new sidebar absorbs the brand identity
-   and the page-level WelcomeHeader carries the search + actions. */
+.main-content-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Hide the legacy top bar — the sidebar carries the brand and the
+   dashboard's WelcomeHeader carries the actions. */
 .header {
   display: none;
 }
 
 .content-wrapper {
   padding-top: 0;
+}
+
+/* ============================================================
+   TABLET (768 - 1023): collapsed rail mode
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-navigation {
+    width: 4.5rem;
+    padding: 1.25rem 0.4rem;
+  }
+  .admin-navigation:hover {
+    width: 16rem;
+    padding: 1.25rem 0.75rem;
+  }
+  .admin-navigation:not(:hover) .anroy-sidebar-text,
+  .admin-navigation:not(:hover) .admin-nav li span:not(.anroy-icon):not(.root-label),
+  .admin-navigation:not(:hover) .admin-nav li a > span:not(.anroy-icon) {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .admin-navigation:not(:hover) .admin-nav .root-label {
+    visibility: hidden;
+    height: 0.25rem;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+  .main-content {
+    margin-left: 4.5rem;
+  }
+}
+
+/* ============================================================
+   MOBILE (<768): drawer mode
+   ============================================================ */
+@media (max-width: 767px) {
+  .admin-navigation {
+    transform: translateX(-100%);
+    width: 17rem;
+  }
+  body.anroy-sidebar-open .admin-navigation {
+    transform: translateX(0);
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  /* Backdrop when drawer is open */
+  body.anroy-sidebar-open::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgb(20 31 53 / 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 40;
+  }
+}
+
+/* Mobile menu trigger — only visible on mobile. */
+.anroy-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0.875rem;
+  left: 0.875rem;
+  z-index: 60;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: var(--card);
+  color: var(--primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgb(20 31 53 / 0.08);
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .anroy-mobile-menu {
+    display: inline-flex;
+  }
+  /* Push the welcome header content below the floating menu button */
+  .main-content {
+    padding-top: 3.5rem;
+  }
 }
