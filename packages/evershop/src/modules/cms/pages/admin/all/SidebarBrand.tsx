@@ -17,15 +17,15 @@ export function SidebarBrand() {
   const storeLogo = setting?.storeLogo;
 
   return (
-    <div className="flex items-center justify-center px-2 py-4">
+    <div className="flex items-center justify-center px-2 py-5">
       {storeLogo ? (
         <img
           src={storeLogo}
           alt={storeName}
-          className="h-10 w-auto max-w-[160px] object-contain"
+          className="h-16 w-auto max-w-[200px] object-contain"
         />
       ) : (
-        <div className="font-display text-2xl italic text-white tracking-tight">
+        <div className="font-display text-3xl italic text-white tracking-tight">
           {storeName}
         </div>
       )}
