@@ -23,4 +23,5 @@ extend type Setting {
   helpLinkFaq: String
   helpLinkContact: String
   storeNotificationFrom: String
+  googleClientId: String
 }

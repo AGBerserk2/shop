@@ -135,6 +135,13 @@ export default {
     storeNotificationFrom: (setting) => {
       const r = setting.find((s) => s.name === 'storeNotificationFrom');
       return r ? r.value : null;
+    },
+    googleClientId: (setting) => {
+      // Prefer env var (operator-managed secret), fall back to setting row
+      // so the value can also be configured from the admin UI if desired.
+      if (process.env.GOOGLE_CLIENT_ID) return process.env.GOOGLE_CLIENT_ID;
+      const r = setting.find((s) => s.name === 'googleClientId');
+      return r ? r.value : null;
     }
   }
 };
