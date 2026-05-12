@@ -1,22 +1,10 @@
-import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { NavigationItem } from '@components/admin/NavigationItem.js';
 import { User } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function CustomerMenuGroup({ customerGrid }) {
-  return (
-    <NavigationItemGroup
-      id="customerMenuGroup"
-      name="Clientes"
-      items={[
-        {
-          Icon: User,
-          url: customerGrid,
-          title: 'Clientes'
-        }
-      ]}
-    />
-  );
+  return <NavigationItem Icon={User} url={customerGrid} title="Clientes" />;
 }
 
 CustomerMenuGroup.propTypes = {

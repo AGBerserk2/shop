@@ -1,19 +1,16 @@
-import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
+import { NavigationItem } from '@components/admin/NavigationItem.js';
 import { Settings } from 'lucide-react';
 import React from 'react';
 
-interface CmsMenuGroupProps {
+interface SettingMenuGroupProps {
   storeSetting: string;
 }
 
-export default function CmsMenuGroup({ storeSetting }: CmsMenuGroupProps) {
+export default function SettingMenuGroup({
+  storeSetting
+}: SettingMenuGroupProps) {
   return (
-    <NavigationItemGroup
-      id="settingMenuGroup"
-      name="Configuración"
-      Icon={() => <Settings width={15} height={15} />}
-      url={storeSetting}
-    />
+    <NavigationItem Icon={Settings} url={storeSetting} title="Configuración" />
   );
 }
 

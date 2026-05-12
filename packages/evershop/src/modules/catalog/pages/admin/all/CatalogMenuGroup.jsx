@@ -1,4 +1,4 @@
-import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { NavigationItem } from '@components/admin/NavigationItem.js';
 import { Box, Hash, Link, Tag } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,32 +10,12 @@ export default function CatalogMenuGroup({
   collectionGrid
 }) {
   return (
-    <NavigationItemGroup
-      id="catalogMenuGroup"
-      name="Catálogo"
-      items={[
-        {
-          Icon: Box,
-          url: productGrid,
-          title: 'Productos'
-        },
-        {
-          Icon: Link,
-          url: categoryGrid,
-          title: 'Categorías'
-        },
-        {
-          Icon: Tag,
-          url: collectionGrid,
-          title: 'Colecciones'
-        },
-        {
-          Icon: Hash,
-          url: attributeGrid,
-          title: 'Atributos'
-        }
-      ]}
-    />
+    <>
+      <NavigationItem Icon={Box} url={productGrid} title="Productos" />
+      <NavigationItem Icon={Link} url={categoryGrid} title="Categorías" />
+      <NavigationItem Icon={Tag} url={collectionGrid} title="Colecciones" />
+      <NavigationItem Icon={Hash} url={attributeGrid} title="Atributos" />
+    </>
   );
 }
 

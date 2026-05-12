@@ -1,4 +1,4 @@
-import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
+import { NavigationItem } from '@components/admin/NavigationItem.js';
 import { GiftIcon } from 'lucide-react';
 import React from 'react';
 
@@ -6,20 +6,8 @@ interface CouponMenuGroupProps {
   couponGrid: string;
 }
 
-export default function CatalogMenuGroup({ couponGrid }: CouponMenuGroupProps) {
-  return (
-    <NavigationItemGroup
-      id="couponMenuGroup"
-      name="Promociones"
-      items={[
-        {
-          Icon: GiftIcon,
-          url: couponGrid,
-          title: 'Cupones'
-        }
-      ]}
-    />
-  );
+export default function CouponMenuGroup({ couponGrid }: CouponMenuGroupProps) {
+  return <NavigationItem Icon={GiftIcon} url={couponGrid} title="Cupones" />;
 }
 
 export const layout = {

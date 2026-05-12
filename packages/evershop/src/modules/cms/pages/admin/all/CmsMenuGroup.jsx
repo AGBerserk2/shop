@@ -1,26 +1,14 @@
-import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { NavigationItem } from '@components/admin/NavigationItem.js';
 import { Book, Puzzle } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
   return (
-    <NavigationItemGroup
-      id="cmsMenuGroup"
-      name="CMS"
-      items={[
-        {
-          Icon: Book,
-          url: cmsPageGrid,
-          title: 'Páginas'
-        },
-        {
-          Icon: Puzzle,
-          url: widgetGrid,
-          title: 'Widgets'
-        }
-      ]}
-    />
+    <>
+      <NavigationItem Icon={Book} url={cmsPageGrid} title="Páginas" />
+      <NavigationItem Icon={Puzzle} url={widgetGrid} title="Widgets" />
+    </>
   );
 }
 
