@@ -90,7 +90,7 @@ function KpiCard({
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow border-border/60">
       <CardContent className="p-5">
-        <div className="flex items-center gap-4 mb-3">
+        <div className="flex items-center gap-4">
           <div className={`w-12 h-12 rounded-xl flex items-center justify-center ring-1 ${t.ring} ${t.bg} ${t.fg} shrink-0`}>
             {icon}
           </div>
@@ -101,14 +101,7 @@ function KpiCard({
             </div>
           </div>
         </div>
-        <div className="hidden">
-          <span className="text-xs uppercase tracking-widest text-muted-foreground">{title}</span>
-          <div className={`w-9 h-9 rounded-full flex items-center justify-center ring-1 ${toneRing} ${toneBg} ${toneFg}`}>
-            {icon}
-          </div>
-        </div>
-        <div className="text-2xl font-bold tabular-nums">{value}</div>
-        {hint && <div className="mt-1.5">{hint}</div>}
+        {hint && <div className="mt-3">{hint}</div>}
       </CardContent>
     </Card>
   );
