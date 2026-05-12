@@ -9,11 +9,11 @@ import './Layout.scss';
 export default function DashboardLayout() {
   return (
     <DateRangeProvider>
-      <div className="grid grid-cols-3 gap-x-5 grid-flow-row ">
-        <div className="col-span-2 grid grid-cols-1 gap-5 auto-rows-max">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 grid-flow-row">
+        <div className="lg:col-span-2 grid grid-cols-1 gap-4 lg:gap-5 auto-rows-max min-w-0">
           <Area id="leftSide" noOuter />
         </div>
-        <div className="col-span-1 grid grid-cols-1 gap-5 auto-rows-max">
+        <div className="lg:col-span-1 grid grid-cols-1 gap-4 lg:gap-5 auto-rows-max min-w-0">
           <Area id="rightSide" noOuter />
         </div>
       </div>

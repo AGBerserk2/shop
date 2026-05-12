@@ -94,22 +94,22 @@ function KpiCard({
       className="anroy-card anroy-rise p-5 group"
       style={{ animationDelay: `${100 + index * 50}ms` }}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-center gap-3">
         <div
-          className={`anroy-glow w-11 h-11 rounded-xl flex items-center justify-center ring-1 ${t.ring} ${t.bg} ${t.fg} shrink-0 transition-transform group-hover:scale-105`}
+          className={`anroy-glow w-10 h-10 rounded-xl flex items-center justify-center ring-1 ${t.ring} ${t.bg} ${t.fg} shrink-0 transition-transform group-hover:scale-105`}
         >
           {icon}
         </div>
-        <span className="text-[10px] uppercase tracking-[0.16em] font-medium text-muted-foreground text-right max-w-[120px]">
+        <span className="text-[11px] uppercase tracking-[0.14em] font-medium text-muted-foreground leading-tight">
           {title}
         </span>
       </div>
       <div className="mt-4">
-        <div className="font-display text-4xl leading-none text-foreground tabular-nums">
+        <div className="font-display text-[2.25rem] leading-none text-foreground tabular-nums truncate">
           {value}
         </div>
       </div>
-      {hint && <div className="mt-3 min-h-[18px]">{hint}</div>}
+      {hint && <div className="mt-2 min-h-[18px]">{hint}</div>}
     </div>
   );
 }
@@ -168,7 +168,7 @@ function KpiCardsInner() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         {fetching && !stats
           ? Array.from({ length: 8 }).map((_, i) => <KpiSkeleton key={i} index={i} />)
           : stats && (

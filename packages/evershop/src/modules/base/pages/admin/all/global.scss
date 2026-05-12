@@ -16,13 +16,12 @@ body {
   z-index: 1000;
 }
 .content-wrapper {
-  margin-top: 3.5rem;
+  margin-top: 0;
   min-height: 100vh;
   .main-content {
     overflow: hidden;
-    margin-left: 15rem;
     .main-content-inner {
-      padding: 1.25rem 1.875rem;
+      padding: 1rem 1.5rem;
       min-height: 100vh;
     }
   }

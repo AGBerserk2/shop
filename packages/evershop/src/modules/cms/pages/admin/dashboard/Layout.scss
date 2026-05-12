@@ -1,9 +1,17 @@
 body.dashboard {
   .main-content-inner {
-    max-width: 62.5rem;
-    margin: 1.875rem auto;
+    max-width: 100rem;
+    margin: 1.25rem auto;
+    padding: 0 1.5rem;
   }
   .page-heading {
-    max-width: 62.5rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  body.dashboard .main-content-inner {
+    padding: 0 1rem;
+    margin: 0.75rem auto;
   }
 }
