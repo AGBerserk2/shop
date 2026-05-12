@@ -56,6 +56,22 @@ function ChangeBadge({ pct }: ChangeProps) {
   );
 }
 
+// Tone palette matched to the pastel-blue dashboard reference: each card pairs
+// a soft tinted icon disc with a bold number. Hover gives the whole card a
+// gentle teal ring so it feels alive without screaming.
+const TONE_STYLES: Record<
+  'default' | 'warning' | 'danger' | 'info' | 'success' | 'peach' | 'mint',
+  { bg: string; fg: string; ring: string }
+> = {
+  default: { bg: 'bg-slate-100', fg: 'text-slate-700', ring: 'ring-slate-200' },
+  info: { bg: 'bg-sky-100', fg: 'text-sky-700', ring: 'ring-sky-200' },
+  warning: { bg: 'bg-amber-100', fg: 'text-amber-700', ring: 'ring-amber-200' },
+  danger: { bg: 'bg-rose-100', fg: 'text-rose-700', ring: 'ring-rose-200' },
+  success: { bg: 'bg-emerald-100', fg: 'text-emerald-700', ring: 'ring-emerald-200' },
+  peach: { bg: 'bg-orange-100', fg: 'text-orange-700', ring: 'ring-orange-200' },
+  mint: { bg: 'bg-teal-100', fg: 'text-teal-700', ring: 'ring-teal-200' }
+};
+
 function KpiCard({
   title,
   value,
@@ -67,37 +83,25 @@ function KpiCard({
   value: React.ReactNode;
   hint?: React.ReactNode;
   icon: React.ReactNode;
-  tone?: 'default' | 'warning' | 'danger' | 'info';
+  tone?: keyof typeof TONE_STYLES;
 }) {
-  const toneRing =
-    tone === 'warning'
-      ? 'ring-amber-200'
-      : tone === 'danger'
-      ? 'ring-rose-200'
-      : tone === 'info'
-      ? 'ring-sky-200'
-      : 'ring-gray-200';
-  const toneBg =
-    tone === 'warning'
-      ? 'bg-amber-50'
-      : tone === 'danger'
-      ? 'bg-rose-50'
-      : tone === 'info'
-      ? 'bg-sky-50'
-      : 'bg-muted/40';
-  const toneFg =
-    tone === 'warning'
-      ? 'text-amber-700'
-      : tone === 'danger'
-      ? 'text-rose-700'
-      : tone === 'info'
-      ? 'text-sky-700'
-      : 'text-foreground';
+  const t = TONE_STYLES[tone] || TONE_STYLES.default;
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden hover:shadow-md transition-shadow border-border/60">
       <CardContent className="p-5">
-        <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-center gap-4 mb-3">
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ring-1 ${t.ring} ${t.bg} ${t.fg} shrink-0`}>
+            {icon}
+          </div>
+          <div className="min-w-0">
+            <div className="text-2xl font-extrabold tabular-nums leading-tight">{value}</div>
+            <div className="text-xs uppercase tracking-widest text-muted-foreground mt-0.5 truncate">
+              {title}
+            </div>
+          </div>
+        </div>
+        <div className="hidden">
           <span className="text-xs uppercase tracking-widest text-muted-foreground">{title}</span>
           <div className={`w-9 h-9 rounded-full flex items-center justify-center ring-1 ${toneRing} ${toneBg} ${toneFg}`}>
             {icon}
@@ -155,26 +159,28 @@ function KpiCardsInner() {
                     title="Ventas"
                     value={stats.revenue.text}
                     hint={<ChangeBadge pct={stats.revenue.changePct} />}
-                    icon={<TrendingUp className="w-4 h-4" />}
+                    icon={<TrendingUp className="w-5 h-5" strokeWidth={1.75} />}
                     tone="info"
                   />
                   <KpiCard
                     title="Pedidos"
                     value={stats.orderCount.value}
                     hint={<ChangeBadge pct={stats.orderCount.changePct} />}
-                    icon={<ShoppingBag className="w-4 h-4" />}
-                    tone="info"
+                    icon={<ShoppingBag className="w-5 h-5" strokeWidth={1.75} />}
+                    tone="mint"
                   />
                   <KpiCard
                     title="Ticket promedio"
                     value={stats.averageOrderValue.text}
                     hint={<ChangeBadge pct={stats.averageOrderValue.changePct} />}
-                    icon={<TrendingUp className="w-4 h-4" />}
+                    icon={<TrendingUp className="w-5 h-5" strokeWidth={1.75} />}
+                    tone="success"
                   />
                   <KpiCard
                     title="Clientes nuevos"
                     value={stats.newCustomers}
-                    icon={<Users className="w-4 h-4" />}
+                    icon={<Users className="w-5 h-5" strokeWidth={1.75} />}
+                    tone="peach"
                   />
                   <KpiCard
                     title="Por enviar"
@@ -191,7 +197,7 @@ function KpiCardsInner() {
                         <span className="text-xs text-muted-foreground">Sin pendientes</span>
                       )
                     }
-                    icon={<PackageOpen className="w-4 h-4" />}
+                    icon={<PackageOpen className="w-5 h-5" strokeWidth={1.75} />}
                     tone={stats.pendingFulfillment > 0 ? 'warning' : 'default'}
                   />
                   <KpiCard
@@ -209,7 +215,7 @@ function KpiCardsInner() {
                         <span className="text-xs text-muted-foreground">Todo cobrado</span>
                       )
                     }
-                    icon={<CreditCard className="w-4 h-4" />}
+                    icon={<CreditCard className="w-5 h-5" strokeWidth={1.75} />}
                     tone={stats.unpaidOrders > 0 ? 'danger' : 'default'}
                   />
                   <KpiCard
@@ -224,7 +230,7 @@ function KpiCardsInner() {
                         <span className="text-xs text-muted-foreground">Al día</span>
                       )
                     }
-                    icon={<Star className="w-4 h-4" />}
+                    icon={<Star className="w-5 h-5" strokeWidth={1.75} />}
                     tone={stats.pendingReviews > 0 ? 'warning' : 'default'}
                   />
                   <KpiCard
@@ -239,7 +245,7 @@ function KpiCardsInner() {
                         <span className="text-xs text-muted-foreground">Bien surtido</span>
                       )
                     }
-                    icon={<AlertCircle className="w-4 h-4" />}
+                    icon={<AlertCircle className="w-5 h-5" strokeWidth={1.75} />}
                     tone={stats.outOfStockProducts > 0 ? 'danger' : stats.lowStockProducts > 0 ? 'warning' : 'default'}
                   />
                 </>
