@@ -119,6 +119,8 @@ RUN npm pkg delete scripts.prepare \
       mini-css-extract-plugin terser-webpack-plugin html-webpack-plugin \
       react-refresh ts-loader \
       lightningcss-linux-x64-musl \
+      firebase @firebase \
+      @ckeditor core-js-pure \
       @parcel/watcher-darwin-x64 @parcel/watcher-darwin-arm64 \
       @parcel/watcher-win32-x64 @parcel/watcher-win32-arm64 \
       @parcel/watcher-win32-ia32 @parcel/watcher-linux-x64-musl \
