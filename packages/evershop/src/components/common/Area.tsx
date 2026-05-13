@@ -66,7 +66,9 @@ function injectToggleButton() {
 
   Object.assign(btn.style, {
     position: 'fixed',
-    bottom: '16px',
+    // Sit above the mobile bottom tab bar (≈72px tall) on small viewports
+    // so the dev toggle never overlaps storefront UI in development.
+    bottom: 'calc(96px + env(safe-area-inset-bottom, 0px))',
     right: '16px',
     zIndex: '99999',
     padding: '6px 12px',

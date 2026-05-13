@@ -29,9 +29,9 @@
 
 .anroy-tabbar__inner {
   pointer-events: auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   align-items: stretch;
+  justify-content: space-evenly;
   gap: 0;
   padding: 0.45rem 0.5rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
   background: rgba(255, 255, 255, 0.92);
@@ -43,12 +43,14 @@
 
 .anroy-tabbar__tab {
   position: relative;
+  flex: 0 0 auto;
+  min-width: 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
-  padding: 0.4rem 0.25rem 0.55rem;
+  padding: 0.4rem 0.6rem 0.55rem;
   text-decoration: none;
   color: #8e8e93;
   font-weight: 600;
