@@ -88,7 +88,29 @@ RUN npm pkg delete scripts.prepare \
  && npm install --omit=dev --no-audit --no-fund --no-save --include=optional \
  && npm install --no-save --no-audit --no-fund \
       @parcel/watcher-linux-x64-glibc \
- && npm cache clean --force \
+ && npm cache clean --force
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Image diet — remove packages we never need at runtime           │
+# │   - build tools (swc, ts, webpack, babel, tailwind, sass, etc.) │
+# │   - wrong-platform native prebuilds                             │
+# │ Saves ~140 MB without touching anything the server actually     │
+# │ loads during SSR or API handling.                               │
+# └─────────────────────────────────────────────────────────────────┘
+RUN cd /app/node_modules && rm -rf \
+      @swc typescript webpack webpack-cli webpack-merge \
+      webpack-dev-middleware webpack-hot-middleware \
+      sass sass-loader @tailwindcss @babel @types \
+      css-loader style-loader postcss-loader \
+      mini-css-extract-plugin terser-webpack-plugin html-webpack-plugin \
+      copyfiles rimraf eslint prettier jest \
+      lightningcss-linux-x64-musl \
+      @parcel/watcher-darwin-x64 @parcel/watcher-darwin-arm64 \
+      @parcel/watcher-win32-x64 @parcel/watcher-win32-arm64 \
+      @parcel/watcher-win32-ia32 @parcel/watcher-linux-x64-musl \
+      @parcel/watcher-linux-arm64-glibc @parcel/watcher-linux-arm64-musl \
+      @parcel/watcher-linux-arm-glibc @parcel/watcher-linux-arm-musl \
+      @parcel/watcher-android-arm64 @parcel/watcher-freebsd-x64 \
  && chown -R app:app /app
 
 USER app
