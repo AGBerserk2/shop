@@ -9,7 +9,7 @@ FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
-# Skip husky install — git hooks aren't useful inside a container.
+# Husky's `prepare` hook installs git hooks; useless inside a container.
 ENV HUSKY=0
 
 # Tools needed by node-gyp + sharp's libvips:
@@ -28,7 +28,8 @@ RUN apt-get update \
 COPY package.json package-lock.json ./
 COPY packages/evershop/package.json ./packages/evershop/
 COPY packages/postgres-query-builder/package.json ./packages/postgres-query-builder/
-RUN npm ci --no-audit --no-fund --include=optional
+RUN npm pkg delete scripts.prepare \
+ && npm ci --no-audit --no-fund --include=optional
 
 # Copy the rest of the workspace and build.
 COPY packages ./packages
@@ -73,8 +74,11 @@ COPY --chown=app:app --from=builder /app/.evershop ./.evershop
 
 # Production-only install — the build outputs already live under
 # packages/*/dist so we don't need the dev toolchain anymore. Allow
-# lifecycle scripts so optional native prebuilds get fetched.
-RUN npm ci --omit=dev --no-audit --no-fund --include=optional \
+# lifecycle scripts so optional native prebuilds get fetched, but drop
+# the husky prepare hook (it tries to install git hooks even when
+# husky itself is a devDependency excluded by --omit=dev).
+RUN npm pkg delete scripts.prepare \
+ && npm ci --omit=dev --no-audit --no-fund --include=optional \
  && npm cache clean --force \
  && chown -R app:app /app
 
