@@ -3,7 +3,6 @@ import { InputField } from '@components/common/form/InputField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone.js';
 import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -33,9 +32,14 @@ export function CustomerAddressForm({
     return fieldNamePrefix ? `${fieldNamePrefix}.${fieldName}` : fieldName;
   };
 
+  // If only one country is allowed (e.g. RD only), pre-select it so the
+  // customer doesn't have to open the dropdown for a single option.
+  const onlyCountry =
+    allowCountries.length === 1 ? allowCountries[0].value : '';
+
   const selectedCountry = watch(
     getFieldName('country'),
-    address?.country?.code || ''
+    address?.country?.code || onlyCountry
   );
   return (
     <Area
@@ -59,12 +63,12 @@ export function CustomerAddressForm({
             default: (
               <InputField
                 name={getFieldName('address_1')}
-                label={_('Address')}
-                placeholder={_('Address')}
+                label="Dirección"
+                placeholder="Calle, número, sector"
                 defaultValue={address?.address1 || ''}
                 required
                 validation={{
-                  required: _('Address is required')
+                  required: 'La dirección es obligatoria'
                 }}
               />
             )
@@ -76,8 +80,8 @@ export function CustomerAddressForm({
             default: (
               <InputField
                 name={getFieldName('address_2')}
-                label={_('Address 2')}
-                placeholder={_('Address 2')}
+                label="Dirección 2 (opcional)"
+                placeholder="Apto, edificio, referencias"
                 defaultValue={address?.address2 || ''}
               />
             )
@@ -89,10 +93,10 @@ export function CustomerAddressForm({
             default: (
               <InputField
                 name={getFieldName('city')}
-                label={_('City')}
-                placeholder={_('City')}
+                label="Ciudad"
+                placeholder="Ciudad"
                 required
-                validation={{ required: _('City is required') }}
+                validation={{ required: 'La ciudad es obligatoria' }}
                 defaultValue={address?.city || ''}
               />
             )
@@ -103,16 +107,16 @@ export function CustomerAddressForm({
           component: {
             default: (
               <SelectField
-                defaultValue={address?.country?.code || ''}
-                label={_('Country')}
+                defaultValue={address?.country?.code || onlyCountry}
+                label="País"
                 name={getFieldName('country')}
-                placeholder={_('Country')}
+                placeholder="Selecciona tu país"
                 onChange={(value) => {
                   setValue(getFieldName('country'), value);
                   setValue(getFieldName('province'), '');
                 }}
                 required
-                validation={{ required: _('Country is required') }}
+                validation={{ required: 'El país es obligatorio' }}
                 options={allowCountries}
               />
             )

@@ -1,6 +1,5 @@
 import { InputField } from '@components/common/form/InputField.js';
 import { TelField } from '@components/common/form/TelField.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface NameAndTelephoneProps {
@@ -19,11 +18,11 @@ export function NameAndTelephone({
         <InputField
           name={getFieldName ? getFieldName('full_name') : 'full_name'}
           defaultValue={fullName}
-          label={_('Full name')}
-          placeholder={_('Full name')}
+          label="Nombre completo"
+          placeholder="Tu nombre"
           required
           validation={{
-            required: _('Full name is required')
+            required: 'El nombre es obligatorio'
           }}
         />
       </div>
@@ -31,11 +30,11 @@ export function NameAndTelephone({
         <TelField
           name={getFieldName ? getFieldName('telephone') : 'telephone'}
           defaultValue={telephone}
-          label={_('Telephone')}
-          placeholder={_('Telephone')}
+          label="Teléfono"
+          placeholder="809 000 0000"
           required
           validation={{
-            required: _('Telephone is required')
+            required: 'El teléfono es obligatorio'
           }}
         />
       </div>

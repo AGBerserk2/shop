@@ -297,6 +297,7 @@ const AddressRow: React.FC<{
             <Form
               id={`addr-${address.uuid}`}
               method="PATCH"
+              submitBtnText="Guardar cambios"
               onSubmit={async (data) => {
                 try {
                   await updateAddress(address.addressId, data);
@@ -536,6 +537,7 @@ export default function MyAccount() {
               <Form
                 id="new-address"
                 method="POST"
+                submitBtnText="Guardar dirección"
                 onSubmit={async (data) => {
                   try {
                     await addAddress(data as ExtendedCustomerAddress);

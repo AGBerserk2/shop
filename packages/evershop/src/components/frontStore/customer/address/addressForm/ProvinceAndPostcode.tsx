@@ -1,6 +1,5 @@
 import { InputField } from '@components/common/form/InputField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface ProvinceAndPostcodeProps {
@@ -26,11 +25,11 @@ export function ProvinceAndPostcode({
         <SelectField
           defaultValue={province?.code}
           name={getFieldName ? getFieldName('province') : 'address.province'}
-          label={_('Province')}
-          placeholder={_('Province')}
+          label="Provincia"
+          placeholder="Selecciona tu provincia"
           required
           validation={{
-            required: _('Province is required')
+            required: 'La provincia es obligatoria'
           }}
           options={provinces}
         />
@@ -39,11 +38,11 @@ export function ProvinceAndPostcode({
         <InputField
           name={getFieldName ? getFieldName('postcode') : 'postcode'}
           defaultValue={postcode}
-          label={_('Postcode')}
-          placeholder={_('Postcode')}
+          label="Código postal"
+          placeholder="Código postal"
           required
           validation={{
-            required: _('Postcode is required')
+            required: 'El código postal es obligatorio'
           }}
         />
       </div>
