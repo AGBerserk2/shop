@@ -1,0 +1,81 @@
+name: Deploy to Cloud Run
+
+# Triggers a Cloud Build pipeline (cloudbuild.yaml) on every push to
+# the dev branch — and manually from the Actions tab via the
+# "Run workflow" button. Cloud Build does the actual build + deploy;
+# this workflow is just the bridge from GitHub.
+#
+# Auth uses Workload Identity Federation so there are NO long-lived
+# service account keys stored in GitHub secrets. The first-time GCP
+# setup is in docs/CLOUD_RUN_SETUP.md (or the chat where this was
+# scaffolded).
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths-ignore:
+      - '**.md'
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'docs/**'
+  workflow_dispatch:
+    inputs:
+      service:
+        description: 'Cloud Run service name'
+        required: false
+        default: 'anroy-shop'
+      region:
+        description: 'Cloud Run region'
+        required: false
+        default: 'us-east1'
+
+# Required for Workload Identity Federation (id-token: write).
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: cloud-run-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build + deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud (Workload Identity Federation)
+        id: gcp-auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOYER_SA }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Submit Cloud Build
+        run: |
+          SERVICE="${{ github.event.inputs.service || 'anroy-shop' }}"
+          REGION="${{ github.event.inputs.region || 'us-east1' }}"
+          echo "Submitting Cloud Build for $SERVICE in $REGION ..."
+          gcloud builds submit \
+            --config cloudbuild.yaml \
+            --substitutions=_SERVICE=$SERVICE,_REGION=$REGION,_REPO=anroy,SHORT_SHA=${GITHUB_SHA::7} \
+            .
+
+      - name: Show service URL
+        if: success()
+        run: |
+          SERVICE="${{ github.event.inputs.service || 'anroy-shop' }}"
+          REGION="${{ github.event.inputs.region || 'us-east1' }}"
+          URL=$(gcloud run services describe "$SERVICE" \
+            --region="$REGION" --format='value(status.url)')
+          echo "::notice title=Cloud Run deployed::$URL"

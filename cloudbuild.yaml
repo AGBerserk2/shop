@@ -12,8 +12,10 @@ substitutions:
   _REGION: us-east1
   _SERVICE: anroy-shop
   _REPO: anroy
+  _COMMIT_SHA: latest
 
 options:
+  substitution_option: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
   machineType: E2_HIGHCPU_8
 
@@ -23,7 +25,7 @@ steps:
     name: gcr.io/cloud-builders/docker
     args:
       - build
-      - --tag=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA
+      - --tag=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$_COMMIT_SHA
       - --tag=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest
       - --cache-from=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest
       - .
@@ -31,7 +33,7 @@ steps:
   # 2) Push both tags.
   - id: push-sha
     name: gcr.io/cloud-builders/docker
-    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA']
+    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$_COMMIT_SHA']
   - id: push-latest
     name: gcr.io/cloud-builders/docker
     args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest']
@@ -45,7 +47,7 @@ steps:
       - run
       - deploy
       - $_SERVICE
-      - --image=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA
+      - --image=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$_COMMIT_SHA
       - --region=$_REGION
       - --platform=managed
       - --allow-unauthenticated
@@ -60,7 +62,7 @@ steps:
       - --set-secrets=DB_HOST=DB_HOST:latest,DB_PORT=DB_PORT:latest,DB_NAME=DB_NAME:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest,DB_SSLMODE=DB_SSLMODE:latest,DB_POOL_MAX=DB_POOL_MAX:latest,FIREBASE_WEB_API_KEY=FIREBASE_WEB_API_KEY:latest,FIREBASE_AUTH_DOMAIN=FIREBASE_AUTH_DOMAIN:latest,FIREBASE_PROJECT_ID=FIREBASE_PROJECT_ID:latest,FIREBASE_APP_ID=FIREBASE_APP_ID:latest,COOKIE_SECRET=COOKIE_SECRET:latest
 
 images:
-  - $_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA
+  - $_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$_COMMIT_SHA
   - $_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest
 
 timeout: 1800s
