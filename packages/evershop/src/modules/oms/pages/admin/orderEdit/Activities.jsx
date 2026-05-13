@@ -60,7 +60,7 @@ export default function Activities({ order: { activities = [] } }) {
                     <span className="block text-sm">{a.comment}</span>
                     {parseInt(a.customerNotified, 10) === 1 && (
                       <span className="block text-muted-foreground italic text-sm mt-1">
-                        Customer was notified
+                        Cliente notificado
                       </span>
                     )}
                   </div>

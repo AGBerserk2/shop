@@ -32,7 +32,7 @@ export default function ShipButton({
   if (noShippingRequired) {
     return (
       <Button disabled variant="secondary">
-        No Shipping Required
+        No requiere envío
       </Button>
     );
   }
@@ -45,7 +45,7 @@ export default function ShipButton({
           variant="default"
           onClick={() => {
             openAlert({
-              heading: 'Ship Items',
+              heading: 'Marcar como enviado',
               content: (
                 <div>
                   <Form
@@ -93,12 +93,12 @@ export default function ShipButton({
                 </div>
               ),
               primaryAction: {
-                title: 'Cancel',
+                title: 'Cancelar',
                 onAction: closeAlert,
                 variant: 'outline'
               },
               secondaryAction: {
-                title: 'Ship',
+                title: 'Enviar',
                 onAction: () => {
                   dispatchAlert({
                     type: 'update',
@@ -116,7 +116,7 @@ export default function ShipButton({
             });
           }}
         >
-          Ship items
+          Marcar como enviado
         </Button>
       </RenderIfTrue>
     );

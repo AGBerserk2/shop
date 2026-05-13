@@ -61,7 +61,7 @@ export default function Customer({
   return (
     <Card className="">
       <CardHeader>
-        <CardTitle>Customer Information</CardTitle>
+        <CardTitle>Cliente</CardTitle>
       </CardHeader>
       <CardContent>
         {customerUrl && (
@@ -72,10 +72,10 @@ export default function Customer({
             {customerFullName}
           </a>
         )}
-        {!customerUrl && <span>{customerEmail} (Guest Checkout)</span>}
+        {!customerUrl && <span>{customerEmail} (compra como invitado)</span>}
       </CardContent>
       <CardContent className="border-t border-border pt-3">
-        <CardTitle className="mb-2">Contact Information</CardTitle>
+        <CardTitle className="mb-2">Contacto</CardTitle>
         <div>
           <a href="#" className="text-interactive hover:underline">
             {customerEmail}
@@ -92,12 +92,12 @@ export default function Customer({
         {!noShippingRequired && <AddressSummary address={shippingAddress} />}
         {noShippingRequired && (
           <span className="text-muted-foreground">
-            {'No shipping required'}
+            {'No requiere envío'}
           </span>
         )}
       </CardContent>
       <CardContent className="border-t border-border pt-3">
-        <CardTitle className="mb-2">Billing address</CardTitle>
+        <CardTitle className="mb-2">Dirección de facturación</CardTitle>
         <AddressSummary address={billingAddress} />
       </CardContent>
     </Card>

@@ -21,7 +21,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
           <div className="flex space-x-2">
             <Circle variant={shipmentStatus.badge || 'new'} />
             <span className="block self-center">
-              {shipmentStatus.name || 'Unknown'}
+              {shipmentStatus.name || 'Desconocido'}
             </span>
           </div>
         </CardTitle>

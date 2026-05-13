@@ -65,11 +65,11 @@ export default function CancelButton({
             <div>
               <TextareaField
                 name="reason"
-                label="Reason for cancellation"
-                placeholder="Reason for cancellation"
+                label="Motivo de la cancelación"
+                placeholder="Contanos por qué cancelás"
                 required
                 validation={{
-                  required: 'Reason is required'
+                  required: 'El motivo es obligatorio'
                 }}
               />
             </div>
@@ -89,7 +89,7 @@ export default function CancelButton({
                 );
               }}
             >
-              Submit Cancellation
+              Confirmar cancelación
             </Button>
           </DialogFooter>
         </DialogContent>

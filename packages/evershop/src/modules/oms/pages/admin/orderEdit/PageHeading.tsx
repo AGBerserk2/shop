@@ -13,7 +13,7 @@ export default function OrderEditPageHeading({
   order
 }: OrderEditPageHeadingProps) {
   return (
-    <PageHeading backUrl={backUrl} heading={`Editing #${order.orderNumber}`} />
+    <PageHeading backUrl={backUrl} heading={`Editando pedido #${order.orderNumber}`} />
   );
 }
 

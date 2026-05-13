@@ -42,7 +42,7 @@ export default function TrackingButton({
         window.open(url, '_blank')?.focus();
       }}
     >
-      Track shipment
+      Rastrear envío
     </Button>
   );
 }

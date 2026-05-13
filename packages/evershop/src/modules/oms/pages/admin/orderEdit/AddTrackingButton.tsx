@@ -43,18 +43,18 @@ export default function AddTrackingButton({
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger>
             <Button
-              title="Edit Tracking Info"
+              title="Editar seguimiento"
               variant="outline"
               onClick={() => {
                 setDialogOpen(true);
               }}
             >
-              Edit Tracking Info
+              Editar seguimiento
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Edit Tracking Info</DialogTitle>
+              <DialogTitle>Editar seguimiento</DialogTitle>
             </DialogHeader>
             <Form
               form={form}
@@ -76,7 +76,7 @@ export default function AddTrackingButton({
                     defaultValue={shipment.trackingNumber || ''}
                     required
                     validation={{
-                      required: 'Tracking number is required'
+                      required: 'El número de seguimiento es obligatorio'
                     }}
                   />
                 </div>
@@ -88,7 +88,7 @@ export default function AddTrackingButton({
                     required
                     options={carriers}
                     validation={{
-                      required: 'Carrier is required'
+                      required: 'El transportista es obligatorio'
                     }}
                   />
                 </div>
@@ -106,7 +106,7 @@ export default function AddTrackingButton({
                     setDialogOpen(false);
                   }}
                 >
-                  Cancel
+                  Cancelar
                 </Button>
               </DialogClose>
               <Button
@@ -123,7 +123,7 @@ export default function AddTrackingButton({
                   );
                 }}
               >
-                Save
+                Guardar
               </Button>
             </DialogFooter>
           </DialogContent>

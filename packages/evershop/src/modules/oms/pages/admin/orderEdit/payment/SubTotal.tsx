@@ -12,7 +12,7 @@ export function SubTotal({ count, total }: SubTotalProps) {
         Subtotal
       </span>
       <div className="flex-1 flex items-start justify-between gap-2">
-        <div className="text-sm text-muted-foreground">{count} items</div>
+        <div className="text-sm text-muted-foreground">{count} pieza{count === 1 ? '' : 's'}</div>
         <div className="font-semibold text-sm">{total}</div>
       </div>
     </div>
