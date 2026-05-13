@@ -4,9 +4,11 @@ import './CheckoutSuccess.scss';
 
 export default function CheckoutSuccessPage() {
   return (
-    <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-7">
-      <Area id="checkoutSuccessPageLeft" />
-      <Area id="checkoutSuccessPageRight" />
+    <div className="anroy-thanks">
+      <div className="anroy-thanks__wrap">
+        <Area id="checkoutSuccessPageLeft" />
+        <Area id="checkoutSuccessPageRight" />
+      </div>
     </div>
   );
 }

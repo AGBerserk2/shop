@@ -16,24 +16,32 @@ export default function Summary({ order }: SummaryProps) {
     }
   } = useAppState();
   return (
-    <div className="checkout__summary h-full hidden md:block">
-      <OrderSummaryItems items={order.items} />
-      <OrderTotalSummary
-        shippingCost={
-          priceIncludingTax
-            ? order.shippingFeeInclTax.text
-            : order.shippingFeeExclTax.text
-        }
-        subTotal={
-          priceIncludingTax ? order.subTotalInclTax.text : order.subTotal.text
-        }
-        total={order.grandTotal.text}
-        shippingMethod={order.shippingMethodName}
-        coupon={order.coupon || ''}
-        discountAmount={order.discountAmount.text}
-        taxAmount={order.totalTaxAmount.text}
-      />
-    </div>
+    <aside className="anroy-thanks__summary">
+      <h2 className="anroy-thanks__summary-title">
+        Resumen
+        <span className="anroy-thanks__summary-tag">Confirmado</span>
+      </h2>
+      <div className="checkout__summary">
+        <OrderSummaryItems items={order.items} />
+        <OrderTotalSummary
+          shippingCost={
+            priceIncludingTax
+              ? order.shippingFeeInclTax.text
+              : order.shippingFeeExclTax.text
+          }
+          subTotal={
+            priceIncludingTax
+              ? order.subTotalInclTax.text
+              : order.subTotal.text
+          }
+          total={order.grandTotal.text}
+          shippingMethod={order.shippingMethodName}
+          coupon={order.coupon || ''}
+          discountAmount={order.discountAmount.text}
+          taxAmount={order.totalTaxAmount.text}
+        />
+      </div>
+    </aside>
   );
 }
 

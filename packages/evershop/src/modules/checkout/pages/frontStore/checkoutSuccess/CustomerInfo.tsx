@@ -1,6 +1,14 @@
 import { AddressSummary } from '@components/common/customer/address/AddressSummary.js';
-import { Button } from '@components/common/ui/Button.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import {
+  ArrowRight,
+  Check,
+  CreditCard,
+  MapPin,
+  Receipt,
+  Sparkles,
+  Truck,
+  User
+} from 'lucide-react';
 import React from 'react';
 
 interface CustomerInfoProps {
@@ -14,14 +22,8 @@ interface CustomerInfoProps {
       fullName: string;
       postcode: string;
       telephone: string;
-      country: {
-        name: string;
-        code: string;
-      };
-      province: {
-        name: string;
-        code: string;
-      };
+      country: { name: string; code: string };
+      province: { name: string; code: string };
       city: string;
       address1: string;
       address2: string;
@@ -30,14 +32,8 @@ interface CustomerInfoProps {
       fullName: string;
       postcode: string;
       telephone: string;
-      country: {
-        name: string;
-        code: string;
-      };
-      province: {
-        name: string;
-        code: string;
-      };
+      country: { name: string; code: string };
+      province: { name: string; code: string };
       city: string;
       address1: string;
       address2: string;
@@ -56,85 +52,101 @@ export default function CustomerInfo({
     billingAddress
   }
 }: CustomerInfoProps) {
-  return (
-    <div className="checkout-success-customer-info">
-      <h3 className="thank-you flex justify-start space-x-5">
-        <div className="check flex justify-center self-center text-interactive">
-          <svg
-            style={{ width: '3rem', height: '3rem' }}
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        </div>
-        <div className="self-center">
-          <span style={{ fontSize: '1.6rem', fontWeight: '300' }}>
-            {_('Order #${orderNumber}', { orderNumber })}
-          </span>
-          <div>
-            {_('Thank you ${name}!', {
-              name: customerFullName || billingAddress?.fullName
-            })}
-          </div>
-        </div>
-      </h3>
+  const name = (customerFullName || billingAddress?.fullName || '').trim();
+  const firstName = name.split(' ')[0];
 
-      <div className="customer-info mt-7 mb-5">
-        <div className="grid grid-cols-2 gap-7">
-          <div>
-            <div className="mb-2">
-              <h3>{_('Contact information')}</h3>
+  return (
+    <div className="anroy-thanks__main">
+      {/* Hero */}
+      <section className="anroy-thanks__hero">
+        <span className="anroy-thanks__check" aria-hidden>
+          <Check />
+        </span>
+        <span className="anroy-thanks__eyebrow">
+          <Sparkles className="w-3 h-3" strokeWidth={2.2} />
+          Pedido confirmado
+        </span>
+        <h1 className="anroy-thanks__title">
+          ¡Gracias
+          {firstName ? (
+            <>
+              ,&nbsp;<span className="italic">{firstName}</span>
+            </>
+          ) : null}
+          !
+        </h1>
+        <p className="anroy-thanks__lede">
+          Tu pedido <b>está confirmado</b>. Te enviamos un correo a{' '}
+          <b>{customerEmail}</b> con todos los detalles. Lo preparamos a
+          mano y te avisamos apenas salga en camino.
+        </p>
+        <span className="anroy-thanks__order-num">
+          <small>Pedido</small> #{orderNumber}
+        </span>
+      </section>
+
+      {/* Details grid */}
+      <section className="anroy-thanks__details">
+        <h2 className="anroy-thanks__details-title">Detalles del pedido</h2>
+        <div className="anroy-thanks__details-grid">
+          <div className="anroy-thanks__cell">
+            <span className="anroy-thanks__cell-head">
+              <User /> Contacto
+            </span>
+            <div className="anroy-thanks__cell-body">
+              <div>{customerFullName || billingAddress?.fullName}</div>
+              <div className="muted">{customerEmail}</div>
             </div>
-            <div className="text-textSubdued">
-              {customerFullName || billingAddress?.fullName}
-            </div>
-            <div className="text-textSubdued">{customerEmail}</div>
           </div>
-          <div>
-            <div className="mb-2">
-              <h3>{_('Shipping Address')}</h3>
-            </div>
-            <div className="text-textSubdued">
+
+          <div className="anroy-thanks__cell">
+            <span className="anroy-thanks__cell-head">
+              <Truck /> Envío
+            </span>
+            <div className="anroy-thanks__cell-body">
               {noShippingRequired ? (
-                _('No shipping required')
+                <span className="muted">No requiere envío</span>
               ) : (
                 <AddressSummary address={shippingAddress} />
               )}
             </div>
           </div>
-          <div>
-            <div className="mb-2">
-              <h3>{_('Payment Method')}</h3>
-            </div>
-            <div className="text-textSubdued">{paymentMethodName}</div>
+
+          <div className="anroy-thanks__cell">
+            <span className="anroy-thanks__cell-head">
+              <CreditCard /> Método de pago
+            </span>
+            <div className="anroy-thanks__cell-body">{paymentMethodName}</div>
           </div>
-          <div>
-            <div className="mb-2">
-              <h3>{_('Billing Address')}</h3>
-            </div>
-            <div className="text-textSubdued">
+
+          <div className="anroy-thanks__cell">
+            <span className="anroy-thanks__cell-head">
+              <MapPin /> Facturación
+            </span>
+            <div className="anroy-thanks__cell-body">
               <AddressSummary address={billingAddress} />
             </div>
           </div>
         </div>
+      </section>
+
+      {/* CTAs */}
+      <div className="anroy-thanks__cta-row">
+        <a
+          href="/account/orders"
+          className="anroy-thanks__cta anroy-thanks__cta--primary"
+        >
+          <Receipt className="w-4 h-4" strokeWidth={2.2} />
+          Ver mis pedidos
+        </a>
+        <a
+          href="/"
+          className="anroy-thanks__cta anroy-thanks__cta--ghost"
+        >
+          Seguir comprando
+          <ArrowRight className="w-4 h-4" strokeWidth={2.2} />
+        </a>
       </div>
-      <Button
-        variant={'default'}
-        size={'lg'}
-        onClick={() => (window.location.href = '/')}
-        title={_('CONTINUE SHOPPING')}
-      >
-        {_('CONTINUE SHOPPING')}
-      </Button>
     </div>
   );
 }

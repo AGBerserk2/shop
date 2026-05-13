@@ -1,6 +1,5 @@
 import Area from '@components/common/Area.js';
 import { useAppState } from '@components/common/context/app.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 const Total: React.FC<{
@@ -13,15 +12,15 @@ const Total: React.FC<{
       {(priceIncludingTax && (
         <div>
           <div className="font-bold">
-            <span>{_('Total')}</span>
+            <span>Total</span>
           </div>
           <div>
             <span className="italic font-normal">
-              ({_('Inclusive of tax ${totalTaxAmount}', { totalTaxAmount })})
+              (Incluye impuestos de {totalTaxAmount})
             </span>
           </div>
         </div>
-      )) || <span className="self-center font-bold">{_('Total')}</span>}
+      )) || <span className="self-center font-bold">Total</span>}
       <div>
         <div />
         <span>{total}</span>
@@ -40,7 +39,7 @@ const Tax: React.FC<{
 
   return (
     <div className="summary-row flex justify-between py-2">
-      <span>{_('Tax')}</span>
+      <span>Impuestos</span>
       <div>
         <div />
         <span>{amount}</span>
@@ -52,7 +51,7 @@ const Tax: React.FC<{
 const Subtotal: React.FC<{ subTotal: string }> = ({ subTotal }) => {
   return (
     <div className="flex justify-between gap-7 py-2">
-      <div>{_('Sub total')}</div>
+      <div>Subtotal</div>
       <span>{subTotal}</span>
     </div>
   );
@@ -68,7 +67,7 @@ const Discount: React.FC<{
 
   return (
     <div className="flex justify-between gap-7 py-2">
-      <div>{_('Discount(${coupon})', { coupon })}</div>
+      <div>Descuento ({coupon})</div>
       <span>- {discountAmount}</span>
     </div>
   );
@@ -82,7 +81,7 @@ const Shipping: React.FC<{
     <div className="summary-row flex justify-between gap-7 py-2">
       {method && (
         <>
-          <span>{_('Shipping (${method})', { method })}</span>
+          <span>Envío ({method})</span>
           <div>
             <span className="block">{cost}</span>
           </div>
@@ -90,9 +89,9 @@ const Shipping: React.FC<{
       )}
       {!method && (
         <>
-          <span>{_('Shipping')}</span>
+          <span>Envío</span>
           <span className="text-gray-500 italic font-normal">
-            {_('No shipping is required for this order')}
+            No requiere envío
           </span>
         </>
       )}
