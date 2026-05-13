@@ -1,6 +1,7 @@
 import { insert, select, update } from '@evershop/postgres-query-builder';
 import crypto from 'node:crypto';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
+import { error as logError } from '../../../../../lib/log/logger.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { hashPassword } from '../../../../../lib/util/passwordHelper.js';
 import {
@@ -13,6 +14,21 @@ import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 import { CustomerRow } from '../../../../../types/db/index.js';
 import { buildCustomerPayload } from '../../../services/customer/buildCustomerPayload.js';
+
+// Cache whether the photo_url column has been confirmed present so we
+// don't ask Postgres on every login. We assume it exists until a query
+// proves otherwise (then we flip this and skip future writes).
+let photoUrlSupported = true;
+
+function isMissingColumnError(e: any, col: string): boolean {
+  const msg = (e?.message || '').toLowerCase();
+  return (
+    e?.code === '42703' ||
+    msg.includes(`column "${col}" of relation`) ||
+    msg.includes(`column "${col}" does not exist`) ||
+    msg.includes(`"${col}" does not exist`)
+  );
+}
 
 // Single auth endpoint for every Firebase-issued ID token, whether the
 // user authenticated with email/password, Google, or any other provider.
@@ -92,31 +108,59 @@ export default async (
     }
 
     // Keep photo_url in sync with whatever Firebase has for the user —
-    // they might change their Google avatar between logins.
-    if (customer && photoUrl && (customer as any).photo_url !== photoUrl) {
-      await update('customer')
-        .given({ photo_url: photoUrl })
-        .where('customer_id', '=', customer.customer_id)
-        .execute(pool);
-      (customer as any).photo_url = photoUrl;
+    // they might change their Google avatar between logins. If the
+    // photo_url column doesn't exist yet (migration 1.0.6 hasn't run
+    // on this DB), swallow the error and move on so the login still
+    // succeeds.
+    if (
+      photoUrlSupported &&
+      customer &&
+      photoUrl &&
+      (customer as any).photo_url !== photoUrl
+    ) {
+      try {
+        await update('customer')
+          .given({ photo_url: photoUrl })
+          .where('customer_id', '=', customer.customer_id)
+          .execute(pool);
+        (customer as any).photo_url = photoUrl;
+      } catch (e: any) {
+        if (isMissingColumnError(e, 'photo_url')) {
+          photoUrlSupported = false;
+        } else {
+          throw e;
+        }
+      }
     }
 
     // 3) Brand new account — provision a customer row.
     if (!customer) {
       const randomPassword = crypto.randomBytes(32).toString('hex');
-      const inserted = (await insert('customer')
-        .given({
-          email,
-          full_name: resolvedFullName,
-          password: hashPassword(randomPassword),
-          status: 1,
-          group_id: 1,
-          is_google_login: provider === 'google.com',
-          firebase_uid: uid,
-          photo_url: photoUrl
-        })
-        .execute(pool)) as CustomerRow;
-      customer = inserted;
+      const baseRow: Record<string, any> = {
+        email,
+        full_name: resolvedFullName,
+        password: hashPassword(randomPassword),
+        status: 1,
+        group_id: 1,
+        is_google_login: provider === 'google.com',
+        firebase_uid: uid
+      };
+      if (photoUrlSupported && photoUrl) baseRow.photo_url = photoUrl;
+      try {
+        customer = (await insert('customer')
+          .given(baseRow)
+          .execute(pool)) as CustomerRow;
+      } catch (e: any) {
+        if (isMissingColumnError(e, 'photo_url')) {
+          photoUrlSupported = false;
+          delete baseRow.photo_url;
+          customer = (await insert('customer')
+            .given(baseRow)
+            .execute(pool)) as CustomerRow;
+        } else {
+          throw e;
+        }
+      }
     } else if (Number(customer.status) !== 1) {
       response.status(INTERNAL_SERVER_ERROR);
       response.json({
@@ -138,12 +182,16 @@ export default async (
       data: { sid: request.sessionID }
     };
     next();
-  } catch (error: any) {
+  } catch (err: any) {
+    // Log full stack server-side so the operator can see what blew up,
+    // but only return the high-level message to the client.
+    logError(err);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
-        message: error?.message || translate('Error de autenticación')
+        message: err?.message || translate('Error de autenticación'),
+        code: err?.code
       }
     });
   }
