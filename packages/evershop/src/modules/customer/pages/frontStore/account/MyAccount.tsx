@@ -17,8 +17,6 @@ import CustomerAddressForm from '@components/frontStore/customer/address/address
 import {
   ChevronLeft,
   Heart,
-  Home,
-  MapPin,
   Package,
   Pencil,
   Phone,
@@ -576,25 +574,9 @@ export default function MyAccount() {
           </button>
         </div>
 
-        {/* Bottom tab bar */}
-        <nav className="anroy-profile__tabbar" aria-label="Atajos">
-          <a className="anroy-profile__tab" href="/">
-            <Home strokeWidth={2} />
-            Inicio
-          </a>
-          <a className="anroy-profile__tab" href="#pedidos">
-            <Package strokeWidth={2} />
-            Pedidos
-          </a>
-          <a className="anroy-profile__tab" href="#direcciones">
-            <MapPin strokeWidth={2} />
-            Lugares
-          </a>
-          <a className="anroy-profile__tab" href="#" aria-current="page">
-            <User strokeWidth={2} />
-            Perfil
-          </a>
-        </nav>
+        {/* Bottom navigation is now mounted globally via
+            packages/evershop/src/modules/base/pages/frontStore/all/MobileTabBar.tsx
+            so it appears on every storefront page, not just /account. */}
       </div>
 
       <EditProfileDialog

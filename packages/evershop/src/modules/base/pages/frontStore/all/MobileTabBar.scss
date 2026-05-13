@@ -1,0 +1,94 @@
+/* ============================================================
+   Anroy — bottom tab bar (mobile-first)
+   Visible on every storefront page <=768px.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
+
+.anroy-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  pointer-events: none;
+  display: none;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .anroy-tabbar {
+    display: block;
+  }
+
+  /* Push page content above the bar so nothing hides under it */
+  body main.content {
+    padding-bottom: 5.25rem;
+  }
+}
+
+.anroy-tabbar__inner {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
+  gap: 0;
+  padding: 0.45rem 0.5rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-top: 1px solid #f0e8df;
+  box-shadow: 0 -8px 24px -16px rgba(28, 19, 18, 0.18);
+}
+
+.anroy-tabbar__tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.4rem 0.25rem 0.55rem;
+  text-decoration: none;
+  color: #8e8e93;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.01em;
+  transition: color 0.15s ease;
+}
+
+.anroy-tabbar__tab svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.2s ease;
+}
+
+.anroy-tabbar__tab:hover {
+  color: #1d1d1f;
+}
+
+.anroy-tabbar__tab[aria-current='page'] {
+  color: #f97316;
+}
+
+.anroy-tabbar__tab[aria-current='page'] svg {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.anroy-tabbar__tab[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: #f97316;
+}
+
+.anroy-tabbar__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
