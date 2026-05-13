@@ -379,7 +379,17 @@ export default function MyAccount() {
       <div className="anroy-profile__shell">
         {/* Top bar */}
         <div className="anroy-profile__bar">
-          <a href="/" className="anroy-profile__back" aria-label="Volver">
+          <a
+            href="/"
+            className="anroy-profile__back"
+            aria-label="Volver"
+            onClick={(e) => {
+              if (typeof window !== 'undefined' && window.history.length > 1) {
+                e.preventDefault();
+                window.history.back();
+              }
+            }}
+          >
             <ChevronLeft className="w-5 h-5" strokeWidth={2.2} />
           </a>
           <span className="anroy-profile__title">Mi perfil</span>

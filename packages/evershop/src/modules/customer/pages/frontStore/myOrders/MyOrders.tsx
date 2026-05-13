@@ -172,6 +172,16 @@ export default function MyOrders() {
             href="/account"
             className="anroy-orders__back"
             aria-label="Volver"
+            onClick={(e) => {
+              // Prefer real browser back so deep-links work; only fall
+              // back to /account when there's no history to pop (the
+              // user landed here directly, e.g. opened the link in a
+              // new tab).
+              if (typeof window !== 'undefined' && window.history.length > 1) {
+                e.preventDefault();
+                window.history.back();
+              }
+            }}
           >
             <ChevronLeft className="w-5 h-5" strokeWidth={2.2} />
           </a>
