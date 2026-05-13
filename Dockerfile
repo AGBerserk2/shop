@@ -3,20 +3,30 @@
 #####################################################################
 # Stage 1 — build
 #####################################################################
-FROM node:20-alpine AS builder
+# Debian (glibc) instead of Alpine (musl) — far better prebuilt-binary
+# coverage for native deps (@parcel/watcher, sharp, libvips, etc.).
+FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
-# OS packages required by native modules during the build:
-#   python3/make/g++ → node-gyp for bcrypt/sharp
-#   git → some npm git dependencies
-RUN apk add --no-cache python3 make g++ git
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install deps first so cache survives source edits.
+# Tools needed by node-gyp + sharp's libvips:
+#   python3, make, g++  → fallback compilation for native modules
+#   git                 → npm packages that resolve via git URLs
+#   ca-certificates     → TLS to npm + Google APIs
+#   libvips-dev         → sharp builds against this
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      python3 make g++ git ca-certificates libvips-dev \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install deps first so cache survives source edits. We allow lifecycle
+# scripts to run so optional prebuild downloaders (@parcel/watcher,
+# sharp, bcrypt, etc.) can fetch the right binary for the platform.
 COPY package.json package-lock.json ./
 COPY packages/evershop/package.json ./packages/evershop/
 COPY packages/postgres-query-builder/package.json ./packages/postgres-query-builder/
-RUN npm ci --no-audit --no-fund --ignore-scripts \
- && npm rebuild
+RUN npm ci --no-audit --no-fund --include=optional
 
 # Copy the rest of the workspace and build.
 COPY packages ./packages
@@ -34,13 +44,17 @@ RUN npm run compile \
 #####################################################################
 # Stage 2 — runtime
 #####################################################################
-FROM node:20-alpine AS runtime
+FROM node:20-bookworm-slim AS runtime
 WORKDIR /app
 
-# Minimal OS packages for runtime (libc++/libstdc++ are pulled in by
-# transitive deps; sharp uses libvips which is bundled in the npm pkg).
-RUN apk add --no-cache tini && \
-    addgroup -S app && adduser -S app -G app
+ENV DEBIAN_FRONTEND=noninteractive
+
+# tini → proper PID 1 + signal forwarding
+# libvips42 → runtime shared lib for sharp
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends tini libvips42 ca-certificates \
+ && rm -rf /var/lib/apt/lists/* \
+ && groupadd -r app && useradd -r -g app -d /app -s /usr/sbin/nologin app
 
 ENV NODE_ENV=production
 ENV PORT=8080
@@ -55,15 +69,15 @@ COPY --chown=app:app --from=builder /app/config ./config
 COPY --chown=app:app --from=builder /app/.evershop ./.evershop
 
 # Production-only install — the build outputs already live under
-# packages/*/dist so we don't need the dev toolchain anymore.
-RUN npm ci --omit=dev --no-audit --no-fund --ignore-scripts \
- && npm rebuild \
+# packages/*/dist so we don't need the dev toolchain anymore. Allow
+# lifecycle scripts so optional native prebuilds get fetched.
+RUN npm ci --omit=dev --no-audit --no-fund --include=optional \
  && npm cache clean --force \
  && chown -R app:app /app
 
 USER app
 EXPOSE 8080
 
-# tini reaps zombie processes — helpful when SIGTERM hits Cloud Run.
-ENTRYPOINT ["/sbin/tini", "--"]
+# tini reaps zombie processes + forwards SIGTERM cleanly.
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["node", "./packages/evershop/dist/bin/start/index.js"]
