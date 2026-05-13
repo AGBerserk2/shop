@@ -436,20 +436,6 @@ export default function MyAccount() {
           </div>
         </div>
 
-        {/* About / shortcuts */}
-        <section className="anroy-profile__section">
-          <div className="anroy-profile__section-head">
-            <span className="anroy-profile__section-title">Sobre ti</span>
-          </div>
-          <p className="anroy-profile__about">
-            Hola <b>{firstName}</b>. Acá vive tu actividad en Anroy: tus
-            pedidos, tus direcciones de envío y los atajos a tus rincones
-            favoritos de la tienda. {orders.length === 0
-              ? 'Cuando hagas tu primer pedido se va a guardar acá automáticamente.'
-              : 'Tu última visita aparece arriba de la lista.'}
-          </p>
-        </section>
-
         {/* Shortcuts (interests) */}
         <section className="anroy-profile__section">
           <div className="anroy-profile__section-head">
