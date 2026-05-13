@@ -19,7 +19,9 @@ dist
 npm-debug.log
 /package-log.json
 /media
-/public
+# /public is needed in the build context — keep .gitkeep tracked, ignore real assets
+/public/*
+!/public/.gitkeep
 .DS_Store
 .log
 coverage
