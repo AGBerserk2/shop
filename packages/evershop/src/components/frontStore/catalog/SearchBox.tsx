@@ -269,13 +269,16 @@ export function SearchBox({
   }, [showing]);
 
   return (
-    <div className="search__box relative" ref={containerRef}>
-      {/* Expanding bar — width animates from 0 to full when opened. The icon
-          on the right toggles between Search and X. */}
+    <div className="search__box relative w-10 h-10" ref={containerRef}>
+      {/* The search box keeps a 40x40 footprint in the header layout so
+          the avatar + cart icons next to it never get pushed out.
+          When the search is open, the expanded bar floats over the
+          surrounding icons (absolute, right-anchored) instead of
+          stealing flex space from them. */}
       <div
-        className={`flex items-center bg-white rounded-full transition-all duration-300 ease-out overflow-hidden ${
+        className={`absolute top-0 right-0 flex items-center bg-white rounded-full transition-all duration-300 ease-out overflow-hidden h-10 ${
           showing
-            ? 'w-[min(72vw,360px)] ring-1 ring-gray-200 shadow-sm pl-3 pr-1'
+            ? 'w-[min(60vw,260px)] z-20 ring-1 ring-gray-200 shadow-md pl-3 pr-1'
             : 'w-10'
         }`}
       >
