@@ -22,3 +22,8 @@ secrets/
 .env
 .env.*
 !.env.example
+
+# Helper scripts and boilerplate not needed for the build
+scripts/
+README.md
+LICENSE

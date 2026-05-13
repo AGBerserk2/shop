@@ -44,3 +44,11 @@ Dockerfile
 .dockerignore
 .gcloudignore
 cloudbuild.yaml
+
+# Helper scripts not needed at runtime
+scripts/
+
+# Boilerplate docs
+README.md
+LICENSE
+*.md
