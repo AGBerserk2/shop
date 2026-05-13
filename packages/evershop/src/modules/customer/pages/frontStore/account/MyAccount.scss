@@ -1,890 +1,798 @@
 /* ============================================================
    Anroy — /account
-   "Expediente Anroy" — laboratorio cosmético meets case file.
-   Anti-glamour, technical, grid paper. Each order is a sample
-   in your archive; each address a field location.
+   Mobile-app profile card, peach pastel. Plus Jakarta Sans,
+   soft shadows, rounded pills, generous breathing room.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@500;600;700&family=Newsreader:ital,wght@0,400;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-.anroy-lab {
-  --bone:      #f5f1ea;
-  --bone-dark: #ebe5d8;
-  --ink:       #161618;
-  --ink-soft:  #3a3a3c;
-  --line:      #c9c0ad;
-  --line-soft: #ddd5c2;
-  --muted:     #87807a;
-  --green:     #6b8826;       /* safety / passed */
-  --ochre:     #b67a26;       /* in progress */
-  --iodine:    #a72c2c;       /* stamp / critical */
-  --paper-shadow: rgba(22, 22, 24, 0.06);
+.anroy-profile {
+  --bg-frame:    #ffead3;          /* peach frame outside the card */
+  --bg-frame-2:  #fbd9b8;
+  --card:        #ffffff;
+  --ink:         #1d1d1f;
+  --ink-soft:    #4b4b50;
+  --mute:        #8e8e93;
+  --hairline:    #f0e8df;
+  --accent:      #f97316;          /* warm orange */
+  --accent-soft: #fff1e0;
+  --shadow-soft: 0 4px 14px -8px rgba(28, 19, 18, 0.12);
+  --shadow-md:   0 8px 28px -16px rgba(28, 19, 18, 0.18);
+  --shadow-pill: 0 4px 12px -6px rgba(28, 19, 18, 0.1),
+                 0 1px 0 rgba(255, 255, 255, 0.8) inset;
 
   position: relative;
   min-height: 100vh;
-  padding: 2.5rem 1rem 6rem;
-  background-color: var(--bone);
-  /* Graph paper — two layers: thin 8px grid + heavier 64px lines */
-  background-image:
-    linear-gradient(rgba(150, 138, 120, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(150, 138, 120, 0.08) 1px, transparent 1px),
-    linear-gradient(rgba(150, 138, 120, 0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(150, 138, 120, 0.16) 1px, transparent 1px);
-  background-size:
-    8px 8px,
-    8px 8px,
-    64px 64px,
-    64px 64px;
-  background-position: -1px -1px;
+  padding: 2.5rem 1rem 7rem;
+  background:
+    radial-gradient(ellipse 800px 500px at 0% 0%,
+      var(--bg-frame-2), transparent 55%),
+    radial-gradient(ellipse 700px 500px at 100% 100%,
+      var(--bg-frame), transparent 55%),
+    linear-gradient(180deg, var(--bg-frame) 0%, #fff5e8 70%, #fff 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   color: var(--ink);
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-feature-settings: 'ss01', 'cv01';
-  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
 }
 
-.anroy-lab::before {
-  /* Subtle paper grain on top of the grid */
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.04;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/></svg>");
-}
-
-.anroy-lab__wrap {
+.anroy-profile__shell {
   position: relative;
   z-index: 1;
-  max-width: 76rem;
+  max-width: 520px;
   margin: 0 auto;
-  background: rgba(245, 241, 234, 0.78);
-  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 28px;
   box-shadow:
-    0 1px 0 #fff inset,
-    20px 24px 0 -16px var(--bone-dark),
-    20px 24px 0 -15px var(--line);
+    0 30px 60px -30px rgba(20, 14, 10, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  overflow: hidden;
+  animation: anroy-pop 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-/* ─── Document header strip ─────────────────────────────── */
-.anroy-lab__top-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 1.25rem;
-  background: var(--ink);
-  color: var(--bone);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.66rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.anroy-lab__top-strip .right {
-  display: inline-flex;
-  gap: 1.25rem;
-  opacity: 0.85;
-}
-
-.anroy-lab__top-strip .pulse {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.anroy-lab__top-strip .pulse::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 0 currentColor;
-  animation: anroy-pulse 2s ease-in-out infinite;
-}
-
-@keyframes anroy-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.3); }
-}
-
-/* ─── Case file header ──────────────────────────────────── */
-.anroy-lab__header {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding: 2.25rem 1.5rem 1.75rem;
-  border-bottom: 2px solid var(--ink);
-  position: relative;
-  animation: anroy-typewriter 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-@media (min-width: 800px) {
-  .anroy-lab__header {
-    grid-template-columns: 120px 1fr auto;
-    gap: 2rem;
-    align-items: start;
+@keyframes anroy-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-.anroy-lab__avatar {
-  width: 120px;
-  height: 120px;
+/* ─── Top bar (back + title) ────────────────────────────── */
+.anroy-profile__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 0.25rem;
+}
+
+.anroy-profile__back {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-decoration: none;
+}
+
+.anroy-profile__back:hover {
+  background: var(--accent-soft);
+}
+
+.anroy-profile__title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.anroy-profile__menu {
+  width: 36px;
+  height: 36px;
+}
+
+/* ─── Avatar block ──────────────────────────────────────── */
+.anroy-profile__avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1.5rem 0.5rem;
+}
+
+.anroy-profile__avatar {
   position: relative;
-  background: var(--bone-dark);
-  border: 1.5px solid var(--ink);
-  /* Hexagonal sample-slide frame */
-  clip-path: polygon(
-    50% 0%,
-    100% 25%,
-    100% 75%,
-    50% 100%,
-    0% 75%,
-    0% 25%
-  );
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 4px solid var(--card);
+  box-shadow:
+    0 0 0 1px var(--hairline),
+    var(--shadow-md);
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-  align-self: start;
 }
 
-.anroy-lab__avatar img {
+.anroy-profile__avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.anroy-lab__avatar-initials {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 600;
-  font-size: 3rem;
-  letter-spacing: 0;
-  color: var(--ink);
-  text-transform: uppercase;
-}
-
-.anroy-lab__avatar-tag {
-  position: absolute;
-  bottom: 2px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.anroy-lab__identity {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.anroy-lab__file-num {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.85rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.anroy-lab__file-num strong {
-  font-weight: 600;
-  color: var(--ink);
-  background: var(--bone-dark);
-  padding: 2px 7px;
-  letter-spacing: 0.1em;
-  font-size: 0.78rem;
-}
-
-.anroy-lab__name {
-  font-family: 'Antonio', sans-serif;
+.anroy-profile__avatar-initials {
   font-weight: 700;
-  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-  text-transform: uppercase;
-  line-height: 0.95;
-  letter-spacing: -0.005em;
-  color: var(--ink);
-  margin: 0;
-  word-break: break-word;
+  font-size: 2.1rem;
+  color: var(--accent);
+  letter-spacing: -0.01em;
 }
 
-.anroy-lab__name-suffix {
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 0.6em;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-  margin-left: 0.3em;
-  text-transform: none;
-}
-
-.anroy-lab__bio {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  color: var(--ink-soft);
-  display: grid;
-  gap: 0.25rem;
-  max-width: 36rem;
-}
-
-.anroy-lab__bio b {
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.anroy-lab__bio dl {
-  display: grid;
-  grid-template-columns: 8rem 1fr;
-  gap: 0.25rem 0.75rem;
-  margin: 0;
-}
-
-.anroy-lab__bio dt {
-  color: var(--muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-size: 0.66rem;
-  margin: 0;
-  padding-top: 0.2em;
-}
-
-.anroy-lab__bio dd {
-  color: var(--ink);
-  margin: 0;
-  border-bottom: 1px dashed var(--line);
-  padding-bottom: 0.2em;
-}
-
-/* Red rubber stamp — pure CSS */
-.anroy-lab__stamp {
+.anroy-profile__avatar-edit {
   position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
-  padding: 0.5rem 0.75rem;
-  font-family: 'Antonio', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.78rem;
-  color: var(--iodine);
-  border: 1.5px solid currentColor;
-  outline: 1px solid currentColor;
-  outline-offset: 2px;
-  transform: rotate(-6deg);
-  opacity: 0.82;
-  text-align: center;
-  line-height: 1.05;
-}
-
-.anroy-lab__stamp small {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  font-weight: 500;
-  margin-top: 0.15rem;
-}
-
-.anroy-lab__signout {
-  align-self: end;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink);
-  text-decoration: none;
-  padding: 0.55rem 0.85rem;
-  border: 1px solid var(--ink);
-  background: var(--bone);
+  bottom: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: 3px solid var(--card);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.15s ease;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.15s ease;
 }
 
-.anroy-lab__signout:hover {
-  background: var(--ink);
-  color: var(--bone);
+.anroy-profile__avatar-edit:hover {
+  transform: scale(1.05);
 }
 
-.anroy-lab__signout::before {
-  content: '/';
-  margin-right: 0.4rem;
-  color: var(--muted);
-}
-
-/* ─── Readout strip (stats) ─────────────────────────────── */
-.anroy-lab__readout {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  border-bottom: 1px solid var(--line);
-}
-
-@media (min-width: 720px) {
-  .anroy-lab__readout {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.anroy-lab__cell {
-  padding: 1.5rem 1.25rem 1.25rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  animation: anroy-typewriter 0.6s ease-out both;
-}
-
-.anroy-lab__cell:not(:last-child) {
-  border-right: 1px dashed var(--line);
-}
-
-.anroy-lab__cell:nth-child(1) { animation-delay: 60ms; }
-.anroy-lab__cell:nth-child(2) { animation-delay: 120ms; }
-.anroy-lab__cell:nth-child(3) { animation-delay: 180ms; }
-.anroy-lab__cell:nth-child(4) { animation-delay: 240ms; }
-
-.anroy-lab__cell-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.anroy-lab__cell-tag::before {
-  content: '▸ ';
-  color: var(--green);
-}
-
-.anroy-lab__cell-value {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 2.3rem;
-  line-height: 1;
+.anroy-profile__name {
+  margin: 1rem 0 0.1rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
   color: var(--ink);
+  text-align: center;
+}
+
+.anroy-profile__handle {
+  font-size: 0.86rem;
+  color: var(--mute);
+}
+
+/* ─── Stats strip ───────────────────────────────────────── */
+.anroy-profile__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 1.5rem 1rem;
+  margin: 1.5rem 1.5rem 0.5rem;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.anroy-profile__stat {
+  text-align: center;
+  position: relative;
+}
+
+.anroy-profile__stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 8%;
+  bottom: 8%;
+  width: 1px;
+  background: var(--hairline);
+}
+
+.anroy-profile__stat-value {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--ink);
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
-.anroy-lab__cell-unit {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--ink-soft);
+.anroy-profile__stat-label {
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--mute);
   font-weight: 500;
-  margin-left: 0.3rem;
-  text-transform: uppercase;
 }
 
-.anroy-lab__cell-note {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--ink-soft);
+/* ─── Section ───────────────────────────────────────────── */
+.anroy-profile__section {
+  padding: 1.5rem 1.5rem 0.75rem;
+  animation: anroy-fade 0.6s ease-out both;
+  animation-delay: 120ms;
 }
 
-/* ─── Sections ──────────────────────────────────────────── */
-.anroy-lab__section {
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid var(--line);
-  animation: anroy-typewriter 0.7s ease-out both;
-  animation-delay: 200ms;
-}
-
-.anroy-lab__section-head {
+.anroy-profile__section-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid var(--ink);
+  margin-bottom: 0.75rem;
 }
 
-.anroy-lab__section-title {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: -0.005em;
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  line-height: 1;
+.anroy-profile__section-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
   color: var(--ink);
-  margin: 0;
-  display: inline-flex;
-  align-items: baseline;
+}
+
+.anroy-profile__section-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.anroy-profile__section-link:hover {
+  text-decoration: underline;
+}
+
+.anroy-profile__about {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.anroy-profile__about b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ─── Shortcut chips (interests) ────────────────────────── */
+.anroy-profile__chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 0.65rem;
+  padding: 0 1.5rem;
 }
 
-.anroy-lab__section-title::before {
-  content: '§';
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--iodine);
-  font-size: 0.85em;
-  text-transform: none;
+.anroy-profile__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1rem 0.65rem 0.55rem;
+  background: var(--card);
+  border-radius: 9999px;
+  box-shadow: var(--shadow-pill);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-.anroy-lab__section-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
+.anroy-profile__chip:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 16px -6px rgba(28, 19, 18, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
 }
 
-/* ─── Orders table (specimens) ──────────────────────────── */
-.anroy-lab__specimens {
+.anroy-profile__chip-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.anroy-profile__chip[data-tone='rose']     .anroy-profile__chip-icon { background: #fde2e8; color: #d23a6a; }
+.anroy-profile__chip[data-tone='mint']     .anroy-profile__chip-icon { background: #d9f0e0; color: #1f8c45; }
+.anroy-profile__chip[data-tone='sky']      .anroy-profile__chip-icon { background: #d9eaf9; color: #1d6db1; }
+.anroy-profile__chip[data-tone='lilac']    .anroy-profile__chip-icon { background: #ebe2fc; color: #6a3ec4; }
+.anroy-profile__chip[data-tone='peach']    .anroy-profile__chip-icon { background: #ffe0c9; color: #cf5b1a; }
+.anroy-profile__chip[data-tone='lemon']    .anroy-profile__chip-icon { background: #fcefb2; color: #8a6d10; }
+
+/* ─── Orders list ───────────────────────────────────────── */
+.anroy-profile__orders {
   display: flex;
   flex-direction: column;
+  gap: 0.6rem;
+  padding: 0 1.5rem;
 }
 
-.anroy-lab__row-head {
-  display: none;
-  grid-template-columns: 80px 80px 1fr 110px 130px;
-  gap: 1rem;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 2px solid var(--ink);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-@media (min-width: 880px) {
-  .anroy-lab__row-head {
-    display: grid;
-  }
-}
-
-.anroy-lab__specimen {
+.anroy-profile__order {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-  padding: 1rem 0.75rem;
-  border-bottom: 1px dashed var(--line);
-  position: relative;
-  transition: background 0.15s ease;
+  grid-template-columns: 44px 1fr auto;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: var(--shadow-pill);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.anroy-lab__specimen:hover {
-  background: rgba(255, 255, 255, 0.5);
+.anroy-profile__order:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 16px -6px rgba(28, 19, 18, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
 }
 
-@media (min-width: 880px) {
-  .anroy-lab__specimen {
-    grid-template-columns: 80px 80px 1fr 110px 130px;
-    gap: 1rem;
-    align-items: center;
-  }
+.anroy-profile__order-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.anroy-lab__specimen-num {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: var(--ink);
-  line-height: 1;
-}
-
-.anroy-lab__specimen-num small {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.2rem;
-}
-
-.anroy-lab__specimen-date {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-
-.anroy-lab__specimen-date small {
-  display: block;
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.15rem;
-}
-
-.anroy-lab__specimen-items {
+.anroy-profile__order-body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.15rem;
 }
 
-.anroy-lab__specimen-items-line {
-  font-family: 'Newsreader', serif;
-  font-size: 1rem;
+.anroy-profile__order-title {
+  font-weight: 600;
+  font-size: 0.92rem;
   color: var(--ink);
-  font-style: italic;
+  letter-spacing: -0.005em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  letter-spacing: 0.005em;
 }
 
-.anroy-lab__specimen-items-more {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--muted);
-}
-
-.anroy-lab__specimen-status {
+.anroy-profile__order-meta {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid currentColor;
-  width: max-content;
-  white-space: nowrap;
+  gap: 0.5rem;
+  font-size: 0.76rem;
+  color: var(--mute);
 }
 
-.anroy-lab__specimen-status::before {
+.anroy-profile__order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+
+.anroy-profile__order-status[data-tone='delivered']  { color: #1f8c45; }
+.anroy-profile__order-status[data-tone='shipped']    { color: var(--accent); }
+.anroy-profile__order-status[data-tone='processing'] { color: #1d6db1; }
+.anroy-profile__order-status[data-tone='cancelled']  { color: #b73a3a; opacity: 0.85; }
+
+.anroy-profile__order-status::before {
   content: '';
   width: 6px;
   height: 6px;
+  border-radius: 50%;
   background: currentColor;
-  display: inline-block;
 }
 
-.anroy-lab__specimen-status[data-tone='delivered'] { color: var(--green); }
-.anroy-lab__specimen-status[data-tone='shipped']   { color: var(--ochre); }
-.anroy-lab__specimen-status[data-tone='processing']{ color: var(--ink); }
-.anroy-lab__specimen-status[data-tone='cancelled'] { color: var(--iodine); opacity: 0.7; }
-
-.anroy-lab__specimen-total {
-  text-align: right;
-  font-family: 'Antonio', sans-serif;
+.anroy-profile__order-total {
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 0.95rem;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
-  line-height: 1;
 }
 
-.anroy-lab__specimen-total small {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.58rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+/* ─── Addresses ─────────────────────────────────────────── */
+.anroy-profile__addresses {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  padding: 0 1.5rem;
+}
+
+.anroy-profile__address {
+  position: relative;
+  padding: 0.95rem 1rem;
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: var(--shadow-pill);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.anroy-profile__address[data-default='true'] {
+  border: 1.5px solid var(--accent);
+  box-shadow:
+    0 6px 18px -8px rgba(249, 115, 22, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+.anroy-profile__address-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.anroy-profile__address-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+.anroy-profile__address-tag {
+  font-size: 0.66rem;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.2rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 9999px;
 }
 
-/* Mobile labels for the columns */
-.anroy-lab__specimen-mobile-label {
-  display: inline;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-right: 0.5rem;
+.anroy-profile__address-body {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
 }
 
-@media (min-width: 880px) {
-  .anroy-lab__specimen-mobile-label {
-    display: none;
-  }
+.anroy-profile__address-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.anroy-profile__mini {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  background: #f5f1ea;
+  color: var(--ink);
+  border: 0;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.anroy-profile__mini:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.anroy-profile__mini--danger:hover {
+  background: #fde2e2;
+  color: #b73a3a;
+}
+
+.anroy-profile__address-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.85rem 1rem;
+  background: var(--accent-soft);
+  border-radius: 18px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.anroy-profile__address-add:hover {
+  transform: translateY(-1px);
 }
 
 /* ─── Empty state ───────────────────────────────────────── */
-.anroy-lab__empty {
-  padding: 3rem 1.5rem;
-  border: 1.5px dashed var(--line);
+.anroy-profile__empty {
+  padding: 2rem 1.5rem;
+  margin: 0 1.5rem;
+  background: var(--accent-soft);
+  border-radius: 22px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  position: relative;
+  gap: 0.65rem;
 }
 
-.anroy-lab__empty::before,
-.anroy-lab__empty::after {
-  content: '';
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border: 1.5px solid var(--ink);
-}
-
-.anroy-lab__empty::before {
-  top: 8px;
-  left: 8px;
-  border-right: 0;
-  border-bottom: 0;
-}
-
-.anroy-lab__empty::after {
-  bottom: 8px;
-  right: 8px;
-  border-left: 0;
-  border-top: 0;
-}
-
-.anroy-lab__empty-glyph {
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-size: 3rem;
-  color: var(--iodine);
-  line-height: 1;
-}
-
-.anroy-lab__empty-title {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 1.3rem;
-  letter-spacing: 0.02em;
-  margin: 0;
-  color: var(--ink);
-}
-
-.anroy-lab__empty-sub {
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--ink-soft);
-  max-width: 24rem;
-}
-
-.anroy-lab__cta {
+.anroy-profile__empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--accent);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--ink);
-  color: var(--bone);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid var(--ink);
-  transition: all 0.15s ease;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
 }
 
-.anroy-lab__cta:hover {
-  background: var(--bone);
+.anroy-profile__empty-title {
+  font-weight: 700;
+  font-size: 1.05rem;
   color: var(--ink);
+  margin: 0.25rem 0 0;
 }
 
-.anroy-lab__cta::after {
-  content: '→';
-  font-family: 'JetBrains Mono', monospace;
+.anroy-profile__empty-sub {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  max-width: 22rem;
+  line-height: 1.5;
 }
 
-/* ─── Field locations (addresses) ───────────────────────── */
-.anroy-lab__locations {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+.anroy-profile__empty-cta {
+  margin-top: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.3rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.86rem;
+  text-decoration: none;
+  box-shadow: 0 6px 18px -8px rgba(249, 115, 22, 0.5);
 }
 
-@media (min-width: 720px) {
-  .anroy-lab__locations {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .anroy-lab__locations {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.anroy-lab__location {
-  position: relative;
-  background: var(--bone);
-  padding: 1.25rem 1.25rem 1rem;
+/* ─── Sign out (footer of card) ─────────────────────────── */
+.anroy-profile__signout-row {
+  padding: 1.25rem 1.5rem 1.75rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  min-height: 240px;
+  justify-content: center;
 }
 
-.anroy-lab__location[data-default='true'] {
+.anroy-profile__signout {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #b73a3a;
+  background: transparent;
+  border: 0;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 9999px;
+  transition: background 0.15s ease;
+}
+
+.anroy-profile__signout:hover {
+  background: #fde2e2;
+}
+
+/* ─── Bottom tab bar (always visible inside the card) ───── */
+.anroy-profile__tabbar {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0.85rem 0.5rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
   background:
     linear-gradient(180deg,
-      rgba(167, 44, 44, 0.04) 0%,
-      transparent 35%),
-    var(--bone);
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.94) 30%);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--hairline);
 }
 
-.anroy-lab__location-marker {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: 0.5rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.anroy-lab__location-marker .label {
-  color: var(--muted);
-}
-
-.anroy-lab__location-marker .badge {
-  color: var(--iodine);
-  font-weight: 600;
-}
-
-.anroy-lab__location-name {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 600;
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  color: var(--ink);
-  line-height: 1.05;
-}
-
-.anroy-lab__location-body {
-  font-family: 'Newsreader', serif;
-  font-size: 0.95rem;
-  color: var(--ink-soft);
-  line-height: 1.4;
-  flex: 1;
-}
-
-.anroy-lab__location-body div {
-  border-bottom: 1px dotted var(--line);
-  padding: 0.15rem 0;
-}
-
-.anroy-lab__location-body div:last-child {
-  border-bottom: 0;
-}
-
-.anroy-lab__location-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.anroy-lab__btn {
-  flex: 1;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 0.55rem 0.55rem;
-  background: var(--bone);
-  border: 1px solid var(--ink);
-  color: var(--ink);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.anroy-lab__btn:hover {
-  background: var(--ink);
-  color: var(--bone);
-}
-
-.anroy-lab__btn--danger:hover {
-  background: var(--iodine);
-  border-color: var(--iodine);
-}
-
-.anroy-lab__location-add {
-  background: var(--bone);
-  padding: 1.25rem;
+.anroy-profile__tab {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 0.4rem;
-  min-height: 240px;
-  cursor: pointer;
+  gap: 0.2rem;
+  background: transparent;
   border: 0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  background-image:
-    repeating-linear-gradient(45deg,
-      transparent, transparent 8px,
-      var(--line-soft) 8px, var(--line-soft) 9px);
-  transition: all 0.2s ease;
-}
-
-.anroy-lab__location-add:hover {
-  color: var(--ink);
-}
-
-.anroy-lab__location-add__sigil {
-  font-family: 'Antonio', sans-serif;
-  font-weight: 700;
-  font-size: 2.4rem;
-  line-height: 1;
-  color: var(--ink);
-  letter-spacing: 0;
-}
-
-/* ─── Footer line ───────────────────────────────────────── */
-.anroy-lab__doc-footer {
-  padding: 1rem 1.5rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  background: var(--bone-dark);
-}
-
-.anroy-lab__doc-footer .seal {
-  color: var(--iodine);
+  padding: 0.4rem 0.25rem;
+  font-size: 0.65rem;
   font-weight: 600;
+  color: var(--mute);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
 }
 
-/* ─── Entry animation ───────────────────────────────────── */
-@keyframes anroy-typewriter {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.anroy-profile__tab svg {
+  width: 22px;
+  height: 22px;
 }
 
-/* Eliminar el max-width default del shell para que nuestro
-   wrap respire en toda la página. */
-body:has(.anroy-lab) main.content {
+.anroy-profile__tab[aria-current='page'] {
+  color: var(--accent);
+}
+
+.anroy-profile__tab[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  bottom: -0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+}
+
+@keyframes anroy-fade {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Edit profile dialog overrides ─────────────────────── */
+.anroy-edit {
+  /* The dialog is portaled outside .anroy-profile so it needs its
+     own copy of the relevant tokens. */
+  --accent:      #f97316;
+  --accent-soft: #fff1e0;
+  --ink:         #1d1d1f;
+  --hairline:    #f0e8df;
+  --mute:        #8e8e93;
+
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.5rem 0 0;
+}
+
+.anroy-edit__avatar-shell {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.anroy-edit__avatar {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  background: var(--accent-soft);
+  box-shadow:
+    0 0 0 1px var(--hairline),
+    0 10px 24px -16px rgba(28, 19, 18, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.anroy-edit__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anroy-edit__avatar-init {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: var(--accent);
+}
+
+.anroy-edit__avatar-edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: 3px solid #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anroy-edit__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.anroy-edit__label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+.anroy-edit__control {
+  position: relative;
+}
+
+.anroy-edit__input {
+  width: 100%;
+  height: 50px;
+  padding: 0 3rem 0 1rem;
+  background: #fff;
+  border: 1px solid #ece6dc;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.2s ease;
+}
+
+.anroy-edit__input::placeholder {
+  color: #b6b0a9;
+  font-weight: 400;
+}
+
+.anroy-edit__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.anroy-edit__input:disabled {
+  background: #fafafa;
+  color: var(--mute);
+  cursor: not-allowed;
+}
+
+.anroy-edit__suffix-icon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b6b0a9;
+  pointer-events: none;
+}
+
+.anroy-edit__cta {
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 56px;
+  background: #1d1d1f;
+  color: #fff;
+  border: 0;
+  border-radius: 16px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+  box-shadow: 0 12px 28px -14px rgba(28, 19, 18, 0.4);
+}
+
+.anroy-edit__cta:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #000;
+}
+
+.anroy-edit__cta:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* Override the global shell padding so the card sits flush. */
+body:has(.anroy-profile) main.content {
   padding: 0;
 }

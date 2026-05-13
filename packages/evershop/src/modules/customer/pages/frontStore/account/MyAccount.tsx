@@ -14,6 +14,22 @@ import {
   useCustomerDispatch
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
+import {
+  ChevronLeft,
+  Heart,
+  Home,
+  MapPin,
+  Package,
+  Pencil,
+  Phone,
+  Plus,
+  Receipt,
+  Search,
+  ShoppingBag,
+  Sparkles,
+  Tag,
+  User
+} from 'lucide-react';
 import React from 'react';
 import { toast } from 'react-toastify';
 import './MyAccount.scss';
@@ -26,7 +42,9 @@ function initialsOf(name?: string | null, email?: string | null): string {
   return source.slice(0, 2).toUpperCase();
 }
 
-function statusTone(code: string): 'shipped' | 'delivered' | 'processing' | 'cancelled' {
+function statusTone(
+  code: string
+): 'shipped' | 'delivered' | 'processing' | 'cancelled' {
   const c = (code || '').toLowerCase();
   if (c.includes('cancel')) return 'cancelled';
   if (c.includes('deliver') || c.includes('complete')) return 'delivered';
@@ -36,100 +54,202 @@ function statusTone(code: string): 'shipped' | 'delivered' | 'processing' | 'can
 
 const STATUS_LABEL: Record<string, string> = {
   delivered: 'Entregado',
-  shipped: 'En Tránsito',
-  processing: 'En Proceso',
+  shipped: 'En envío',
+  processing: 'En proceso',
   cancelled: 'Cancelado'
 };
 
-function fileNumber(seed: string): string {
-  // Stable 5-digit case number derived from the customer uuid/email.
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  return String(h % 99999).padStart(5, '0');
-}
-
-function formatMember(value?: string): string {
-  if (!value) return '—';
-  try {
-    return new Date(value)
-      .toLocaleDateString('es-DO', { day: '2-digit', month: '2-digit', year: 'numeric' })
-      .replace(/\//g, '.');
-  } catch {
-    return '—';
+const SHORTCUTS: {
+  label: string;
+  icon: React.ReactNode;
+  tone: 'rose' | 'mint' | 'sky' | 'lilac' | 'peach' | 'lemon';
+  href: string;
+}[] = [
+  {
+    label: 'Catálogo',
+    tone: 'rose',
+    href: '/',
+    icon: <ShoppingBag className="w-3.5 h-3.5" strokeWidth={2.2} />
+  },
+  {
+    label: 'Favoritos',
+    tone: 'peach',
+    href: '/favoritos',
+    icon: <Heart className="w-3.5 h-3.5" strokeWidth={2.2} />
+  },
+  {
+    label: 'Pedidos',
+    tone: 'sky',
+    href: '#pedidos',
+    icon: <Package className="w-3.5 h-3.5" strokeWidth={2.2} />
+  },
+  {
+    label: 'Cupones',
+    tone: 'lemon',
+    href: '#',
+    icon: <Tag className="w-3.5 h-3.5" strokeWidth={2.2} />
+  },
+  {
+    label: 'Buscar',
+    tone: 'mint',
+    href: '/?focus=search',
+    icon: <Search className="w-3.5 h-3.5" strokeWidth={2.2} />
+  },
+  {
+    label: 'Novedades',
+    tone: 'lilac',
+    href: '/?sort=newest',
+    icon: <Sparkles className="w-3.5 h-3.5" strokeWidth={2.2} />
   }
-}
+];
 
-function today(): string {
-  return new Date()
-    .toLocaleDateString('es-DO', { day: '2-digit', month: '2-digit', year: 'numeric' })
-    .replace(/\//g, '.');
-}
-
-function shortDate(value?: string): string {
-  if (!value) return '—';
-  try {
-    return new Date(value)
-      .toLocaleDateString('es-DO', { day: '2-digit', month: '2-digit', year: '2-digit' })
-      .replace(/\//g, '.');
-  } catch {
-    return '—';
-  }
-}
-
-const Specimen: React.FC<{ order: Order; index: number; total: number }> = ({
-  order,
-  index,
-  total
-}) => {
-  const tone = statusTone(order.status?.code || order.status?.name || '');
-  const specimenNum = String(total - index).padStart(3, '0');
-  const items = order.items || [];
-  const firstItem = items[0];
-
+const EditProfileDialog: React.FC<{
+  open: boolean;
+  onOpenChange: (b: boolean) => void;
+  customer: {
+    fullName: string;
+    email: string;
+    photoUrl?: string | null;
+    uuid: string;
+  };
+}> = ({ open, onOpenChange, customer }) => {
+  // We don't actually patch the customer in this PR (the backend
+  // routes were retired with the Firebase migration), but the form is
+  // wired and ready — toast a friendly notice on submit until the
+  // /customer/me PATCH endpoint comes back.
+  const initials = initialsOf(customer.fullName, customer.email);
   return (
-    <div className="anroy-lab__specimen">
-      <div className="anroy-lab__specimen-num">
-        <small>Muestra</small>
-        {specimenNum}
-      </div>
-
-      <div className="anroy-lab__specimen-date">
-        <small>Registro</small>
-        {shortDate(order.createdAt?.value)}
-      </div>
-
-      <div className="anroy-lab__specimen-items">
-        <div className="anroy-lab__specimen-items-line">
-          {firstItem ? firstItem.productName : '— pedido vacío —'}
-        </div>
-        {items.length > 1 && (
-          <div className="anroy-lab__specimen-items-more">
-            + {items.length - 1} muestra{items.length - 1 === 1 ? '' : 's'} adicional{items.length - 1 === 1 ? '' : 'es'}
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Editar perfil</DialogTitle>
+        </DialogHeader>
+        <div className="anroy-edit">
+          <div className="anroy-edit__avatar-shell">
+            <div className="anroy-edit__avatar">
+              {customer.photoUrl ? (
+                <img
+                  src={customer.photoUrl}
+                  alt={customer.fullName}
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <span className="anroy-edit__avatar-init">{initials}</span>
+              )}
+              <button
+                type="button"
+                className="anroy-edit__avatar-edit"
+                aria-label="Cambiar foto"
+              >
+                <Pencil className="w-3 h-3" strokeWidth={2.5} />
+              </button>
+            </div>
           </div>
-        )}
-      </div>
 
-      <div className="anroy-lab__specimen-status" data-tone={tone}>
-        {STATUS_LABEL[tone]}
-      </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              toast.info('Próximamente podrás editar tu nombre desde acá');
+            }}
+          >
+            <div className="anroy-edit__field">
+              <label className="anroy-edit__label" htmlFor="ed-name">
+                Nombre completo
+              </label>
+              <div className="anroy-edit__control">
+                <input
+                  id="ed-name"
+                  className="anroy-edit__input"
+                  defaultValue={customer.fullName}
+                  placeholder="Tu nombre"
+                />
+                <span className="anroy-edit__suffix-icon">
+                  <User className="w-4 h-4" strokeWidth={1.75} />
+                </span>
+              </div>
+            </div>
 
-      <div className="anroy-lab__specimen-total">
-        <small>DOP</small>
-        {order.grandTotal?.text || '—'}
+            <div className="anroy-edit__field" style={{ marginTop: '1rem' }}>
+              <label className="anroy-edit__label" htmlFor="ed-email">
+                Correo electrónico
+              </label>
+              <div className="anroy-edit__control">
+                <input
+                  id="ed-email"
+                  className="anroy-edit__input"
+                  defaultValue={customer.email}
+                  disabled
+                  title="El correo se administra desde Firebase"
+                />
+              </div>
+            </div>
+
+            <div className="anroy-edit__field" style={{ marginTop: '1rem' }}>
+              <label className="anroy-edit__label" htmlFor="ed-phone">
+                Teléfono
+              </label>
+              <div className="anroy-edit__control">
+                <input
+                  id="ed-phone"
+                  className="anroy-edit__input"
+                  placeholder="+1 809 000 0000"
+                />
+                <span className="anroy-edit__suffix-icon">
+                  <Phone className="w-4 h-4" strokeWidth={1.75} />
+                </span>
+              </div>
+            </div>
+
+            <button type="submit" className="anroy-edit__cta">
+              Guardar cambios
+            </button>
+          </form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const OrderRow: React.FC<{ order: Order }> = ({ order }) => {
+  const tone = statusTone(order.status?.code || order.status?.name || '');
+  const firstItem = order.items?.[0];
+  const itemsCount = order.items?.length || 0;
+  return (
+    <div className="anroy-profile__order">
+      <span className="anroy-profile__order-icon">
+        <Package className="w-5 h-5" strokeWidth={2} />
+      </span>
+      <div className="anroy-profile__order-body">
+        <span className="anroy-profile__order-title">
+          {firstItem?.productName || `Pedido #${order.orderNumber}`}
+          {itemsCount > 1 && ` · +${itemsCount - 1}`}
+        </span>
+        <span className="anroy-profile__order-meta">
+          <span className="anroy-profile__order-status" data-tone={tone}>
+            {STATUS_LABEL[tone]}
+          </span>
+          <span>·</span>
+          <span>#{order.orderNumber}</span>
+          <span>·</span>
+          <span>{order.createdAt?.text?.split(',')?.[0] || ''}</span>
+        </span>
       </div>
+      <span className="anroy-profile__order-total">
+        {order.grandTotal?.text}
+      </span>
     </div>
   );
 };
 
-const LocationCard: React.FC<{
+const AddressRow: React.FC<{
   address: ExtendedCustomerAddress;
   index: number;
 }> = ({ address, index }) => {
   const { updateAddress, deleteAddress } = useCustomerDispatch();
   const [editOpen, setEditOpen] = React.useState(false);
-
   const fullName = (address as any).fullName as string | undefined;
-  const lines = [
+
+  const lineParts = [
     (address as any).address1,
     (address as any).address2,
     [
@@ -139,37 +259,34 @@ const LocationCard: React.FC<{
     ]
       .filter(Boolean)
       .join(', '),
-    ((address as any).country?.name || (address as any).country) as string,
+    (address as any).country?.name || (address as any).country,
     (address as any).telephone
   ].filter(Boolean);
 
   return (
     <div
-      className="anroy-lab__location"
+      className="anroy-profile__address"
       data-default={address.isDefault ? 'true' : 'false'}
-      style={{ animationDelay: `${index * 60}ms` }}
     >
-      <div className="anroy-lab__location-marker">
-        <span className="label">Loc · {String(index + 1).padStart(2, '0')}</span>
-        {address.isDefault && <span className="badge">★ Principal</span>}
+      <div className="anroy-profile__address-top">
+        <span className="anroy-profile__address-name">
+          {fullName || `Dirección ${index + 1}`}
+        </span>
+        {address.isDefault && (
+          <span className="anroy-profile__address-tag">Principal</span>
+        )}
       </div>
-
-      {fullName && (
-        <div className="anroy-lab__location-name">{fullName}</div>
-      )}
-
-      <div className="anroy-lab__location-body">
-        {lines.map((l, i) => (
+      <div className="anroy-profile__address-body">
+        {lineParts.map((l, i) => (
           <div key={i}>{l as string}</div>
         ))}
       </div>
-
-      <div className="anroy-lab__location-actions">
+      <div className="anroy-profile__address-actions">
         <Dialog open={editOpen} onOpenChange={setEditOpen}>
           <DialogTrigger>
             <button
               type="button"
-              className="anroy-lab__btn"
+              className="anroy-profile__mini"
               onClick={(e) => e.preventDefault()}
             >
               Editar
@@ -205,9 +322,9 @@ const LocationCard: React.FC<{
         </Dialog>
         <button
           type="button"
-          className="anroy-lab__btn anroy-lab__btn--danger"
+          className="anroy-profile__mini anroy-profile__mini--danger"
           onClick={async () => {
-            if (!confirm('¿Eliminar esta dirección del expediente?')) return;
+            if (!confirm('¿Eliminar esta dirección?')) return;
             try {
               await deleteAddress(address.addressId);
               toast.success('Dirección eliminada');
@@ -227,13 +344,15 @@ export default function MyAccount() {
   const { customer } = useCustomer();
   const { logout, addAddress } = useCustomerDispatch();
   const [addOpen, setAddOpen] = React.useState(false);
+  const [editOpen, setEditOpen] = React.useState(false);
 
   if (!customer) return null;
 
   const orders = customer.orders || [];
   const addresses = customer.addresses || [];
-  const fileNum = fileNumber(customer.uuid || customer.email);
-  const memberSince = formatMember(customer.createdAt?.value);
+  const initials = initialsOf(customer.fullName, customer.email);
+  const photoUrl = (customer as any).photoUrl as string | undefined;
+  const firstName = (customer.fullName || '').split(' ')[0] || initials;
   const totalSpent = orders.reduce(
     (s, o) => s + (o.grandTotal?.value || 0),
     0
@@ -248,39 +367,30 @@ export default function MyAccount() {
     }
   };
 
-  const photoUrl = (customer as any).photoUrl as string | undefined;
-  const initials = initialsOf(customer.fullName, customer.email);
-  const firstName = (customer.fullName || '').split(' ')[0] || initials;
-  const surname = (customer.fullName || '').split(' ').slice(1).join(' ');
-
-  const handleLogout = async (e: React.MouseEvent | React.KeyboardEvent) => {
-    e.preventDefault();
+  const handleLogout = async () => {
     try {
       await logout();
       window.location.href = '/';
-    } catch (err: any) {
-      toast.error(err?.message || 'No se pudo cerrar sesión');
+    } catch (e: any) {
+      toast.error(e?.message || 'No se pudo cerrar sesión');
     }
   };
 
-  const lastOrder = orders[0];
-
   return (
-    <div className="anroy-lab">
-      <div className="anroy-lab__wrap">
-        {/* Document strip header */}
-        <div className="anroy-lab__top-strip">
-          <span>Anroy / Archivo Cliente / V.1</span>
-          <span className="right">
-            <span>FOLIO · {fileNum}</span>
-            <span className="pulse">Sesión activa</span>
-            <span>{today()}</span>
-          </span>
+    <div className="anroy-profile">
+      <div className="anroy-profile__shell">
+        {/* Top bar */}
+        <div className="anroy-profile__bar">
+          <a href="/" className="anroy-profile__back" aria-label="Volver">
+            <ChevronLeft className="w-5 h-5" strokeWidth={2.2} />
+          </a>
+          <span className="anroy-profile__title">Mi perfil</span>
+          <span className="anroy-profile__menu" aria-hidden />
         </div>
 
-        {/* Case file header */}
-        <header className="anroy-lab__header">
-          <div className="anroy-lab__avatar">
+        {/* Avatar block */}
+        <div className="anroy-profile__avatar-wrap">
+          <div className="anroy-profile__avatar">
             {photoUrl ? (
               <img
                 src={photoUrl}
@@ -291,201 +401,212 @@ export default function MyAccount() {
                 }}
               />
             ) : (
-              <span className="anroy-lab__avatar-initials">{initials}</span>
+              <span className="anroy-profile__avatar-initials">
+                {initials}
+              </span>
             )}
-            <span className="anroy-lab__avatar-tag">muestra · 01</span>
+            <button
+              type="button"
+              className="anroy-profile__avatar-edit"
+              aria-label="Editar perfil"
+              onClick={() => setEditOpen(true)}
+            >
+              <Pencil className="w-3.5 h-3.5" strokeWidth={2.5} />
+            </button>
           </div>
+          <h1 className="anroy-profile__name">
+            {customer.fullName || firstName}
+          </h1>
+          <span className="anroy-profile__handle">{customer.email}</span>
+        </div>
 
-          <div className="anroy-lab__identity">
-            <span className="anroy-lab__file-num">
-              Expediente <strong>N°{fileNum}</strong>
-            </span>
-            <h1 className="anroy-lab__name">
-              {firstName}
-              {surname && (
-                <span className="anroy-lab__name-suffix">{surname}</span>
-              )}
-            </h1>
-            <div className="anroy-lab__bio">
-              <dl>
-                <dt>Correo</dt>
-                <dd>{customer.email}</dd>
-                <dt>Activo desde</dt>
-                <dd>{memberSince}</dd>
-                <dt>Pedidos registrados</dt>
-                <dd>{String(orders.length).padStart(3, '0')}</dd>
-              </dl>
+        {/* Stats */}
+        <div className="anroy-profile__stats">
+          <div className="anroy-profile__stat">
+            <div className="anroy-profile__stat-value">{orders.length}</div>
+            <div className="anroy-profile__stat-label">Pedidos</div>
+          </div>
+          <div className="anroy-profile__stat">
+            <div className="anroy-profile__stat-value">
+              {formatMoney(totalSpent)}
             </div>
+            <div className="anroy-profile__stat-label">DOP totales</div>
           </div>
-
-          <div className="anroy-lab__stamp" aria-hidden>
-            Acceso<br />Concedido
-            <small>{today()}</small>
+          <div className="anroy-profile__stat">
+            <div className="anroy-profile__stat-value">{addresses.length}</div>
+            <div className="anroy-profile__stat-label">Direcciones</div>
           </div>
+        </div>
 
+        {/* About / shortcuts */}
+        <section className="anroy-profile__section">
+          <div className="anroy-profile__section-head">
+            <span className="anroy-profile__section-title">Sobre ti</span>
+          </div>
+          <p className="anroy-profile__about">
+            Hola <b>{firstName}</b>. Acá vive tu actividad en Anroy: tus
+            pedidos, tus direcciones de envío y los atajos a tus rincones
+            favoritos de la tienda. {orders.length === 0
+              ? 'Cuando hagas tu primer pedido se va a guardar acá automáticamente.'
+              : 'Tu última visita aparece arriba de la lista.'}
+          </p>
+        </section>
+
+        {/* Shortcuts (interests) */}
+        <section className="anroy-profile__section">
+          <div className="anroy-profile__section-head">
+            <span className="anroy-profile__section-title">Atajos</span>
+          </div>
+        </section>
+        <div className="anroy-profile__chips">
+          {SHORTCUTS.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              className="anroy-profile__chip"
+              data-tone={s.tone}
+            >
+              <span className="anroy-profile__chip-icon">{s.icon}</span>
+              {s.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Orders */}
+        <section className="anroy-profile__section" id="pedidos">
+          <div className="anroy-profile__section-head">
+            <span className="anroy-profile__section-title">
+              Pedidos recientes
+            </span>
+            {orders.length > 0 && (
+              <a href="#" className="anroy-profile__section-link">
+                Ver todos
+              </a>
+            )}
+          </div>
+        </section>
+        {orders.length === 0 ? (
+          <div className="anroy-profile__empty">
+            <span className="anroy-profile__empty-icon">
+              <Receipt className="w-6 h-6" strokeWidth={2} />
+            </span>
+            <h3 className="anroy-profile__empty-title">
+              Aún no tenés pedidos
+            </h3>
+            <p className="anroy-profile__empty-sub">
+              Cuando hagas tu primer pedido en Anroy lo vas a ver acá con
+              todos sus detalles y el estado del envío.
+            </p>
+            <a href="/" className="anroy-profile__empty-cta">
+              <ShoppingBag className="w-4 h-4" strokeWidth={2.2} />
+              Explorar tienda
+            </a>
+          </div>
+        ) : (
+          <div className="anroy-profile__orders">
+            {orders.slice(0, 5).map((order) => (
+              <OrderRow order={order} key={order.orderId} />
+            ))}
+          </div>
+        )}
+
+        {/* Addresses */}
+        <section className="anroy-profile__section" id="direcciones">
+          <div className="anroy-profile__section-head">
+            <span className="anroy-profile__section-title">Direcciones</span>
+            <span className="anroy-profile__section-link">
+              {addresses.length} guardada{addresses.length === 1 ? '' : 's'}
+            </span>
+          </div>
+        </section>
+        <div className="anroy-profile__addresses">
+          {addresses.map((address, i) => (
+            <AddressRow address={address} index={i} key={address.uuid} />
+          ))}
+
+          <Dialog open={addOpen} onOpenChange={setAddOpen}>
+            <DialogTrigger>
+              <button
+                type="button"
+                className="anroy-profile__address-add"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Plus className="w-4 h-4" strokeWidth={2.5} />
+                Añadir dirección
+              </button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Nueva dirección</DialogTitle>
+              </DialogHeader>
+              <Form
+                id="new-address"
+                method="POST"
+                onSubmit={async (data) => {
+                  try {
+                    await addAddress(data as ExtendedCustomerAddress);
+                    setAddOpen(false);
+                    toast.success('Dirección guardada');
+                  } catch (e: any) {
+                    toast.error(e?.message || 'Error al guardar');
+                  }
+                }}
+              >
+                <CustomerAddressForm address={undefined} fieldNamePrefix="" />
+                <div className="mt-3">
+                  <CheckboxField
+                    label="Usar como principal"
+                    defaultChecked={false}
+                    name="is_default"
+                  />
+                </div>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        {/* Sign out */}
+        <div className="anroy-profile__signout-row">
           <button
             type="button"
-            className="anroy-lab__signout"
+            className="anroy-profile__signout"
             onClick={handleLogout}
           >
             Cerrar sesión
           </button>
-        </header>
-
-        {/* Readout strip */}
-        <section className="anroy-lab__readout" aria-label="Indicadores">
-          <div className="anroy-lab__cell">
-            <span className="anroy-lab__cell-tag">Pedidos</span>
-            <span className="anroy-lab__cell-value">
-              {String(orders.length).padStart(2, '0')}
-              <span className="anroy-lab__cell-unit">muestras</span>
-            </span>
-            <span className="anroy-lab__cell-note">
-              {orders.length === 0 ? 'archivo vacío' : 'en archivo'}
-            </span>
-          </div>
-          <div className="anroy-lab__cell">
-            <span className="anroy-lab__cell-tag">Inversión</span>
-            <span className="anroy-lab__cell-value">
-              {formatMoney(totalSpent)}
-              <span className="anroy-lab__cell-unit">DOP</span>
-            </span>
-            <span className="anroy-lab__cell-note">acumulada · histórica</span>
-          </div>
-          <div className="anroy-lab__cell">
-            <span className="anroy-lab__cell-tag">Último ingreso</span>
-            <span className="anroy-lab__cell-value">
-              {shortDate(lastOrder?.createdAt?.value)}
-            </span>
-            <span className="anroy-lab__cell-note">
-              {lastOrder?.status?.name || '—'}
-            </span>
-          </div>
-          <div className="anroy-lab__cell">
-            <span className="anroy-lab__cell-tag">Locaciones</span>
-            <span className="anroy-lab__cell-value">
-              {String(addresses.length).padStart(2, '0')}
-              <span className="anroy-lab__cell-unit">reg</span>
-            </span>
-            <span className="anroy-lab__cell-note">
-              {addresses.length === 0 ? 'sin registrar' : 'campo activo'}
-            </span>
-          </div>
-        </section>
-
-        {/* Specimens (orders) */}
-        <section className="anroy-lab__section">
-          <div className="anroy-lab__section-head">
-            <h2 className="anroy-lab__section-title">
-              Registros / Pedidos
-            </h2>
-            <span className="anroy-lab__section-meta">
-              {orders.length === 0 ? 'archivo vacío' : `${String(orders.length).padStart(3, '0')} entradas · ord. descendente`}
-            </span>
-          </div>
-
-          {orders.length === 0 ? (
-            <div className="anroy-lab__empty">
-              <span className="anroy-lab__empty-glyph" aria-hidden>※</span>
-              <h3 className="anroy-lab__empty-title">
-                Archivo Sin Muestras
-              </h3>
-              <p className="anroy-lab__empty-sub">
-                Tu primer pedido se va a archivar acá con todos sus datos:
-                muestra, fecha, estado, total cobrado.
-              </p>
-              <a href="/" className="anroy-lab__cta">
-                Ir al catálogo
-              </a>
-            </div>
-          ) : (
-            <div className="anroy-lab__specimens">
-              <div className="anroy-lab__row-head">
-                <span>N° Muestra</span>
-                <span>Registro</span>
-                <span>Contenido</span>
-                <span>Estado</span>
-                <span style={{ textAlign: 'right' }}>Total · DOP</span>
-              </div>
-              {orders.map((order, i) => (
-                <Specimen
-                  order={order}
-                  index={i}
-                  total={orders.length}
-                  key={order.orderId}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Field locations (addresses) */}
-        <section className="anroy-lab__section">
-          <div className="anroy-lab__section-head">
-            <h2 className="anroy-lab__section-title">
-              Locaciones / Envío
-            </h2>
-            <span className="anroy-lab__section-meta">
-              {String(addresses.length).padStart(2, '0')} ubicación
-              {addresses.length === 1 ? '' : 'es'} registrada
-              {addresses.length === 1 ? '' : 's'}
-            </span>
-          </div>
-
-          <div className="anroy-lab__locations">
-            {addresses.map((address, i) => (
-              <LocationCard address={address} index={i} key={address.uuid} />
-            ))}
-
-            <Dialog open={addOpen} onOpenChange={setAddOpen}>
-              <DialogTrigger>
-                <button
-                  type="button"
-                  className="anroy-lab__location-add"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <span className="anroy-lab__location-add__sigil">+</span>
-                  Añadir locación
-                </button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Nueva dirección</DialogTitle>
-                </DialogHeader>
-                <Form
-                  id="new-address"
-                  method="POST"
-                  onSubmit={async (data) => {
-                    try {
-                      await addAddress(data as ExtendedCustomerAddress);
-                      setAddOpen(false);
-                      toast.success('Locación archivada');
-                    } catch (e: any) {
-                      toast.error(e?.message || 'Error al guardar');
-                    }
-                  }}
-                >
-                  <CustomerAddressForm address={undefined} fieldNamePrefix="" />
-                  <div className="mt-3">
-                    <CheckboxField
-                      label="Marcar como principal"
-                      defaultChecked={false}
-                      name="is_default"
-                    />
-                  </div>
-                </Form>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </section>
-
-        {/* Document footer */}
-        <div className="anroy-lab__doc-footer">
-          <span>Doc · 2026.{today()}</span>
-          <span className="seal">⊛ Sellado por Anroy · Santo Domingo, RD</span>
-          <span>Pág. 01 / 01</span>
         </div>
+
+        {/* Bottom tab bar */}
+        <nav className="anroy-profile__tabbar" aria-label="Atajos">
+          <a className="anroy-profile__tab" href="/">
+            <Home strokeWidth={2} />
+            Inicio
+          </a>
+          <a className="anroy-profile__tab" href="#pedidos">
+            <Package strokeWidth={2} />
+            Pedidos
+          </a>
+          <a className="anroy-profile__tab" href="#direcciones">
+            <MapPin strokeWidth={2} />
+            Lugares
+          </a>
+          <a className="anroy-profile__tab" href="#" aria-current="page">
+            <User strokeWidth={2} />
+            Perfil
+          </a>
+        </nav>
       </div>
+
+      <EditProfileDialog
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        customer={{
+          fullName: customer.fullName || '',
+          email: customer.email,
+          uuid: customer.uuid,
+          photoUrl
+        }}
+      />
     </div>
   );
 }
