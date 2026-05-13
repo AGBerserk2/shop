@@ -97,6 +97,13 @@ COPY --chown=app:app --from=builder /app/.evershop ./.evershop
 #
 # We keep webpack + @swc + sass + @tailwindcss because EverShop's
 # devEnvHelper.js imports them at startup (even in production mode).
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Aggressive image diet — install + prune in one RUN so layers    │
+# │ actually shrink. Combined with the lazy-load patch to            │
+# │ devEnvHelper, webpack and its toolchain are never required at   │
+# │ production runtime, so we can drop the entire build dependency  │
+# │ graph from node_modules.                                        │
+# └─────────────────────────────────────────────────────────────────┘
 RUN npm pkg delete scripts.prepare \
  && npm install --omit=dev --no-audit --no-fund --no-save --include=optional \
  && npm install --no-save --no-audit --no-fund \
@@ -104,6 +111,13 @@ RUN npm pkg delete scripts.prepare \
  && cd /app/node_modules && rm -rf \
       typescript @types \
       eslint prettier jest copyfiles rimraf \
+      webpack webpack-cli webpack-merge webpack-dev-middleware \
+      webpack-hot-middleware webpackbar \
+      @swc swc-minify-webpack-plugin @pmmmwh \
+      sass sass-loader @tailwindcss @babel \
+      css-loader style-loader postcss-loader postcss \
+      mini-css-extract-plugin terser-webpack-plugin html-webpack-plugin \
+      react-refresh ts-loader \
       lightningcss-linux-x64-musl \
       @parcel/watcher-darwin-x64 @parcel/watcher-darwin-arm64 \
       @parcel/watcher-win32-x64 @parcel/watcher-win32-arm64 \

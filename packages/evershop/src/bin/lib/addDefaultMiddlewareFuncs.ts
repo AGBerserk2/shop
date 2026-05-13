@@ -16,7 +16,19 @@ import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminS
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
 import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
-import { getDevMiddleware, getHotMiddleware } from './devEnvHelper.js';
+
+// devEnvHelper.js statically imports `webpack`, `webpack-dev-middleware`,
+// `webpack-hot-middleware`, and the dev webpack config — together ~150 MB
+// of node_modules that we never need in production. Defer the load to
+// the first time we actually want a dev middleware. In production those
+// branches never execute, so webpack is never loaded.
+let devHelperPromise: Promise<typeof import('./devEnvHelper.js')> | null = null;
+function loadDevHelper() {
+  if (!devHelperPromise) {
+    devHelperPromise = import('./devEnvHelper.js');
+  }
+  return devHelperPromise;
+}
 
 export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {
@@ -169,8 +181,9 @@ export function addDefaultMiddlewareFuncs(app) {
 
   if (isDevelopmentMode()) {
     // Admin webpack dev middleware - only for /backend/* paths
-    app.use((request, response, next) => {
+    app.use(async (request, response, next) => {
       if (request.path.startsWith('/backend/')) {
+        const { getDevMiddleware } = await loadDevHelper();
         const adminDevMiddleware = getDevMiddleware(true);
         adminDevMiddleware.waitUntilValid(() => {
           const { stats } = adminDevMiddleware.context;
@@ -184,8 +197,9 @@ export function addDefaultMiddlewareFuncs(app) {
       }
     });
 
-    app.use((request, response, next) => {
+    app.use(async (request, response, next) => {
       if (request.path.startsWith('/__webpack_hmr_admin')) {
+        const { getHotMiddleware } = await loadDevHelper();
         const adminHotMiddleware = getHotMiddleware(true);
         adminHotMiddleware(request, response, next);
       } else {
@@ -194,11 +208,12 @@ export function addDefaultMiddlewareFuncs(app) {
     });
 
     // Frontstore webpack dev middleware - for all other paths
-    app.use((request, response, next) => {
+    app.use(async (request, response, next) => {
       if (
         !request.path.startsWith('/backend/') &&
         !request.path.startsWith('/__webpack_hmr_admin')
       ) {
+        const { getDevMiddleware } = await loadDevHelper();
         const frontstoreDevMiddleware = getDevMiddleware(false);
         frontstoreDevMiddleware.waitUntilValid(() => {
           const { stats } = frontstoreDevMiddleware.context;
@@ -212,8 +227,9 @@ export function addDefaultMiddlewareFuncs(app) {
       }
     });
 
-    app.use((request, response, next) => {
+    app.use(async (request, response, next) => {
       if (request.path.startsWith('/__webpack_hmr_frontstore')) {
+        const { getHotMiddleware } = await loadDevHelper();
         const frontstoreHotMiddleware = getHotMiddleware(false);
         frontstoreHotMiddleware(request, response, next);
       } else {

@@ -52,13 +52,24 @@ steps:
       - --platform=managed
       - --allow-unauthenticated
       - --port=8080
+      # Resource sizing — node SSR is bursty CPU + moderate memory. 1
+      # vCPU is the sweet spot; bumping memory gives the V8 heap room.
       - --cpu=1
-      - --memory=1Gi
-      - --concurrency=80
+      - --memory=2Gi
+      # Each instance handles up to 100 in-flight requests before Cloud
+      # Run spawns another. Node + Express handles this comfortably and
+      # the higher number means fewer cold starts when traffic bursts.
+      - --concurrency=100
       - --min-instances=0
-      - --max-instances=4
+      - --max-instances=10
       - --timeout=300
-      - --set-env-vars=NODE_ENV=production
+      # CPU boost: doubles vCPU during the first 10 seconds of a new
+      # instance lifetime. Roughly halves cold-start wall time.
+      - --cpu-boost
+      # Don't throttle CPU between requests — keeps background work
+      # (session sweeps, event subscribers, cron) responsive.
+      - --no-cpu-throttling
+      - --set-env-vars=NODE_ENV=production,ALLOW_CONFIG_MUTATIONS=true,SHOP_HOME_URL=https://anroy-shop-xqdo3btyka-ue.a.run.app,NODE_OPTIONS=--enable-source-maps
       - --set-secrets=DB_HOST=DB_HOST:latest,DB_PORT=DB_PORT:latest,DB_NAME=DB_NAME:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest,DB_SSLMODE=DB_SSLMODE:latest,DB_POOL_MAX=DB_POOL_MAX:latest,FIREBASE_WEB_API_KEY=FIREBASE_WEB_API_KEY:latest,FIREBASE_AUTH_DOMAIN=FIREBASE_AUTH_DOMAIN:latest,FIREBASE_PROJECT_ID=FIREBASE_PROJECT_ID:latest,FIREBASE_APP_ID=FIREBASE_APP_ID:latest,COOKIE_SECRET=COOKIE_SECRET:latest
 
 images:

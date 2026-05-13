@@ -2,7 +2,6 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import JSON5 from 'json5';
 import uniqid from 'uniqid';
-import { getDevMiddleware } from '../../../../bin/lib/devEnvHelper.js';
 import { CONSTANTS } from '../../../../lib/helpers.js';
 import { error } from '../../../../lib/log/logger.js';
 import { getRoutes } from '../../../../lib/router/Router.js';
@@ -19,6 +18,11 @@ export default async (request, response, next) => {
     let query;
     getContextValue(request, 'dummy', null);
     if (isDevelopmentMode()) {
+      // Lazy-load devEnvHelper so webpack isn't pulled into the
+      // production runtime graph.
+      const { getDevMiddleware } = await import(
+        '../../../../bin/lib/devEnvHelper.js'
+      );
       const route = request.currentRoute;
       const devMiddleware = getDevMiddleware(route.isAdmin);
       const { outputFileSystem } = devMiddleware.context;
