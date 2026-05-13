@@ -72,6 +72,11 @@ const coreModules = [
     path: path.resolve(__dirname, '../../modules/setting')
   },
   {
+    name: 'smtp',
+    resolve: path.resolve(__dirname, '../../modules/smtp'),
+    path: path.resolve(__dirname, '../../modules/smtp')
+  },
+  {
     name: 'stripe',
     resolve: path.resolve(__dirname, '../../modules/stripe'),
     path: path.resolve(__dirname, '../../modules/stripe')

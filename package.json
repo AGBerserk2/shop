@@ -54,10 +54,14 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
+    "@types/nodemailer": "^8.0.0",
+    "@types/pdfkit": "^0.17.6",
     "@types/react-slick": "^0.23.13",
     "@types/uuid": "^10.0.0",
     "firebase": "^12.13.0",
     "firebase-admin": "^13.9.0",
+    "nodemailer": "^8.0.7",
+    "pdfkit": "^0.18.0",
     "uuid": "^13.0.0"
   }
 }
