@@ -13,6 +13,11 @@
       "projectId": "anroy-shop",
       "keyFilename": "./secrets/firebase-sa.json",
       "publicHost": "https://storage.googleapis.com/anroy-shop-media"
+    },
+    "cod": {
+      "status": 1,
+      "displayName": "Pago contra entrega",
+      "name": "Pago contra entrega"
     }
   }
 }
