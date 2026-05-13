@@ -1,6 +1,5 @@
 import { Area } from '@components/common/Area.js';
 import { Button } from '@components/common/ui/Button.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ShoppingBag } from 'lucide-react';
 import React from 'react';
 
@@ -14,13 +13,13 @@ export const DefaultMiniCartDropdownEmpty: React.FC<{
       height={48}
       className="mx-auto text-muted-foreground mb-4"
     />
-    <p className="text-muted-foreground mb-4">{_('Your cart is empty')}</p>
+    <p className="text-muted-foreground mb-4">Tu carrito está vacío</p>
     <Button
       variant="default"
       onClick={() => setIsDropdownOpen(false)}
       size={'lg'}
     >
-      {_('Continue Shopping')}
+      Seguir comprando
     </Button>
     <Area id="miniCartEmptyAfter" noOuter />
   </div>

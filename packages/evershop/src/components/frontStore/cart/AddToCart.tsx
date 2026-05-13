@@ -2,7 +2,6 @@ import {
   useCartDispatch,
   useCartState
 } from '@components/frontStore/cart/CartContext.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useState, useCallback } from 'react';
 
 export interface ProductInfo {
@@ -55,10 +54,10 @@ export const AddToCart: React.FC<AddToCartProps> = ({
   const addToCart = useCallback(async () => {
     if (!canAddToCart) {
       const errorMsg = !product.isInStock
-        ? _('Product is out of stock')
+        ? 'Producto sin stock'
         : !cartState.data
-        ? _('Cart is not initialized')
-        : _('Invalid quantity');
+        ? 'El carrito no está inicializado'
+        : 'Cantidad inválida';
 
       setLocalError(errorMsg);
       onError?.(errorMsg);
@@ -77,7 +76,7 @@ export const AddToCart: React.FC<AddToCartProps> = ({
       const errorMessage =
         error instanceof Error
           ? error.message
-          : _('Failed to add item to cart');
+          : 'No pudimos agregar el producto';
       setLocalError(errorMessage);
       onError?.(errorMessage);
     }

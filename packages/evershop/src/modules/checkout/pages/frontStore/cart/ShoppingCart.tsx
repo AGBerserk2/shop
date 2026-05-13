@@ -5,7 +5,6 @@ import { CartItems } from '@components/frontStore/cart/CartItems.js';
 import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
 import { DefaultCartItemList } from '@components/frontStore/cart/DefaultCartItemList.js';
 import { ShoppingCartEmpty } from '@components/frontStore/cart/ShoppingCartEmpty.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 const Title: React.FC<{ title: string }> = ({ title }) => {
@@ -13,7 +12,7 @@ const Title: React.FC<{ title: string }> = ({ title }) => {
     <div className="mb-7 text-center shopping-cart-header">
       <h1 className="shopping-cart-title mb-2">{title}</h1>
       <a href="/" className="underline">
-        {_('Continue Shopping')}
+        Seguir comprando
       </a>
     </div>
   );
@@ -27,7 +26,7 @@ export default function ShoppingCart({ checkoutUrl }: ShoppingCartProps) {
     <div className="cart page-width">
       {cart.items.length > 0 ? (
         <>
-          <Title title={_('Shopping Cart')} />
+          <Title title="Tu carrito" />
           <div className="grid gap-10 grid-cols-1 md:grid-cols-4">
             <div className="col-span-1 md:col-span-3">
               <CartItems>
@@ -44,19 +43,19 @@ export default function ShoppingCart({ checkoutUrl }: ShoppingCartProps) {
             <div className="col-span-1 md:col-span-1">
               <Area id="shoppingCartBeforeSummary" noOuter />
               <div className="grid grid-cols-1 gap-5 cart-summary">
-                <h4>{_('Order summary')}</h4>
+                <h4>Resumen del pedido</h4>
                 <CartTotalSummary />
               </div>
               <Area id="shoppingCartBeforeCheckoutButton" noOuter />
               <div className="shopping-cart-checkout-btn flex justify-between mt-5">
                 <Button
                   onClick={() => (window.location.href = checkoutUrl)}
-                  title={_('CHECKOUT')}
+                  title="Pagar"
                   variant="default"
                   size={'lg'}
                   className={'w-full'}
                 >
-                  {_('CHECKOUT')}
+                  Pagar
                 </Button>
               </div>
               <Area id="shoppingCartAfterSummary" noOuter />

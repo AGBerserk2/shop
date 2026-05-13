@@ -1,6 +1,5 @@
 import Area from '@components/common/Area.js';
 import { Button } from '@components/common/ui/Button.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export function DefaultMiniCartDropdownSummary({
@@ -17,7 +16,7 @@ export function DefaultMiniCartDropdownSummary({
   return (
     <>
       <div className="minicart__summary flex justify-between items-center mb-3">
-        <span className="font-medium text-gray-900">{_('Subtotal')}:</span>
+        <span className="font-medium text-gray-900">Subtotal:</span>
         <span className="font-semibold text-lg text-gray-900">
           {total || '—'}
         </span>
@@ -33,9 +32,7 @@ export function DefaultMiniCartDropdownSummary({
         }}
         className="minicart__viewcart__button w-full "
       >
-        {_('View Cart (${totalQty})', {
-          totalQty: totalQty.toString()
-        })}
+        Ver carrito ({totalQty})
       </Button>
       <Area id="miniCartSummaryViewCartButtonAfter" noOuter />
       <Area id="miniCartSummaryCheckoutButtonBefore" noOuter />
@@ -49,7 +46,7 @@ export function DefaultMiniCartDropdownSummary({
         }}
         className="minicart__checkout__button w-full "
       >
-        {_('Checkout')}
+        Pagar
       </Button>
       <Area id="miniCartSummaryCheckoutButtonAfter" noOuter />
     </>

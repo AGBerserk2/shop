@@ -7,7 +7,6 @@ import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
 import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CartItemsTableProps {
@@ -30,7 +29,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
   const columns: TableColumn<CartItem>[] = [
     {
       key: 'productInfo',
-      header: { label: _('Product'), className: '' },
+      header: { label: 'Producto', className: '' },
       className: 'font-medium align-top',
       sortable: false,
       render: (row) => {
@@ -75,7 +74,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
                   onRemoveItem?.(row.cartItemId);
                 }}
               >
-                {_('Remove')}
+                Quitar
               </a>
               {row.errors?.map((error, index) => (
                 <span key={index} className="text-xs text-destructive">
@@ -89,7 +88,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
     },
     {
       key: 'qty',
-      header: { label: _('Quantity'), className: 'text-right' },
+      header: { label: 'Cantidad', className: 'text-right' },
       sortable: true,
       render: (row) => {
         return (
@@ -126,7 +125,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
     },
     {
       key: 'lineTotal',
-      header: { label: _('Total'), className: 'text-right' },
+      header: { label: 'Total', className: 'text-right' },
       sortable: true,
       render: (row) => {
         const totalValue = showPriceIncludingTax
@@ -155,7 +154,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
         columns={columns}
         initialData={rows}
         loading={loading}
-        emptyMessage={_('Your cart is empty')}
+        emptyMessage="Tu carrito está vacío"
         onSort={onSort}
         currentSort={currentSort}
         className="cart__items__table border-none table-fixed border-spacing-y-2 border-separate w-full"

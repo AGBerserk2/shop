@@ -2,7 +2,6 @@ import {
   useCartDispatch,
   useCartState
 } from '@components/frontStore/cart/CartContext.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useState, useCallback } from 'react';
 
 export interface CouponState {
@@ -55,10 +54,10 @@ export const Coupon: React.FC<CouponProps> = ({
     async (code: string) => {
       if (!canApplyCoupon || !code.trim()) {
         const errorMsg = !cartState.data
-          ? _('Cart is not initialized')
+          ? 'El carrito no está inicializado'
           : hasActiveCoupon
-          ? _('A coupon is already applied')
-          : _('Please enter a coupon code');
+          ? 'Ya tenés un cupón aplicado'
+          : 'Ingresá un código de cupón';
 
         setLocalError(errorMsg);
         onError?.(errorMsg);
@@ -72,7 +71,7 @@ export const Coupon: React.FC<CouponProps> = ({
         onApplySuccess?.(code.trim());
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : _('Failed to apply coupon');
+          error instanceof Error ? error.message : 'No pudimos aplicar el cupón';
         setLocalError(errorMessage);
         onError?.(errorMessage);
       }
@@ -90,8 +89,8 @@ export const Coupon: React.FC<CouponProps> = ({
   const removeCoupon = useCallback(async () => {
     if (!canRemoveCoupon) {
       const errorMsg = !cartState.data
-        ? _('Cart is not initialized')
-        : _('No coupon to remove');
+        ? 'El carrito no está inicializado'
+        : 'No hay cupón para quitar';
 
       setLocalError(errorMsg);
       onError?.(errorMsg);
@@ -106,7 +105,7 @@ export const Coupon: React.FC<CouponProps> = ({
       onRemoveSuccess?.();
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : _('Failed to remove coupon');
+        error instanceof Error ? error.message : 'No pudimos quitar el cupón';
       setLocalError(errorMessage);
       onError?.(errorMessage);
     }

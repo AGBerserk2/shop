@@ -6,7 +6,6 @@ import {
   CouponActions,
   CouponState
 } from '@components/frontStore/Coupon.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -17,13 +16,13 @@ export function CouponForm() {
   return (
     <Coupon
       onApplySuccess={() => {
-        toast.success(_('Coupon applied successfully!'));
+        toast.success('¡Cupón aplicado!');
       }}
       onError={() => {
-        toast.error(_('Invalid coupon'));
+        toast.error('Cupón inválido');
       }}
       onRemoveSuccess={() => {
-        toast.success(_('Coupon removed successfully!'));
+        toast.success('Cupón eliminado');
       }}
     >
       {(state: CouponState, actions: CouponActions) => (
@@ -37,12 +36,12 @@ export function CouponForm() {
                   validation={{
                     required: {
                       value: true,
-                      message: _('Coupon code is required')
+                      message: 'El código del cupón es obligatorio'
                     }
                   }}
                   defaultValue={state.appliedCoupon || ''}
                   disabled={!!state.appliedCoupon}
-                  placeholder={_('Enter coupon code')}
+                  placeholder="Ingresá tu código"
                   wrapperClassName="mb-0 form-field"
                 />
               </div>
@@ -61,7 +60,7 @@ export function CouponForm() {
                   }}
                   variant={state.appliedCoupon ? 'destructive' : 'default'}
                 >
-                  {state.appliedCoupon ? _('Remove') : _('Apply')}
+                  {state.appliedCoupon ? 'Quitar' : 'Aplicar'}
                 </Button>
               </div>
             </div>

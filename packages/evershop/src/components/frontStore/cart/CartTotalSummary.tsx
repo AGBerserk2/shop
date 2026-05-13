@@ -8,7 +8,6 @@ import {
   CouponActions
 } from '@components/frontStore/Coupon.js';
 import { CouponForm } from '@components/frontStore/CouponForm.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CircleX } from 'lucide-react';
 import React from 'react';
 
@@ -40,15 +39,15 @@ const Total: React.FC<{
       {(priceIncludingTax && (
         <div>
           <div className="font-bold">
-            <span>{_('Total')}</span>
+            <span>Total</span>
           </div>
           <div>
             <span className="italic font-normal">
-              ({_('Inclusive of tax ${totalTaxAmount}', { totalTaxAmount })})
+              (Incluye impuestos de {totalTaxAmount})
             </span>
           </div>
         </div>
-      )) || <span className="self-center font-bold">{_('Total')}</span>}
+      )) || <span className="self-center font-bold">Total</span>}
       <div>
         <div />
         <SkeletonValue loading={loading} className="grand-total-value">
@@ -70,7 +69,7 @@ const Tax: React.FC<{
 
   return (
     <div className="summary-row flex justify-between py-2">
-      <span>{_('Tax')}</span>
+      <span>Impuestos</span>
       <div>
         <div />
         <SkeletonValue loading={loading} className="text-right">
@@ -87,7 +86,7 @@ const Subtotal: React.FC<{ subTotal: string; loading?: boolean }> = ({
 }) => {
   return (
     <div className="flex justify-between gap-7 py-2">
-      <div>{_('Sub total')}</div>
+      <div>Subtotal</div>
       <SkeletonValue loading={loading} className="text-right">
         {subTotal}
       </SkeletonValue>
@@ -115,7 +114,7 @@ const Discount: React.FC<{
           <>
             <div className="flex justify-start items-center gap-2">
               <SkeletonValue loading={loading} className="text-right">
-                <span>{_('Discount(${coupon})', { coupon })}</span>
+                <span>Descuento ({coupon})</span>
               </SkeletonValue>
               {!state.isLoading && (
                 <a
@@ -150,15 +149,15 @@ const Shipping: React.FC<{
     <div className="summary-row flex justify-between gap-7 py-2">
       {noShippingRequired && (
         <>
-          <span>{_('Shipping')}</span>
+          <span>Envío</span>
           <span className="text-gray-500 italic font-normal">
-            {_('No shipping required')}
+            No requiere envío
           </span>
         </>
       )}
       {method && !noShippingRequired && (
         <>
-          <span>{_('Shipping (${method})', { method })}</span>
+          <span>Envío ({method})</span>
           <div>
             <SkeletonValue loading={loading}>{cost}</SkeletonValue>
           </div>
@@ -166,9 +165,9 @@ const Shipping: React.FC<{
       )}
       {!method && !noShippingRequired && (
         <>
-          <span>{_('Shipping')}</span>
+          <span>Envío</span>
           <span className="text-gray-500 italic font-normal">
-            {_('Select shipping method')}
+            Elegí un método de envío
           </span>
         </>
       )}

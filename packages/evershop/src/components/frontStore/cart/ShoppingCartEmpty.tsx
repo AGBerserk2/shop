@@ -1,5 +1,4 @@
 import { Button } from '@components/common/ui/Button.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export function ShoppingCartEmpty() {
@@ -10,15 +9,15 @@ export function ShoppingCartEmpty() {
     >
       <div>
         <div className="text-center shopping-cart-heading">
-          <h2>{_('Shopping cart')}</h2>
+          <h2>Tu carrito</h2>
         </div>
         <div className="mt-5 text-center">
-          <span>{_('Your cart is empty!')}</span>
+          <span>¡Tu carrito está vacío!</span>
         </div>
         <div className="flex justify-center mt-5">
           <Button size={'lg'} onClick={() => (window.location.href = '/')}>
             <span className="flex space-x-2">
-              <span className="self-center">{_('CONTINUE SHOPPING')}</span>{' '}
+              <span className="self-center">Seguir comprando</span>{' '}
               <svg
                 className="self-center"
                 style={{ width: '2rem', height: '2rem' }}

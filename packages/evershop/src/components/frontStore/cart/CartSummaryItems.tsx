@@ -2,7 +2,6 @@ import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
@@ -41,8 +40,8 @@ const CartSummaryItemsList: React.FC<{
   if (items.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p className="text-base">{_('Your cart is empty')}</p>
-        <p className="text-sm mt-2">{_('Add some items to get started')}</p>
+        <p className="text-base">Tu carrito está vacío</p>
+        <p className="text-sm mt-2">Agregá productos para empezar</p>
       </div>
     );
   }

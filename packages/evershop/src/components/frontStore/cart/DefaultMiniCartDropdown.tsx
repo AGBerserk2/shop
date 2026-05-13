@@ -11,7 +11,6 @@ import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.j
 import { DefaultMiniCartDropdownEmpty } from '@components/frontStore/cart/DefaultMiniCartDropdownEmpty.js';
 import { DefaultMiniCartDropdownSummary } from '@components/frontStore/cart/DefaultMinicartDropdownSummary.js';
 import { DefaultMiniCartItemList } from '@components/frontStore/cart/DefaultMiniCartItemList.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export const DefaultMiniCartDropdown: React.FC<{
@@ -41,7 +40,7 @@ export const DefaultMiniCartDropdown: React.FC<{
       >
         <SheetHeader className="border-b border-border">
           <SheetTitle className="font-medium text-xl">
-            {_('Your Cart')}
+            Tu carrito
           </SheetTitle>
         </SheetHeader>
         {totalQty === 0 ? (
