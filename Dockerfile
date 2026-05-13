@@ -29,7 +29,7 @@ COPY package.json package-lock.json ./
 COPY packages/evershop/package.json ./packages/evershop/
 COPY packages/postgres-query-builder/package.json ./packages/postgres-query-builder/
 RUN npm pkg delete scripts.prepare \
- && npm ci --no-audit --no-fund --include=optional
+ && npm install --no-audit --no-fund --no-save --include=optional
 
 # Copy the rest of the workspace and build.
 COPY packages ./packages
@@ -78,7 +78,7 @@ COPY --chown=app:app --from=builder /app/.evershop ./.evershop
 # the husky prepare hook (it tries to install git hooks even when
 # husky itself is a devDependency excluded by --omit=dev).
 RUN npm pkg delete scripts.prepare \
- && npm ci --omit=dev --no-audit --no-fund --include=optional \
+ && npm install --omit=dev --no-audit --no-fund --no-save --include=optional \
  && npm cache clean --force \
  && chown -R app:app /app
 
