@@ -1,40 +1,461 @@
-.checkout-steps {
-  form {
-    .form-submit-button {
-      padding-top: 0px;
-      border-top: 0;
-      display: flex;
-      justify-content: end;
-      button.button {
-        padding: 1.25rem;
-        font-weight: 400;
-      }
-    }
-    label {
-      color: var(--textSubdued);
-    }
-  }
-  .place-order-button {
-    button {
-      padding: 1.25rem;
-      font-weight: 400;
-    }
+/* ============================================================
+   Anroy — /checkout
+   Editorial finishing line: peach pastel envelope, Plus Jakarta
+   Sans, orange accent. Three-step flow with cards that float
+   above a soft paper background.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.anroy-checkout {
+  --bg-frame:    #ffead3;
+  --bg-frame-2:  #fbd9b8;
+  --card:        #ffffff;
+  --ink:         #1d1d1f;
+  --ink-soft:    #4b4b50;
+  --mute:        #8e8e93;
+  --hairline:    #f0e8df;
+  --accent:      #f97316;
+  --accent-soft: #fff1e0;
+  --accent-deep: #c2580f;
+  --shadow-pill: 0 4px 12px -6px rgba(28, 19, 18, 0.1),
+                 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  --shadow-card: 0 20px 40px -28px rgba(20, 14, 10, 0.18),
+                 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem 1rem 7rem;
+  background:
+    radial-gradient(ellipse 900px 600px at 0% 0%,
+      var(--bg-frame-2), transparent 55%),
+    radial-gradient(ellipse 800px 600px at 100% 100%,
+      var(--bg-frame), transparent 55%),
+    linear-gradient(180deg, var(--bg-frame) 0%, #fff5e8 70%, #fff 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+.anroy-checkout__wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  animation: anroy-fade 0.5s ease-out both;
+}
+
+@keyframes anroy-fade {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Header strip ──────────────────────────────────────── */
+.anroy-checkout__head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  padding: 0 0.25rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 760px) {
+  .anroy-checkout__head {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2rem;
   }
 }
-.wrapper {
+
+.anroy-checkout__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0.5rem 0.85rem 0.5rem 0.55rem;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--hairline);
+  border-radius: 9999px;
+  width: max-content;
+  transition: background 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.anroy-checkout__back:hover {
+  background: var(--card);
+  transform: translateX(-1px);
+}
+
+.anroy-checkout__title-wrap {
+  text-align: left;
+}
+
+@media (min-width: 760px) {
+  .anroy-checkout__title-wrap {
+    text-align: center;
+  }
+}
+
+.anroy-checkout__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 0.45rem;
+}
+
+.anroy-checkout__title {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.anroy-checkout__secure {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--hairline);
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  width: max-content;
+}
+
+.anroy-checkout__secure svg {
+  color: #1f8c45;
+}
+
+/* ─── Step indicator ────────────────────────────────────── */
+.anroy-checkout__steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  padding: 0.85rem 0.75rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--hairline);
+  border-radius: 9999px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(8px);
+}
+
+.anroy-checkout__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mute);
+  white-space: nowrap;
+}
+
+.anroy-checkout__step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--hairline);
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: all 0.2s ease;
+}
+
+.anroy-checkout__step[data-active='true'] {
+  color: var(--ink);
+}
+
+.anroy-checkout__step[data-active='true'] .anroy-checkout__step-num {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 10px -4px rgba(249, 115, 22, 0.5);
+}
+
+.anroy-checkout__step-divider {
+  width: 1.25rem;
+  height: 1px;
+  background: var(--hairline);
+}
+
+@media (max-width: 540px) {
+  .anroy-checkout__step:not([data-active='true']) span.anroy-checkout__step-label {
+    display: none;
+  }
+}
+
+/* ─── Two-col layout ────────────────────────────────────── */
+.anroy-checkout__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .anroy-checkout__grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+.anroy-checkout__form,
+.anroy-checkout__sidebar {
+  min-width: 0;
+}
+
+.anroy-checkout__form > form > div > * + * {
+  margin-top: 1.25rem;
+}
+
+/* Override the legacy shadcn Card inside ContactInformation / Shipment /
+   Payment so they all share the same editorial look. */
+.anroy-checkout .checkout-contact > div,
+.anroy-checkout .checkout__shipment > .anroy-card,
+.anroy-checkout .checkout-payment > .anroy-card,
+.anroy-checkout [class*='checkout-step'] > div,
+.anroy-checkout [class*='checkout__'] > [class*='card'],
+.anroy-checkout [class*='checkout__'] > div[class*='rounded'] {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 22px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.anroy-checkout .checkout-contact,
+.anroy-checkout .checkout__shipment {
+  margin: 0;
+}
+
+.anroy-checkout .checkout-contact > div,
+.anroy-checkout .checkout__shipment > div:first-child,
+.anroy-checkout .checkout-payment > div:first-child {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 22px;
+  box-shadow: var(--shadow-card);
+}
+
+/* Style the section headers inside each Card (uses shadcn Card pattern) */
+.anroy-checkout [class*='CardHeader'],
+.anroy-checkout .checkout-contact h3,
+.anroy-checkout .checkout__shipment h3,
+.anroy-checkout .checkout-payment h3 {
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  letter-spacing: -0.01em !important;
+  color: var(--ink) !important;
+}
+
+/* Inputs inside any of the cards (re-use the /account/login look) */
+.anroy-checkout input[type='text'],
+.anroy-checkout input[type='email'],
+.anroy-checkout input[type='tel'],
+.anroy-checkout input[type='password'],
+.anroy-checkout select {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  font-size: 0.92rem !important;
+  border-radius: 14px !important;
+  border-color: #ece6dc !important;
+  background: #fff !important;
+  transition: border-color 0.15s ease, box-shadow 0.2s ease !important;
+}
+
+.anroy-checkout input:focus,
+.anroy-checkout select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12) !important;
+  outline: none !important;
+}
+
+.anroy-checkout label {
+  font-weight: 600 !important;
+  color: var(--ink) !important;
+  font-size: 0.82rem !important;
+}
+
+/* Primary CTA — place order button */
+.anroy-checkout button[type='submit'],
+.anroy-checkout .place-order-button button,
+.anroy-checkout .checkout-button button {
+  background: var(--ink) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  height: 56px !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 12px 28px -14px rgba(28, 19, 18, 0.45) !important;
+  transition: transform 0.15s ease, background 0.2s ease !important;
+}
+
+.anroy-checkout button[type='submit']:hover:not(:disabled),
+.anroy-checkout .place-order-button button:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  background: #000 !important;
+}
+
+/* ─── Right sidebar / order summary ─────────────────────── */
+.anroy-checkout__summary {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 1.5rem;
+}
+
+@media (max-width: 959px) {
+  .anroy-checkout__summary {
+    position: static;
+  }
+}
+
+.anroy-checkout__summary-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 1.25rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.anroy-checkout__summary-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+/* The cart items list gets a softer card-list look. The inner component
+   uses its own classes — these overrides target whatever ul/li it ships. */
+.anroy-checkout__summary ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.anroy-checkout__summary li,
+.anroy-checkout__summary .item__summary__list > li {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed var(--hairline);
+}
+
+.anroy-checkout__summary li:last-child {
+  border-bottom: 0;
+}
+
+.anroy-checkout__summary img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  border: 1px solid var(--hairline);
+  flex-shrink: 0;
+}
+
+/* Totals block at the bottom of the right sidebar */
+.anroy-checkout__summary .cart__total__summary {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.9rem;
+}
+
+.anroy-checkout__summary .summary__row,
+.anroy-checkout__summary .summary-row {
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.anroy-checkout__summary .grand-total {
+  font-size: 1.05rem !important;
+  margin-top: 0.5rem !important;
+  padding-top: 0.75rem !important;
+  border-top: 1px solid var(--hairline) !important;
+}
+
+.anroy-checkout__summary .grand-total .font-bold {
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+}
+
+.anroy-checkout__summary .grand-total-value {
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  font-size: 1.25rem !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Reassurance row under the summary */
+.anroy-checkout__assurance {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.anroy-checkout__assurance-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.anroy-checkout__assurance-item svg {
+  color: #1f8c45;
+  flex-shrink: 0;
+}
+
+/* ─── Page-scoped global overrides ──────────────────────── */
+body:has(.anroy-checkout) {
+  main.content {
+    padding: 0;
+  }
+
+  > header,
+  header.header,
   .header {
-    margin-bottom: 0;
+    display: none !important;
   }
-  .footer {
-    margin-top: 0;
+
+  main.content > div.page-width:first-child {
+    display: none !important;
   }
-}
-.checkout-steps {
-  padding-bottom: 1.25rem;
-}
-.separator {
-  padding: 0 5px;
-}
-.checkout-breadcrumb {
-  font-size: 12px;
 }
