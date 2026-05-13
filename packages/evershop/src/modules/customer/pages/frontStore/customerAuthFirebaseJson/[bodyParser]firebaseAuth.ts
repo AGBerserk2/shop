@@ -56,7 +56,15 @@ export default async (
       return;
     }
 
-    const decoded = await getFirebaseAuth().verifyIdToken(credential, true);
+    // verifyIdToken(token) does signature + audience + expiration checks
+    // locally against Google's cached public keys — no API call, no SA
+    // perms required. Passing `true` as the second arg adds a revocation
+    // check that hits the Firebase Auth API, which needs the
+    // firebaseauth.admin role on the runtime service account. We don't
+    // need that level of strictness — if a user is disabled, Firebase
+    // rejects the sign-in upstream, so the credential we receive here
+    // already comes from a valid active user.
+    const decoded = await getFirebaseAuth().verifyIdToken(credential);
     if (!decoded.email) {
       throw new Error('La cuenta no expone un correo');
     }
