@@ -15,6 +15,7 @@ import {
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
+import { useCustomer } from '@components/frontStore/customer/CustomerContext.js';
 import {
   Address,
   CustomerAddressGraphql
@@ -35,6 +36,7 @@ export function BillingAddress({
 }) {
   const { form, checkoutData } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
+  const { customer } = useCustomer();
   const {
     setValue,
     getValues,
@@ -52,15 +54,29 @@ export function BillingAddress({
     name: 'billingAddress'
   });
 
+  // Fallback to the customer's saved default address (or the first one
+  // if none is marked default) so the billing form starts pre-filled
+  // instead of empty for returning customers.
+  const savedDefaultAddress =
+    customer?.addresses?.find((a) => a.isDefault) ||
+    customer?.addresses?.[0];
+
+  // Pick the best starting value for the billing form, in order:
+  //   1. the billingAddress prop coming from the cart (if any)
+  //   2. the customer's default saved address
+  // If neither exists we end up with undefined and the form stays empty.
+  const effectiveBilling =
+    billingAddress || (savedDefaultAddress as CustomerAddressGraphql | undefined);
+
   const [useSameAddress, setUseSameAddress] = useState(!noShippingRequired);
 
   useEffect(() => {
     if (useSameAddress && shippingAddress) {
       updateCheckoutData({ billingAddress: shippingAddress });
     } else if (!useSameAddress) {
-      setValue('billingAddress', billingAddress);
+      setValue('billingAddress', effectiveBilling);
     }
-  }, [useSameAddress, checkoutData.shippingAddress]);
+  }, [useSameAddress, checkoutData.shippingAddress, effectiveBilling]);
 
   useEffect(() => {
     if (!useSameAddress) {
@@ -136,7 +152,7 @@ export function BillingAddress({
                           <CustomerAddressForm
                             areaId="checkoutBillingAddressForm"
                             fieldNamePrefix="billingAddress"
-                            address={undefined} // Always start empty for different address
+                            address={effectiveBilling}
                           />
                           {noShippingRequired && (
                             <Button
@@ -159,7 +175,7 @@ export function BillingAddress({
                   <CustomerAddressForm
                     areaId="checkoutBillingAddressForm"
                     fieldNamePrefix="billingAddress"
-                    address={undefined} // Always start empty for different address
+                    address={effectiveBilling}
                   />
                   {noShippingRequired && (
                     <Button
