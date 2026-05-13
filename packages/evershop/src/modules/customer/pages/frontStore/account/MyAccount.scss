@@ -1,0 +1,715 @@
+/* ============================================================
+   Anroy — /account
+   Boutique editorial: cream paper, italic display, monogram
+   stamps, magazine-issue ordering. Sister to /account/login,
+   different role (settled subscriber vs welcoming entrance).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+.anroy-account {
+  --paper:       #fcf5ec;
+  --paper-deep:  #f3e9da;
+  --ink:         #1c1318;
+  --ink-soft:    #3d2a2e;
+  --muted:       #8a7a72;
+  --rule:        #d9c9b5;
+  --rose:        #b14975;
+  --rose-deep:   #87324f;
+  --marigold:    #d99245;
+  --marigold-soft: #f0c388;
+  --gilt:        #b07e3a;
+
+  position: relative;
+  min-height: 100vh;
+  padding: 3rem 1.25rem 6rem;
+  background:
+    radial-gradient(ellipse 900px 700px at 100% -10%,
+      rgba(217, 146, 69, 0.18), transparent 55%),
+    radial-gradient(ellipse 700px 600px at 0% 110%,
+      rgba(177, 73, 117, 0.12), transparent 60%),
+    linear-gradient(180deg, #fdf6ea 0%, #f7eddc 100%);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: 'ss01', 'cv01';
+  letter-spacing: -0.005em;
+}
+
+.anroy-account::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.95'/></svg>");
+}
+
+.anroy-account__wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 78rem;
+  margin: 0 auto;
+}
+
+/* ─── Masthead ──────────────────────────────────────────── */
+.anroy-account__masthead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--rule);
+  animation: anroy-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (min-width: 720px) {
+  .anroy-account__masthead {
+    grid-template-columns: auto 1fr auto;
+    gap: 2.5rem;
+    align-items: end;
+  }
+}
+
+.anroy-account__avatar {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  flex-shrink: 0;
+  box-shadow: 0 6px 18px -10px rgba(28, 19, 24, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anroy-account__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anroy-account__avatar-initials {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  color: var(--rose-deep);
+}
+
+.anroy-account__avatar-frame {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px dashed var(--gilt);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.anroy-account__hello-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.anroy-account__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+
+.anroy-account__eyebrow::before,
+.anroy-account__eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 0.9rem;
+  height: 1px;
+  background: var(--rule);
+}
+
+.anroy-account__greeting {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.anroy-account__greeting .italic {
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(95deg, var(--rose-deep) 0%, var(--marigold) 65%, var(--gilt) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.anroy-account__sub {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 28rem;
+}
+
+.anroy-account__sub b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.anroy-account__signout {
+  align-self: end;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  transition: color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.anroy-account__signout:hover {
+  color: var(--rose-deep);
+  border-bottom-color: var(--rose-deep);
+}
+
+/* ─── Stat strip ────────────────────────────────────────── */
+.anroy-account__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  margin: 2.5rem 0 3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 720px) {
+  .anroy-account__stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.anroy-account__stat {
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  position: relative;
+  animation: anroy-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 80ms;
+}
+
+.anroy-account__stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 1rem;
+  bottom: 1rem;
+  width: 1px;
+  background: var(--rule);
+}
+
+.anroy-account__stat__label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.anroy-account__stat__value {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.anroy-account__stat__hint {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+/* ─── Section title ─────────────────────────────────────── */
+.anroy-account__section {
+  margin-top: 3rem;
+  animation: anroy-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.anroy-account__section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.anroy-account__section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.anroy-account__section-title .italic {
+  font-style: italic;
+}
+
+.anroy-account__section-kicker {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+/* ─── Orders ────────────────────────────────────────────── */
+.anroy-account__orders {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.anroy-account__order {
+  position: relative;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.5rem 1.5rem 1.25rem;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.anroy-account__order:hover {
+  border-color: var(--gilt);
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 6px 18px -10px rgba(28, 19, 24, 0.18);
+}
+
+@media (min-width: 880px) {
+  .anroy-account__order {
+    grid-template-columns: 220px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+  }
+}
+
+.anroy-account__order-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.anroy-account__order-issue {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+
+.anroy-account__order-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.anroy-account__order-date {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.anroy-account__order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  width: max-content;
+  border: 1px solid currentColor;
+}
+
+.anroy-account__order-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.anroy-account__order-status[data-tone='shipped'] { color: var(--gilt); }
+.anroy-account__order-status[data-tone='delivered'] { color: #4a7d44; }
+.anroy-account__order-status[data-tone='processing'] { color: var(--rose-deep); }
+.anroy-account__order-status[data-tone='cancelled'] { color: #9b3534; opacity: 0.65; }
+
+.anroy-account__order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.anroy-account__order-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.anroy-account__order-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.anroy-account__order-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anroy-account__order-thumb svg {
+  opacity: 0.4;
+}
+
+.anroy-account__order-item-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.anroy-account__order-item-name {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.anroy-account__order-item-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.anroy-account__order-item-meta span {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.anroy-account__order-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 8rem;
+}
+
+.anroy-account__order-totals .label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.anroy-account__order-totals .value {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.anroy-account__order-totals .qty {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* ─── Empty state ───────────────────────────────────────── */
+.anroy-account__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3.5rem 1.5rem;
+  border: 1px dashed var(--rule);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  text-align: center;
+}
+
+.anroy-account__empty-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--rose);
+  opacity: 0.7;
+}
+
+.anroy-account__empty-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+.anroy-account__empty-sub {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  max-width: 26rem;
+}
+
+.anroy-account__empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.anroy-account__empty-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -10px rgba(28, 19, 24, 0.4);
+}
+
+/* ─── Addresses ─────────────────────────────────────────── */
+.anroy-account__addresses {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .anroy-account__addresses {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1080px) {
+  .anroy-account__addresses {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.anroy-account__address {
+  position: relative;
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.anroy-account__address:hover {
+  border-color: var(--gilt);
+  transform: translateY(-1px);
+}
+
+.anroy-account__address[data-default='true'] {
+  border-color: var(--rose);
+  background:
+    radial-gradient(ellipse 200px 80px at 100% 0%,
+      rgba(177, 73, 117, 0.08), transparent 60%),
+    rgba(255, 255, 255, 0.7);
+}
+
+.anroy-account__address-stamp {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  padding: 0.25rem 0.55rem;
+  background: var(--rose);
+  color: white;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  transform: rotate(2deg);
+}
+
+.anroy-account__address-monogram {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--rose-deep);
+  letter-spacing: -0.02em;
+}
+
+.anroy-account__address-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.anroy-account__address-body {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.anroy-account__address-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.anroy-account__chip {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 9999px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.anroy-account__chip:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.anroy-account__chip--danger:hover {
+  color: var(--rose-deep);
+  border-color: var(--rose-deep);
+}
+
+.anroy-account__chip--filled {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.anroy-account__chip--filled:hover {
+  background: var(--rose-deep);
+  border-color: var(--rose-deep);
+  color: var(--paper);
+}
+
+.anroy-account__address-add {
+  border: 1px dashed var(--rule);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  min-height: 200px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.anroy-account__address-add:hover {
+  border-color: var(--rose);
+  color: var(--rose-deep);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.anroy-account__address-add__plus {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+/* ─── Entrance animation ────────────────────────────────── */
+@keyframes anroy-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Override the global site chrome to keep our cream paper through
+   the whole page — header/footer can stay, but we kill any default
+   container padding that fights our layout. */
+body:has(.anroy-account) main.content {
+  padding: 0;
+}
