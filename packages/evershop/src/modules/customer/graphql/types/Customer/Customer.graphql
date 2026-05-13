@@ -28,6 +28,7 @@ type Customer {
   addresses: [CustomerAddress]
   addAddressApi: String!
   fullName: String!
+  photoUrl: String
   createdAt: Date!
 }
 

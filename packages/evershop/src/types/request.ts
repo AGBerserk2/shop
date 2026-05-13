@@ -10,6 +10,7 @@ export interface CurrentCustomer {
   status: number;
   created_at: Date;
   updated_at: Date;
+  photo_url?: string | null;
 }
 
 export interface CurrentUser {

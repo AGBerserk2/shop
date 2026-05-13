@@ -15,6 +15,7 @@ export function buildCustomerPayload(customer: CustomerRow): CurrentCustomer {
     full_name: customer.full_name ?? '',
     status: customer.status,
     created_at: customer.created_at,
-    updated_at: customer.updated_at
+    updated_at: customer.updated_at,
+    photo_url: (customer as any).photo_url ?? null
   };
 }

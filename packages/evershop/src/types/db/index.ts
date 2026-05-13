@@ -383,6 +383,8 @@ export interface CustomerRow {
   created_at: Date;
   updated_at: Date;
   is_google_login: boolean;
+  firebase_uid?: string | null;
+  photo_url?: string | null;
 }
 
 export type CustomerInsert = Omit<

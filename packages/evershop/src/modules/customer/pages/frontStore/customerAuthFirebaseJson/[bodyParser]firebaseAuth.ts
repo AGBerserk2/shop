@@ -68,6 +68,8 @@ export default async (
       (fullName && fullName.trim()) ||
       tokenName ||
       email.split('@')[0];
+    const photoUrl =
+      ((decoded as any).picture as string | undefined) || null;
 
     // 1) Lookup by firebase_uid first (stable across email changes).
     let customer = (await select()
@@ -89,6 +91,16 @@ export default async (
       }
     }
 
+    // Keep photo_url in sync with whatever Firebase has for the user —
+    // they might change their Google avatar between logins.
+    if (customer && photoUrl && (customer as any).photo_url !== photoUrl) {
+      await update('customer')
+        .given({ photo_url: photoUrl })
+        .where('customer_id', '=', customer.customer_id)
+        .execute(pool);
+      (customer as any).photo_url = photoUrl;
+    }
+
     // 3) Brand new account — provision a customer row.
     if (!customer) {
       const randomPassword = crypto.randomBytes(32).toString('hex');
@@ -100,7 +112,8 @@ export default async (
           status: 1,
           group_id: 1,
           is_google_login: provider === 'google.com',
-          firebase_uid: uid
+          firebase_uid: uid,
+          photo_url: photoUrl
         })
         .execute(pool)) as CustomerRow;
       customer = inserted;
