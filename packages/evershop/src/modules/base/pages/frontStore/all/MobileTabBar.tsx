@@ -1,12 +1,25 @@
-import { useCustomer } from '@components/frontStore/customer/CustomerContext.js';
 import { Home, Package, ShoppingBag, User } from 'lucide-react';
 import React from 'react';
+import { useQuery } from 'urql';
 import './MobileTabBar.scss';
 
+const QUERY = `
+  query MobileTabBarCustomer {
+    customer: currentCustomer {
+      uuid
+    }
+  }
+`;
+
 // Persistent bottom tab bar, mobile-first. Mounts on every storefront
-// page via the body area. Active state is derived from the URL prefix.
+// page via the body area (sortOrder 1000 — after Base). It can't pull
+// `useCustomer` from CustomerProvider because that provider only wraps
+// the children inside Base.tsx, not sibling body-area components, so
+// it reads the same data via urql directly (resolves from SSR cache).
 export default function MobileTabBar() {
-  const { customer } = useCustomer();
+  const [result] = useQuery({ query: QUERY });
+  const isLoggedIn = !!result.data?.customer?.uuid;
+
   const [path, setPath] = React.useState<string>(
     typeof window !== 'undefined' ? window.location.pathname : '/'
   );
@@ -17,7 +30,9 @@ export default function MobileTabBar() {
     return () => window.removeEventListener('popstate', update);
   }, []);
 
-  const profileHref = customer ? '/account' : '/account/login';
+  const profileHref = isLoggedIn ? '/account' : '/account/login';
+  const ordersHref = isLoggedIn ? '/account#pedidos' : '/account/login';
+
   const tabs = [
     {
       label: 'Inicio',
@@ -34,7 +49,7 @@ export default function MobileTabBar() {
     {
       label: 'Pedidos',
       icon: <Package strokeWidth={2} />,
-      href: customer ? '/account#pedidos' : '/account/login',
+      href: ordersHref,
       isActive: path.startsWith('/account') && path.includes('order')
     },
     {
