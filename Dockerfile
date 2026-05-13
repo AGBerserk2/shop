@@ -62,6 +62,13 @@ RUN apt-get update \
 
 ENV NODE_ENV=production
 ENV PORT=8080
+# EverShop's cms/bootstrap calls config.util.setModuleDefaults('system',
+# {file_storage:'local'}) which conflicts with the GCS object form set
+# in config/production.json. node-config freezes the tree on first
+# access unless this is true at process start — initEnvStart.js sets
+# it later but by then 'config' has already been evaluated by the ESM
+# dependency graph. Force it here so it's live before any import.
+ENV ALLOW_CONFIG_MUTATIONS=true
 
 # Copy only the artifacts we need to run the server.
 COPY --chown=app:app --from=builder /app/package.json /app/package-lock.json ./
@@ -79,6 +86,8 @@ COPY --chown=app:app --from=builder /app/.evershop ./.evershop
 # husky itself is a devDependency excluded by --omit=dev).
 RUN npm pkg delete scripts.prepare \
  && npm install --omit=dev --no-audit --no-fund --no-save --include=optional \
+ && npm install --no-save --no-audit --no-fund \
+      @parcel/watcher-linux-x64-glibc \
  && npm cache clean --force \
  && chown -R app:app /app
 
