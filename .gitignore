@@ -25,8 +25,10 @@ npm-debug.log
 coverage
 cypress
 .turbo
-/config
 /packages/evershop/config
+# config/ now committed for reproducible Cloud Run deploys. Secrets
+# stay in secrets/ (ignored above) or in env vars / Secret Manager.
+/config/local*.json
 .prettierignore
 .prettierrc
 mysqlToPostgres.js

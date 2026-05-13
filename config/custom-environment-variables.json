@@ -1,0 +1,15 @@
+{
+  "shop": {
+    "homeUrl": "SHOP_HOME_URL",
+    "language": "SHOP_LANGUAGE",
+    "currency": "SHOP_CURRENCY",
+    "timezone": "SHOP_TIMEZONE"
+  },
+  "system": {
+    "file_storage": {
+      "bucket": "GCS_BUCKET",
+      "projectId": "GCS_PROJECT_ID",
+      "publicHost": "GCS_PUBLIC_HOST"
+    }
+  }
+}

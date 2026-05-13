@@ -1,0 +1,66 @@
+# Cloud Build pipeline for deploying Anroy to Cloud Run.
+#
+# Trigger this with:
+#   gcloud builds submit --config cloudbuild.yaml
+# or wire it to a GitHub trigger pointing at the dev/main branch.
+#
+# Substitutions (override with `--substitutions=_KEY=value,...`):
+#   _REGION   — Cloud Run region (default us-east1, closest to DR)
+#   _SERVICE  — Cloud Run service name
+#   _REPO     — Artifact Registry Docker repo name
+substitutions:
+  _REGION: us-east1
+  _SERVICE: anroy-shop
+  _REPO: anroy
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+
+steps:
+  # 1) Build the image with Buildx-style cache.
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - --tag=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA
+      - --tag=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest
+      - --cache-from=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest
+      - .
+
+  # 2) Push both tags.
+  - id: push-sha
+    name: gcr.io/cloud-builders/docker
+    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA']
+  - id: push-latest
+    name: gcr.io/cloud-builders/docker
+    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest']
+
+  # 3) Deploy to Cloud Run. Secrets are referenced from Secret Manager
+  #    so they never live in the image or in source control.
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - $_SERVICE
+      - --image=$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA
+      - --region=$_REGION
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --cpu=1
+      - --memory=1Gi
+      - --concurrency=80
+      - --min-instances=0
+      - --max-instances=4
+      - --timeout=300
+      - --set-env-vars=NODE_ENV=production
+      - --set-secrets=DB_HOST=DB_HOST:latest,DB_PORT=DB_PORT:latest,DB_NAME=DB_NAME:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest,DB_SSLMODE=DB_SSLMODE:latest,DB_POOL_MAX=DB_POOL_MAX:latest,FIREBASE_WEB_API_KEY=FIREBASE_WEB_API_KEY:latest,FIREBASE_AUTH_DOMAIN=FIREBASE_AUTH_DOMAIN:latest,FIREBASE_PROJECT_ID=FIREBASE_PROJECT_ID:latest,FIREBASE_APP_ID=FIREBASE_APP_ID:latest,COOKIE_SECRET=COOKIE_SECRET:latest
+
+images:
+  - $_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$SHORT_SHA
+  - $_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:latest
+
+timeout: 1800s

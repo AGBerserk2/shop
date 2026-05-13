@@ -1,0 +1,18 @@
+{
+  "shop": {
+    "language": "es",
+    "timezone": "America/Santo_Domingo",
+    "currency": "DOP",
+    "weightUnit": "kg",
+    "homeUrl": "http://localhost:3000"
+  },
+  "system": {
+    "file_storage": {
+      "driver": "gcs",
+      "bucket": "anroy-shop-media",
+      "projectId": "anroy-shop",
+      "keyFilename": "./secrets/firebase-sa.json",
+      "publicHost": "https://storage.googleapis.com/anroy-shop-media"
+    }
+  }
+}

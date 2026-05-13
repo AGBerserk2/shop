@@ -1,4 +1,6 @@
-import { Storage } from '@google-cloud/storage';
+import { Storage, StorageOptions } from '@google-cloud/storage';
+import fs from 'node:fs';
+import path from 'node:path';
 import { getConfig } from '../../../lib/util/getConfig.js';
 
 export interface GcsConfig {
@@ -20,12 +22,22 @@ export const getGcsConfig = (): GcsConfig | undefined => {
 };
 
 export const getStorage = (cfg: GcsConfig): Storage => {
-  if (!cachedStorage) {
-    cachedStorage = new Storage({
-      projectId: cfg.projectId,
-      keyFilename: cfg.keyFilename
-    });
+  if (cachedStorage) return cachedStorage;
+  const opts: StorageOptions = {};
+  if (cfg.projectId) opts.projectId = cfg.projectId;
+  // Only set keyFilename when the file actually exists on disk. On
+  // Cloud Run there is no service-account file — Application Default
+  // Credentials kick in automatically through the service account
+  // attached to the running revision.
+  if (cfg.keyFilename) {
+    const resolved = path.isAbsolute(cfg.keyFilename)
+      ? cfg.keyFilename
+      : path.resolve(process.cwd(), cfg.keyFilename);
+    if (fs.existsSync(resolved)) {
+      opts.keyFilename = resolved;
+    }
   }
+  cachedStorage = new Storage(opts);
   return cachedStorage;
 };
 

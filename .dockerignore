@@ -1,0 +1,46 @@
+.git
+.github
+.husky
+.vscode
+.idea
+
+node_modules
+packages/*/node_modules
+packages/*/dist
+
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.DS_Store
+*.log
+
+# Secrets — never bake into the image. Cloud Run uses ADC via the
+# attached service account; local-only secrets go through env vars.
+secrets/
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+
+# Local-only files
+docker-compose.yml
+*.md
+LICENSE
+.prettier*
+.eslint*
+.swcrc
+jest.config.*
+tsconfig.tsbuildinfo
+
+# Test files
+**/*.test.ts
+**/*.test.js
+**/tests/
+**/__tests__/
+
+# Docker assets themselves
+Dockerfile
+.dockerignore
+.gcloudignore
+cloudbuild.yaml

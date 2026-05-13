@@ -1,0 +1,13 @@
+{
+  "shop": {
+    "homeUrl": "https://anroy.com"
+  },
+  "system": {
+    "file_storage": {
+      "driver": "gcs",
+      "bucket": "anroy-shop-media",
+      "projectId": "anroy-shop",
+      "publicHost": "https://storage.googleapis.com/anroy-shop-media"
+    }
+  }
+}
