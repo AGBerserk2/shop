@@ -2,6 +2,8 @@ import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { useAppDispatch } from '@components/common/context/app.js';
+import { useQuery } from 'urql';
 import {
   Card,
   CardContent,
@@ -24,6 +26,12 @@ import {
   useCustomer,
   useCustomerDispatch
 } from '@components/frontStore/customer/CustomerContext.jsx';
+import {
+  describeFirebaseError,
+  FirebaseWebConfig,
+  getFirebaseClient,
+  postFirebaseSession
+} from '@components/frontStore/auth/firebaseClient.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CircleUser } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -98,13 +106,18 @@ const LoggedIn: React.FC<{
 
 const Guest: React.FC<{
   email: string;
-}> = ({ email }) => {
+  authUrl: string;
+  firebaseConfig: FirebaseWebConfig | null;
+}> = ({ email, authUrl, firebaseConfig }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [isLogging, setIsLogging] = useState(false);
-  const { login } = useCustomerDispatch();
   const { form } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
+  const appDispatch = useAppDispatch();
   const contactEmail = form.watch('contact.email', email);
+  const firebaseReady =
+    !!firebaseConfig?.apiKey && !!firebaseConfig?.projectId;
+
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowLogin(true);
@@ -119,30 +132,33 @@ const Guest: React.FC<{
   }, [contactEmail]);
 
   const handleLogin = async () => {
-    if (isLogging) return;
-
+    if (isLogging || !firebaseReady) return;
     try {
       setIsLogging(true);
       const isValid = await form.trigger(['contact.email', 'contact.password']);
-      if (!isValid) {
-        return;
-      }
+      if (!isValid) return;
       const formData = form.getValues();
       const loginEmail = formData?.contact?.email;
       const password = formData?.contact?.password;
-      await login(
-        {
-          email: loginEmail,
-          password: password
-        },
-        window.location.href
+      const { auth, authMod } = await getFirebaseClient(firebaseConfig!);
+      const cred = await authMod.signInWithEmailAndPassword(
+        auth,
+        loginEmail.trim(),
+        password
+      );
+      const token = await cred.user.getIdToken();
+      await postFirebaseSession(authUrl, token);
+      await appDispatch.fetchPageData(
+        (() => {
+          const u = new URL(window.location.href);
+          u.searchParams.set('ajax', 'true');
+          return u.toString();
+        })()
       );
       toast.success(_('Successfully logged in'));
       setShowLogin(false);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : _('Login failed');
-      toast.error(errorMessage);
+    } catch (error: any) {
+      toast.error(describeFirebaseError(error));
     } finally {
       setIsLogging(false);
     }
@@ -208,9 +224,27 @@ const Guest: React.FC<{
     </div>
   );
 };
+const CHECKOUT_AUTH_QUERY = `
+  query CheckoutAuth {
+    authUrl: url(routeId: "customerAuthFirebaseJson")
+    setting {
+      firebaseConfig {
+        apiKey
+        authDomain
+        projectId
+        appId
+      }
+    }
+  }
+`;
+
 export function ContactInformation() {
   const { customer } = useCustomer();
   const { data: cart } = useCartState();
+  const [authResult] = useQuery({ query: CHECKOUT_AUTH_QUERY });
+  const authUrl: string = authResult.data?.authUrl || '';
+  const firebaseConfig: FirebaseWebConfig | null =
+    authResult.data?.setting?.firebaseConfig || null;
 
   return (
     <>
@@ -233,7 +267,11 @@ export function ContactInformation() {
                 uuid={customer.uuid}
               />
             ) : (
-              <Guest email={cart.customerEmail || ''} />
+              <Guest
+                email={cart.customerEmail || ''}
+                authUrl={authUrl}
+                firebaseConfig={firebaseConfig}
+              />
             )}
           </CardContent>
         </Card>

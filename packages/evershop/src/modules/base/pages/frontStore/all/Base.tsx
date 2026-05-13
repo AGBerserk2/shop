@@ -36,9 +36,7 @@ interface BaseProps {
     helpLinkContact?: string | null;
   };
   addMineCartItemApi: string;
-  loginApi: string;
   logoutApi: string;
-  registerApi: string;
 }
 export default function Base({
   myCart,
@@ -46,17 +44,10 @@ export default function Base({
   themeConfig,
   setting,
   addMineCartItemApi,
-  loginApi,
-  logoutApi,
-  registerApi
+  logoutApi
 }: BaseProps) {
   return (
-    <CustomerProvider
-      initialCustomer={customer}
-      loginAPI={loginApi}
-      logoutAPI={logoutApi}
-      registerAPI={registerApi}
-    >
+    <CustomerProvider initialCustomer={customer} logoutAPI={logoutApi}>
       <CartProvider
         cart={myCart}
         query={`${query}\n${fragments}`}
@@ -189,8 +180,6 @@ export const query = `
       helpLinkContact
     }
     addMineCartItemApi: url(routeId: "addMineCartItem")
-    loginApi: url(routeId: "customerLoginJson")
-    registerApi: url(routeId: "createCustomer")
     logoutApi: url(routeId: "customerLogoutJson")
   }
 `;

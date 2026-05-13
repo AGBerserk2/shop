@@ -3,7 +3,6 @@ import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilter
 import { hookable } from '../../lib/util/hookable.js';
 import { addProcessor } from '../../lib/util/registry.js';
 import type { EvershopRequest } from '../../types/request.js';
-import loginCustomerWithEmail from './services/customer/loginCustomerWithEmail.js';
 import logoutCustomer from './services/customer/logoutCustomer.js';
 import { registerDefaultCustomerCollectionFilters } from './services/registerDefaultCustomerCollectionFilters.js';
 import { registerDefaultCustomerGroupCollectionFilters } from './services/registerDefaultCustomerGroupCollectionFilters.js';
@@ -60,23 +59,6 @@ export default () => {
     });
     return fields;
   });
-
-  /**
-   * This function will login the customer with email and password
-   * @param {*} email
-   * @param {*} password
-   * @param {*} callback
-   */
-  (request as EvershopRequest).loginCustomerWithEmail = async function login(
-    email,
-    password,
-    callback
-  ) {
-    await hookable(loginCustomerWithEmail.bind(this))(email, password);
-    if (this.session) {
-      this.session.save(callback);
-    }
-  };
 
   (request as EvershopRequest).logoutCustomer = function logout(callback) {
     hookable(logoutCustomer.bind(this))();

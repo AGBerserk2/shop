@@ -40,11 +40,6 @@ export interface EvershopRequest extends ExpressRequest {
     context: Record<string, any>;
     webpackMatchedRoute: Route | null;
   };
-  loginCustomerWithEmail: (
-    email: string,
-    password: string,
-    callback: (err: Error | null, customer?: any) => void
-  ) => Promise<void>;
   logoutCustomer: (callback: (err: Error | null) => void) => void;
   isCustomerLoggedIn: () => boolean;
   getCurrentCustomer: () => CurrentCustomer | null;

@@ -1,5 +1,5 @@
-// createCustomer: default + CustomerData type + 4 hooks
-export { default as createCustomer } from './customer/createCustomer.js';
+// CustomerData type only — the createCustomer service was retired when
+// the storefront moved to Firebase Auth.
 export * from './customer/createCustomer.js';
 
 // updateCustomer: default + 4 hooks
@@ -9,10 +9,6 @@ export * from './customer/updateCustomer.js';
 // deleteCustomer: default + 4 hooks
 export { default as deleteCustomer } from './customer/deleteCustomer.js';
 export * from './customer/deleteCustomer.js';
-
-// updatePassword: default + 4 hooks
-export { default as updatePassword } from './customer/updatePassword.js';
-export * from './customer/updatePassword.js';
 
 // createCustomerAddress: default + 4 hooks
 export { default as createCustomerAddress } from './customer/address/createCustomerAddress.js';
@@ -31,4 +27,3 @@ export * from './customer/address/addressValidators.js';
 
 // utilities
 export * from './getCustomersBaseQuery.js';
-export * from './sendResetPasswordEmail.js';

@@ -245,24 +245,6 @@ const customerReducer = (
 interface CustomerContextValue extends CustomerState {}
 
 interface CustomerDispatchContextValue {
-  login: (
-    data: {
-      email: string;
-      password: string;
-      [key: string]: unknown;
-    },
-    redirectUrl: string
-  ) => Promise<boolean>;
-  register: (
-    data: {
-      full_name: string;
-      email: string;
-      password: string;
-      [key: string]: unknown;
-    },
-    loginIfSuccess: boolean,
-    redirectUrl: string
-  ) => Promise<boolean>;
   logout: () => Promise<void>;
   setCustomer: (customer: Customer | undefined) => void;
   addAddress: (
@@ -284,9 +266,7 @@ const CustomerDispatchContext = createContext<
 
 interface CustomerProviderProps {
   children: ReactNode;
-  loginAPI: string;
   logoutAPI: string;
-  registerAPI: string;
   initialCustomer?: Customer;
 }
 
@@ -308,8 +288,6 @@ const retry = async (
 
 export function CustomerProvider({
   children,
-  loginAPI,
-  registerAPI,
   logoutAPI,
   initialCustomer
 }: CustomerProviderProps) {
@@ -337,96 +315,6 @@ export function CustomerProvider({
     currentUrl.searchParams.set('ajax', 'true');
     return currentUrl.toString();
   }, []);
-
-  // Login function
-  const login = useCallback(
-    async (
-      data: {
-        email: string;
-        password: string;
-        [key: string]: unknown;
-      },
-      redirectUrl: string
-    ): Promise<boolean> => {
-      dispatch({ type: 'SET_LOADING', payload: true });
-
-      try {
-        const response = await retry(() =>
-          fetch(loginAPI, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          })
-        );
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          throw new Error(json.error?.message || _('Login failed'));
-        }
-
-        // Trigger page data refresh which will update customer via useEffect
-        await appDispatch.fetchPageData(getCurrentAjaxUrl());
-        if (redirectUrl) {
-          window.location.href = redirectUrl;
-        }
-        return true;
-      } catch (error) {
-        dispatch({ type: 'SET_LOADING', payload: false });
-        throw error;
-      }
-    },
-    [loginAPI, appDispatch, getCurrentAjaxUrl]
-  );
-
-  const register = useCallback(
-    async (
-      data: {
-        full_name: string;
-        email: string;
-        password: string;
-        [key: string]: unknown;
-      },
-      loginIfSuccess: boolean,
-      redirectUrl: string
-    ): Promise<boolean> => {
-      if (state.customer) {
-        throw new Error(_('You are already logged in'));
-      }
-      dispatch({ type: 'SET_LOADING', payload: true });
-
-      try {
-        const response = await retry(() =>
-          fetch(registerAPI, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          })
-        );
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          throw new Error(json.error?.message || _('Registration failed'));
-        }
-
-        // Trigger page data refresh which will update customer via useEffect
-        await appDispatch.fetchPageData(getCurrentAjaxUrl());
-        if (loginIfSuccess) {
-          // Auto login after successful registration
-          await login(
-            { email: data.email, password: data.password },
-            redirectUrl
-          );
-        }
-        return true;
-      } catch (error) {
-        dispatch({ type: 'SET_LOADING', payload: false });
-        throw error;
-      }
-    },
-    [registerAPI, appDispatch, getCurrentAjaxUrl, login]
-  );
 
   // Logout function
   const logout = useCallback(async (): Promise<void> => {
@@ -589,15 +477,13 @@ export function CustomerProvider({
 
   const dispatchMethods = useMemo(
     (): CustomerDispatchContextValue => ({
-      login,
-      register,
       logout,
       setCustomer,
       addAddress,
       updateAddress,
       deleteAddress
     }),
-    [login, logout, setCustomer, addAddress, updateAddress, deleteAddress]
+    [logout, setCustomer, addAddress, updateAddress, deleteAddress]
   );
 
   return (
