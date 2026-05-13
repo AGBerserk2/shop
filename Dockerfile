@@ -91,19 +91,23 @@ RUN npm pkg delete scripts.prepare \
  && npm cache clean --force
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Image diet — remove packages we never need at runtime           │
-# │   - build tools (swc, ts, webpack, babel, tailwind, sass, etc.) │
-# │   - wrong-platform native prebuilds                             │
-# │ Saves ~140 MB without touching anything the server actually     │
-# │ loads during SSR or API handling.                               │
+# │ Conservative image diet — only packages confirmed to have       │
+# │ ZERO static imports from runtime-loaded code paths.             │
+# │                                                                 │
+# │ EverShop's startUp() chain transitively loads:                  │
+# │   webpack, webpack-dev-middleware, webpack-hot-middleware,      │
+# │   @pmmmwh/react-refresh-webpack-plugin, swc-minify-webpack-     │
+# │   plugin (which pulls @swc), createBaseConfig, etc.             │
+# │ Deleting those breaks startup, so we leave them alone.          │
+# │                                                                 │
+# │ What we DO delete:                                              │
+# │   - TypeScript compiler + type definitions (build-only)         │
+# │   - Dev tooling: eslint, prettier, jest, copyfiles, rimraf      │
+# │   - Wrong-platform native prebuilds (~30 MB)                    │
 # └─────────────────────────────────────────────────────────────────┘
 RUN cd /app/node_modules && rm -rf \
-      @swc typescript webpack webpack-cli webpack-merge \
-      webpack-dev-middleware webpack-hot-middleware \
-      sass sass-loader @tailwindcss @babel @types \
-      css-loader style-loader postcss-loader \
-      mini-css-extract-plugin terser-webpack-plugin html-webpack-plugin \
-      copyfiles rimraf eslint prettier jest \
+      typescript @types \
+      eslint prettier jest copyfiles rimraf \
       lightningcss-linux-x64-musl \
       @parcel/watcher-darwin-x64 @parcel/watcher-darwin-arm64 \
       @parcel/watcher-win32-x64 @parcel/watcher-win32-arm64 \
