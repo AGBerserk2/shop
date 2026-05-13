@@ -15,11 +15,26 @@ import {
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import { ShippingMethods } from '@components/frontStore/checkout/shipment/ShippingMethods.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { useCustomer } from '@components/frontStore/customer/CustomerContext.js';
 import { MapPin } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
+
+// Map a customer's saved address (camelCase, with nested country/province
+// objects) to the snake-case payload the cart API consumes.
+function toCartAddress(a: any) {
+  return {
+    full_name: a?.fullName ?? '',
+    telephone: a?.telephone ?? '',
+    address_1: a?.address1 ?? '',
+    address_2: a?.address2 ?? '',
+    city: a?.city ?? '',
+    country: a?.country?.code ?? '',
+    province: a?.province?.code ?? '',
+    postcode: a?.postcode ?? ''
+  };
+}
 
 export function Shipment() {
   const {
@@ -44,6 +59,33 @@ export function Shipment() {
   } = useCartDispatch();
   const { form } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
+  const { customer } = useCustomer();
+
+  // If the cart has no shipping address yet but the logged-in customer
+  // has one saved on their account, use that as the form's initial
+  // values and submit it to the cart on mount so shipping methods are
+  // fetched right away. The customer can still edit any field.
+  const savedDefaultAddress =
+    customer?.addresses?.find((a) => a.isDefault) ||
+    customer?.addresses?.[0];
+  const effectiveAddress = shippingAddress || savedDefaultAddress;
+  const prefilledRef = useRef(false);
+
+  useEffect(() => {
+    if (
+      prefilledRef.current ||
+      shippingAddress ||
+      !savedDefaultAddress
+    ) {
+      return;
+    }
+    prefilledRef.current = true;
+    addShippingAddress(toCartAddress(savedDefaultAddress)).catch(() => {
+      // Silent — the form is already filled and the user can retry
+      // by editing any field which triggers the same code path.
+      prefilledRef.current = false;
+    });
+  }, [savedDefaultAddress, shippingAddress, addShippingAddress]);
 
   // Use useWatch for better performance and cleaner code
   const watchedShippingAddress = useWatch({
@@ -101,7 +143,7 @@ export function Shipment() {
         toast.error(
           error instanceof Error
             ? error.message
-            : _('Failed to update shipment')
+            : 'No pudimos actualizar el envío'
         );
       }
     };
@@ -140,7 +182,9 @@ export function Shipment() {
       return true;
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : _('Failed to update shipment')
+        error instanceof Error
+          ? error.message
+          : 'No pudimos actualizar el envío'
       );
       return false;
     }
@@ -155,7 +199,7 @@ export function Shipment() {
             <CardTitle>
               <div className="flex items-center gap-2">
                 <MapPin className="w-5 h-5" />
-                <span>{_('Shipping Address')}</span>
+                <span>Dirección de envío</span>
               </div>
             </CardTitle>
           </CardHeader>
@@ -163,7 +207,7 @@ export function Shipment() {
             <CustomerAddressForm
               areaId="checkoutShippingAddressForm"
               fieldNamePrefix="shippingAddress"
-              address={shippingAddress}
+              address={effectiveAddress}
             />
           </CardContent>
         </Card>

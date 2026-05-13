@@ -15,7 +15,6 @@ import {
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   Address,
   CustomerAddressGraphql
@@ -96,7 +95,7 @@ export function BillingAddress({
     <div className="billing-address-section">
       <Item className="py-0 px-0">
         <ItemContent className="gap-2">
-          <ItemTitle>{_('Billing Address')}</ItemTitle>
+          <ItemTitle>Dirección de facturación</ItemTitle>
           <RadioGroup
             value={useSameAddress ? 'same' : 'different'}
             onValueChange={(value) => {
@@ -111,7 +110,7 @@ export function BillingAddress({
                       <div className="flex items-center space-x-3">
                         <RadioGroupItem id="same-address" value="same" />
                         <Label htmlFor="same-address">
-                          {_('Same as shipping address')}
+                          Igual a la dirección de envío
                         </Label>
                       </div>
                     </ItemTitle>
@@ -126,7 +125,7 @@ export function BillingAddress({
                           value="different"
                         />
                         <Label htmlFor="different-address">
-                          {_('Use a different billing address')}
+                          Usar otra dirección de facturación
                         </Label>
                       </div>
                     </ItemTitle>
@@ -145,7 +144,7 @@ export function BillingAddress({
                               variant="default"
                               isLoading={addingBillingAddress}
                             >
-                              {_('Continue to payment')}
+                              Continuar al pago
                             </Button>
                           )}
                         </div>
@@ -169,7 +168,7 @@ export function BillingAddress({
                       isLoading={addingBillingAddress}
                       className="mt-4"
                     >
-                      {_('Continue to payment')}
+                      Continuar al pago
                     </Button>
                   )}
                 </div>
