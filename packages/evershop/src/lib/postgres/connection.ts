@@ -10,16 +10,26 @@ import { getConfig } from '../util/getConfig.js';
 // keepAlive + a slightly aggressive idleTimeout avoids the "Connection
 // terminated unexpectedly" errors that happen when Supavisor closes idle
 // connections that the pool still believes are open.
+//
+// IMPORTANT: Supabase free-tier session-mode pooler caps total clients at
+// 15 across ALL processes hitting the project. EverShop spawns 3
+// processes per app instance (main + subscriber + cron) so the default
+// max here is 3 → 3*3 = 9 connections per instance, leaving headroom
+// for prod + local dev running simultaneously without hitting
+// EMAXCONNSESSION. Override per-process by setting DB_POOL_MAX.
 const connectionSetting: PoolConfig = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT as unknown as number,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  max: process.env.DB_POOL_MAX ? Number(process.env.DB_POOL_MAX) : 8,
-  idleTimeoutMillis: 30000,
+  max: process.env.DB_POOL_MAX ? Number(process.env.DB_POOL_MAX) : 3,
+  idleTimeoutMillis: 10000,
   keepAlive: true,
-  keepAliveInitialDelayMillis: 10000
+  keepAliveInitialDelayMillis: 10000,
+  // Tag each connection so we can see in Supabase Dashboard which Node
+  // process is holding it open (main vs subscriber vs cron).
+  application_name: `anroy-${process.env.EVERSHOP_PROCESS || 'main'}-${process.pid}`
 };
 
 // Support SSL
