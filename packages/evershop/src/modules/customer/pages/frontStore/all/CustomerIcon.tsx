@@ -67,8 +67,11 @@ export default function UserIcon({
   const tone = pickTone(customer.email || customer.uuid);
   const label = customer.fullName || customer.email || 'Mi cuenta';
 
+  // The `md:flex hidden` keeps this icon out of the mobile header when
+  // the user is already logged in — the bottom tab bar carries the
+  // 'Perfil' shortcut on small screens so showing it twice is noise.
   return (
-    <div className="self-center customer-icon">
+    <div className="self-center customer-icon md:flex hidden">
       <a
         href={accountUrl}
         className="block w-10 h-10 rounded-full overflow-hidden ring-1 ring-black/5 hover:ring-rose-300 transition-all"
