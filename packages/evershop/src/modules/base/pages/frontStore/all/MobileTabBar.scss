@@ -30,7 +30,7 @@
 .anroy-tabbar__inner {
   pointer-events: auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   align-items: stretch;
   gap: 0;
   padding: 0.45rem 0.5rem calc(0.45rem + env(safe-area-inset-bottom, 0px));

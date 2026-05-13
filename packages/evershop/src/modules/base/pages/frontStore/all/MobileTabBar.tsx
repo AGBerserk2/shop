@@ -1,4 +1,4 @@
-import { Home, Package, ShoppingBag, User } from 'lucide-react';
+import { Home, Package, User } from 'lucide-react';
 import React from 'react';
 import { useQuery } from 'urql';
 import './MobileTabBar.scss';
@@ -31,7 +31,8 @@ export default function MobileTabBar() {
   }, []);
 
   const profileHref = isLoggedIn ? '/account' : '/account/login';
-  const ordersHref = isLoggedIn ? '/account#pedidos' : '/account/login';
+  const ordersHref = isLoggedIn ? '/account/orders' : '/account/login';
+  const ordersActive = path.startsWith('/account/orders');
 
   const tabs = [
     {
@@ -41,22 +42,16 @@ export default function MobileTabBar() {
       isActive: path === '/' || path === ''
     },
     {
-      label: 'Tienda',
-      icon: <ShoppingBag strokeWidth={2} />,
-      href: '/categories',
-      isActive: path.startsWith('/categories') || path.startsWith('/products')
-    },
-    {
-      label: 'Pedidos',
+      label: 'Mis pedidos',
       icon: <Package strokeWidth={2} />,
       href: ordersHref,
-      isActive: path.startsWith('/account') && path.includes('order')
+      isActive: ordersActive
     },
     {
       label: 'Perfil',
       icon: <User strokeWidth={2} />,
       href: profileHref,
-      isActive: path.startsWith('/account')
+      isActive: path.startsWith('/account') && !ordersActive
     }
   ];
 

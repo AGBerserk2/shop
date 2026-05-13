@@ -1,0 +1,506 @@
+/* ============================================================
+   Anroy — /account/orders
+   Sister page to /account. Same peach pastel envelope, dedicated
+   to the order ledger. Pending orders pop with the accent color.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.anroy-orders {
+  --bg-frame:     #ffead3;
+  --bg-frame-2:   #fbd9b8;
+  --card:         #ffffff;
+  --ink:          #1d1d1f;
+  --ink-soft:     #4b4b50;
+  --mute:         #8e8e93;
+  --hairline:     #f0e8df;
+  --accent:       #f97316;
+  --accent-soft:  #fff1e0;
+  --accent-deep:  #c2580f;
+  --green:        #1f8c45;
+  --green-soft:   #d9f0e0;
+  --rose-red:     #b73a3a;
+  --rose-soft:    #fde2e2;
+  --blue:         #1d6db1;
+  --blue-soft:    #d9eaf9;
+
+  position: relative;
+  min-height: 100vh;
+  padding: 2.5rem 1rem 7rem;
+  background:
+    radial-gradient(ellipse 800px 500px at 0% 0%,
+      var(--bg-frame-2), transparent 55%),
+    radial-gradient(ellipse 700px 500px at 100% 100%,
+      var(--bg-frame), transparent 55%),
+    linear-gradient(180deg, var(--bg-frame) 0%, #fff5e8 70%, #fff 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+.anroy-orders__shell {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow:
+    0 30px 60px -30px rgba(20, 14, 10, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  overflow: hidden;
+  padding-bottom: 1.5rem;
+  animation: anroy-pop 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes anroy-pop {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── Top bar ───────────────────────────────────────────── */
+.anroy-orders__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.anroy-orders__back {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-decoration: none;
+}
+
+.anroy-orders__back:hover {
+  background: var(--accent-soft);
+}
+
+.anroy-orders__title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.anroy-orders__menu {
+  width: 36px;
+  height: 36px;
+}
+
+/* ─── Stats ─────────────────────────────────────────────── */
+.anroy-orders__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 1rem 1rem;
+  margin: 0 1.5rem 0.5rem;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.anroy-orders__stat {
+  text-align: center;
+  position: relative;
+}
+
+.anroy-orders__stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 8%;
+  bottom: 8%;
+  width: 1px;
+  background: var(--hairline);
+}
+
+.anroy-orders__stat-value {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.anroy-orders__stat-value--accent {
+  color: var(--accent);
+}
+
+.anroy-orders__stat-label {
+  margin-top: 0.2rem;
+  font-size: 0.74rem;
+  color: var(--mute);
+  font-weight: 500;
+}
+
+/* ─── Sections ──────────────────────────────────────────── */
+.anroy-orders__section {
+  padding: 1.5rem 1.5rem 0;
+  animation: anroy-fade 0.6s ease-out both;
+  animation-delay: 80ms;
+}
+
+.anroy-orders__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.anroy-orders__section-kicker {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: 0.15rem;
+}
+
+.anroy-orders__section-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin: 0;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.anroy-orders__section-tag {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-variant-numeric: tabular-nums;
+}
+
+.anroy-orders__live-dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anroy-orders__live-dot::before,
+.anroy-orders__live-dot::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+
+.anroy-orders__live-dot::before {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  z-index: 1;
+}
+
+.anroy-orders__live-dot::after {
+  width: 24px;
+  height: 24px;
+  background: var(--accent);
+  opacity: 0.3;
+  animation: anroy-ring 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes anroy-ring {
+  0%   { transform: scale(0.5); opacity: 0.5; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ─── Order list / cards ────────────────────────────────── */
+.anroy-orders__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.anroy-orders__card {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 22px;
+  padding: 1.1rem 1.1rem 1rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  transition: transform 0.18s ease, box-shadow 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.anroy-orders__card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(28, 19, 18, 0.1);
+  box-shadow:
+    0 6px 18px -8px rgba(28, 19, 18, 0.15),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+.anroy-orders__card.is-pending {
+  border-color: var(--accent);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 6px 18px -8px rgba(249, 115, 22, 0.25);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 241, 224, 0.6) 0%,
+      rgba(255, 255, 255, 1) 50%);
+}
+
+.anroy-orders__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+}
+
+.anroy-orders__card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.anroy-orders__card-status-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.anroy-orders__card-status-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.anroy-orders__card-status-label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: -0.005em;
+}
+
+.anroy-orders__card[data-tone='delivered']  .anroy-orders__card-status-icon { background: var(--green-soft); color: var(--green); }
+.anroy-orders__card[data-tone='delivered']  .anroy-orders__card-status-label{ color: var(--green); }
+.anroy-orders__card[data-tone='shipped']    .anroy-orders__card-status-icon { background: var(--accent-soft); color: var(--accent); }
+.anroy-orders__card[data-tone='shipped']    .anroy-orders__card-status-label{ color: var(--accent-deep); }
+.anroy-orders__card[data-tone='processing'] .anroy-orders__card-status-icon { background: var(--blue-soft); color: var(--blue); }
+.anroy-orders__card[data-tone='processing'] .anroy-orders__card-status-label{ color: var(--blue); }
+.anroy-orders__card[data-tone='cancelled']  .anroy-orders__card-status-icon { background: var(--rose-soft); color: var(--rose-red); }
+.anroy-orders__card[data-tone='cancelled']  .anroy-orders__card-status-label{ color: var(--rose-red); opacity: 0.85; }
+
+.anroy-orders__card-number {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.anroy-orders__card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--mute);
+  margin-bottom: 0.65rem;
+}
+
+.anroy-orders__card-blurb {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  margin: 0 0 0.85rem;
+  line-height: 1.4;
+}
+
+.anroy-orders__card-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--hairline);
+}
+
+.anroy-orders__card-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.anroy-orders__thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.anroy-orders__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anroy-orders__card-item-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.anroy-orders__card-item-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.anroy-orders__card-item-meta {
+  font-size: 0.76rem;
+  color: var(--mute);
+}
+
+.anroy-orders__card-more {
+  margin-top: 0.25rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.anroy-orders__card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.anroy-orders__card-total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.anroy-orders__card-total-label {
+  font-size: 0.7rem;
+  color: var(--mute);
+  font-weight: 500;
+}
+
+.anroy-orders__card-total-value {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.anroy-orders__card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 9999px;
+  transition: background 0.15s ease;
+}
+
+.anroy-orders__card-cta:hover {
+  background: var(--accent-soft);
+}
+
+/* ─── Empty state ───────────────────────────────────────── */
+.anroy-orders__empty {
+  margin: 1rem 1.5rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--accent-soft);
+  border-radius: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.anroy-orders__empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 28px -16px rgba(28, 19, 18, 0.18);
+}
+
+.anroy-orders__empty-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--ink);
+  margin: 0.25rem 0 0;
+}
+
+.anroy-orders__empty-sub {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  max-width: 22rem;
+  line-height: 1.5;
+}
+
+.anroy-orders__empty-cta {
+  margin-top: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.3rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.86rem;
+  text-decoration: none;
+  box-shadow: 0 6px 18px -8px rgba(249, 115, 22, 0.5);
+}
+
+@keyframes anroy-fade {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Page-scoped: hide global header + breadcrumb so the card takes the
+   whole canvas, same as /account. */
+body:has(.anroy-orders) {
+  main.content {
+    padding: 0;
+  }
+
+  > header,
+  header.header,
+  .header {
+    display: none !important;
+  }
+
+  main.content > div.page-width:first-child {
+    display: none !important;
+  }
+}
