@@ -220,6 +220,16 @@
   min-width: 0;
 }
 
+/* On mobile we want the summary up top (so the customer sees what
+   they're paying for first) and the form below it. On desktop the
+   default DOM order (form on the left, summary on the right) is
+   already correct. */
+@media (max-width: 959px) {
+  .anroy-checkout__sidebar {
+    order: -1;
+  }
+}
+
 .anroy-checkout__form > form > div > * + * {
   margin-top: 1.25rem;
 }
