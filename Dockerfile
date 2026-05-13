@@ -84,28 +84,24 @@ COPY --chown=app:app --from=builder /app/.evershop ./.evershop
 # lifecycle scripts so optional native prebuilds get fetched, but drop
 # the husky prepare hook (it tries to install git hooks even when
 # husky itself is a devDependency excluded by --omit=dev).
+# Install prod deps + force the right native prebuilds + prune unused
+# packages, all in one RUN so the diet actually shrinks the final image.
+# Docker layers are immutable — \`rm -rf\` in a later RUN only adds a
+# delete marker, the bytes from a previous layer still ship.
+#
+# We can drop these because they're confirmed to have ZERO static
+# imports from any path reachable from startUp():
+#   - TypeScript compiler + type definitions (build-only)
+#   - Dev tooling: eslint, prettier, jest, copyfiles, rimraf
+#   - Wrong-platform native prebuilds
+#
+# We keep webpack + @swc + sass + @tailwindcss because EverShop's
+# devEnvHelper.js imports them at startup (even in production mode).
 RUN npm pkg delete scripts.prepare \
  && npm install --omit=dev --no-audit --no-fund --no-save --include=optional \
  && npm install --no-save --no-audit --no-fund \
       @parcel/watcher-linux-x64-glibc \
- && npm cache clean --force
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Conservative image diet — only packages confirmed to have       │
-# │ ZERO static imports from runtime-loaded code paths.             │
-# │                                                                 │
-# │ EverShop's startUp() chain transitively loads:                  │
-# │   webpack, webpack-dev-middleware, webpack-hot-middleware,      │
-# │   @pmmmwh/react-refresh-webpack-plugin, swc-minify-webpack-     │
-# │   plugin (which pulls @swc), createBaseConfig, etc.             │
-# │ Deleting those breaks startup, so we leave them alone.          │
-# │                                                                 │
-# │ What we DO delete:                                              │
-# │   - TypeScript compiler + type definitions (build-only)         │
-# │   - Dev tooling: eslint, prettier, jest, copyfiles, rimraf      │
-# │   - Wrong-platform native prebuilds (~30 MB)                    │
-# └─────────────────────────────────────────────────────────────────┘
-RUN cd /app/node_modules && rm -rf \
+ && cd /app/node_modules && rm -rf \
       typescript @types \
       eslint prettier jest copyfiles rimraf \
       lightningcss-linux-x64-musl \
@@ -115,6 +111,7 @@ RUN cd /app/node_modules && rm -rf \
       @parcel/watcher-linux-arm64-glibc @parcel/watcher-linux-arm64-musl \
       @parcel/watcher-linux-arm-glibc @parcel/watcher-linux-arm-musl \
       @parcel/watcher-android-arm64 @parcel/watcher-freebsd-x64 \
+ && cd /app && npm cache clean --force \
  && chown -R app:app /app
 
 USER app
