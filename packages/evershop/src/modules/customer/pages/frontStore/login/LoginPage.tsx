@@ -1,5 +1,10 @@
-import { useCustomerDispatch } from '@components/frontStore/customer/CustomerContext.js';
 import { useAppDispatch } from '@components/common/context/app.js';
+import {
+  describeFirebaseError,
+  FirebaseWebConfig,
+  getFirebaseClient,
+  postFirebaseSession
+} from '@components/frontStore/auth/firebaseClient.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
@@ -9,18 +14,11 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import './LoginPage.scss';
 
-interface FirebaseWebConfig {
-  apiKey: string | null;
-  authDomain: string | null;
-  projectId: string | null;
-  appId: string | null;
-}
-
 interface LoginPageProps {
   homeUrl: string;
   registerUrl: string;
   forgotPasswordUrl: string;
-  loginGoogleUrl: string;
+  authUrl: string;
   setting?: {
     storeName: string | null;
     firebaseConfig: FirebaseWebConfig | null;
@@ -70,7 +68,7 @@ export default function LoginPage({
   homeUrl,
   registerUrl,
   forgotPasswordUrl,
-  loginGoogleUrl,
+  authUrl,
   setting
 }: LoginPageProps) {
   const storeName = setting?.storeName || 'Anroy';
@@ -78,75 +76,35 @@ export default function LoginPage({
   const firebaseReady =
     !!firebaseConfig?.apiKey && !!firebaseConfig?.projectId;
 
-  const { login } = useCustomerDispatch();
   const appDispatch = useAppDispatch();
   const [googleLoading, setGoogleLoading] = React.useState(false);
+
+  const refreshAndRedirect = React.useCallback(async () => {
+    const ajaxUrl = (() => {
+      const u = new URL(window.location.href);
+      u.searchParams.set('ajax', 'true');
+      return u.toString();
+    })();
+    await appDispatch.fetchPageData(ajaxUrl);
+    window.location.href = homeUrl;
+  }, [appDispatch, homeUrl]);
 
   const handleGoogleLogin = React.useCallback(async () => {
     if (!firebaseReady || googleLoading) return;
     setGoogleLoading(true);
     try {
-      // Lazy-load the Firebase SDK so we don't bloat the initial bundle
-      // for visitors that never hit the login page.
-      const [{ initializeApp, getApps, getApp }, authMod] = await Promise.all([
-        import('firebase/app'),
-        import('firebase/auth')
-      ]);
-      const cfg = {
-        apiKey: firebaseConfig!.apiKey!,
-        authDomain:
-          firebaseConfig!.authDomain ||
-          `${firebaseConfig!.projectId}.firebaseapp.com`,
-        projectId: firebaseConfig!.projectId!,
-        appId: firebaseConfig!.appId || undefined
-      };
-      const app = getApps().length ? getApp() : initializeApp(cfg);
-      const auth = authMod.getAuth(app);
-      auth.languageCode = 'es';
+      const { auth, authMod } = await getFirebaseClient(firebaseConfig!);
       const provider = new authMod.GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
       const result = await authMod.signInWithPopup(auth, provider);
-      const idToken = await result.user.getIdToken();
-
-      const res = await fetch(loginGoogleUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ credential: idToken })
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(
-          json?.error?.message || 'No pudimos iniciar sesión con Google'
-        );
-      }
-
-      const ajaxUrl = (() => {
-        const u = new URL(window.location.href);
-        u.searchParams.set('ajax', 'true');
-        return u.toString();
-      })();
-      await appDispatch.fetchPageData(ajaxUrl);
-      window.location.href = homeUrl;
+      const token = await result.user.getIdToken();
+      await postFirebaseSession(authUrl, token);
+      await refreshAndRedirect();
     } catch (e: any) {
-      // Common Firebase Auth error codes get nicer Spanish messages
-      const code = e?.code as string | undefined;
-      const map: Record<string, string> = {
-        'auth/popup-closed-by-user': 'Cerraste la ventana antes de terminar',
-        'auth/cancelled-popup-request': 'Se canceló la ventana anterior',
-        'auth/popup-blocked':
-          'Tu navegador bloqueó la ventana emergente. Permitila e intentá de nuevo.',
-        'auth/network-request-failed': 'Problema de conexión con Google',
-        'auth/unauthorized-domain':
-          'Este dominio no está autorizado en Firebase'
-      };
-      toast.error(
-        (code && map[code]) ||
-          e?.message ||
-          'Error al iniciar sesión con Google'
-      );
+      toast.error(describeFirebaseError(e));
       setGoogleLoading(false);
     }
-  }, [firebaseReady, firebaseConfig, googleLoading, loginGoogleUrl, appDispatch, homeUrl]);
+  }, [firebaseReady, firebaseConfig, googleLoading, authUrl, refreshAndRedirect]);
 
   return (
     <div className="anroy-login-shell">
@@ -191,75 +149,96 @@ export default function LoginPage({
             </p>
           </div>
 
-          {firebaseReady && (
-            <div className="anroy-login-google">
-              <button
-                type="button"
-                onClick={handleGoogleLogin}
-                disabled={googleLoading}
-                className="anroy-login-google__btn"
-                aria-label="Continuar con Google"
-              >
-                <GoogleIcon />
-                <span>
-                  {googleLoading ? 'Conectando…' : 'Continuar con Google'}
-                </span>
-              </button>
-              <div className="anroy-login-divider">
-                <span>o con tu correo</span>
+          {firebaseReady ? (
+            <>
+              <div className="anroy-login-google">
+                <button
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  disabled={googleLoading}
+                  className="anroy-login-google__btn"
+                  aria-label="Continuar con Google"
+                >
+                  <GoogleIcon />
+                  <span>
+                    {googleLoading ? 'Conectando…' : 'Continuar con Google'}
+                  </span>
+                </button>
+                <div className="anroy-login-divider">
+                  <span>o con tu correo</span>
+                </div>
               </div>
+
+              <Form
+                id="loginForm"
+                method="POST"
+                onSubmit={async (data) => {
+                  try {
+                    const { auth, authMod } = await getFirebaseClient(
+                      firebaseConfig!
+                    );
+                    const cred = await authMod.signInWithEmailAndPassword(
+                      auth,
+                      (data.email as string).trim(),
+                      data.password as string
+                    );
+                    const token = await cred.user.getIdToken();
+                    await postFirebaseSession(authUrl, token);
+                    await refreshAndRedirect();
+                  } catch (e: any) {
+                    toast.error(describeFirebaseError(e));
+                  }
+                }}
+                onError={(err: any) =>
+                  toast.error(err?.message || 'Revisá los datos')
+                }
+                submitBtn={false}
+              >
+                <div className="anroy-login-fields">
+                  <InputField
+                    prefixIcon={
+                      <Mail className="w-4 h-4" strokeWidth={1.75} />
+                    }
+                    label="Correo electrónico"
+                    name="email"
+                    placeholder="tucorreo@ejemplo.com"
+                    required
+                    validation={{ required: 'El correo es obligatorio' }}
+                  />
+                  <PasswordField
+                    prefixIcon={
+                      <LockKeyhole
+                        className="w-4 h-4"
+                        strokeWidth={1.75}
+                      />
+                    }
+                    label="Contraseña"
+                    name="password"
+                    placeholder="••••••••"
+                    required
+                    validation={{
+                      required: 'La contraseña es obligatoria'
+                    }}
+                    showToggle
+                  />
+                  <div className="text-right -mt-1">
+                    <a
+                      className="anroy-login-forgot"
+                      href={forgotPasswordUrl}
+                    >
+                      ¿Olvidaste tu contraseña?
+                    </a>
+                  </div>
+                  <SubmitBtn />
+                </div>
+              </Form>
+            </>
+          ) : (
+            <div className="anroy-login-misconfig">
+              El inicio de sesión todavía no está configurado. Avisá al
+              equipo para terminar la configuración de Firebase.
             </div>
           )}
-
-          <Form
-            id="loginForm"
-            method="POST"
-            onSubmit={async (data) => {
-              try {
-                await login(
-                  {
-                    email: data.email as string,
-                    password: data.password as string
-                  },
-                  homeUrl
-                );
-              } catch (e: any) {
-                toast.error(e?.message || 'No pudimos iniciar sesión');
-              }
-            }}
-            onError={(err: any) =>
-              toast.error(err?.message || 'Revisá los datos')
-            }
-            submitBtn={false}
-          >
-            <div className="anroy-login-fields">
-              <InputField
-                prefixIcon={<Mail className="w-4 h-4" strokeWidth={1.75} />}
-                label="Correo electrónico"
-                name="email"
-                placeholder="tucorreo@ejemplo.com"
-                required
-                validation={{ required: 'El correo es obligatorio' }}
-              />
-              <PasswordField
-                prefixIcon={
-                  <LockKeyhole className="w-4 h-4" strokeWidth={1.75} />
-                }
-                label="Contraseña"
-                name="password"
-                placeholder="••••••••"
-                required
-                validation={{ required: 'La contraseña es obligatoria' }}
-                showToggle
-              />
-              <div className="text-right -mt-1">
-                <a className="anroy-login-forgot" href={forgotPasswordUrl}>
-                  ¿Olvidaste tu contraseña?
-                </a>
-              </div>
-              <SubmitBtn />
-            </div>
-          </Form>
 
           <div className="anroy-login-footer">
             ¿Aún no tenés cuenta?{' '}
@@ -283,7 +262,7 @@ export const query = `
     homeUrl: url(routeId: "homepage")
     registerUrl: url(routeId: "register")
     forgotPasswordUrl: url(routeId: "resetPasswordPage")
-    loginGoogleUrl: url(routeId: "customerLoginGoogleJson")
+    authUrl: url(routeId: "customerAuthFirebaseJson")
     setting {
       storeName
       firebaseConfig {

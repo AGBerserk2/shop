@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "properties": {
+    "credential": { "type": "string", "minLength": 16 },
+    "fullName": { "type": "string", "maxLength": 255 }
+  },
+  "required": ["credential"]
+}

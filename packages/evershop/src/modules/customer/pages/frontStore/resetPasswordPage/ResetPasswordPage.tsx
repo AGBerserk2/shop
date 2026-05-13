@@ -1,157 +1,176 @@
-import { Form } from '@components/common/form/Form.js';
+import {
+  describeFirebaseError,
+  FirebaseWebConfig,
+  getFirebaseClient
+} from '@components/frontStore/auth/firebaseClient.js';
+import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
-import { PasswordField } from '@components/common/form/PasswordField.js';
 import { Button } from '@components/common/ui/Button.js';
-import { ResetPasswordForm } from '@components/frontStore/customer/ResetPasswordForm.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CheckCircle2, Mail, Sparkles } from 'lucide-react';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import '../login/LoginPage.scss';
 
-function Success({ children }: { children?: React.ReactNode }) {
+interface ResetPasswordPageProps {
+  loginUrl: string;
+  setting?: {
+    storeName: string | null;
+    firebaseConfig: FirebaseWebConfig | null;
+  };
+}
+
+function SubmitBtn() {
+  const {
+    formState: { isSubmitting }
+  } = useFormContext();
   return (
-    <div className="flex justify-center items-center h-full">
-      <div className="reset__password__success flex justify-center items-center pt-10 md:pt-36">
-        <div className="reset__password__success__inner max-w-md px-4">
-          <p className="text-center text-success">{children}</p>
-        </div>
-      </div>
-    </div>
+    <Button
+      type="submit"
+      className="w-full anroy-login-submit"
+      size="lg"
+      isLoading={isSubmitting}
+    >
+      {isSubmitting ? 'Enviando…' : 'Enviarme el enlace'}
+    </Button>
   );
 }
 
-const UpdateForm: React.FC<{
-  token: string;
-  action: string;
-  loginUrl: string;
-}> = ({ token, action, loginUrl }) => {
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(null);
-  const form = useForm();
-
-  return success ? (
-    <Success>
-      <div>{_('Your password has been updated successfully.')}</div>
-      <div className="flex items-center">
-        <Button
-          title={_('Go to Login')}
-          type="button"
-          onClick={() => {
-            window.location.href = loginUrl;
-          }}
-        >
-          {_('Go to Login')}
-        </Button>
-      </div>
-    </Success>
-  ) : (
-    <div className="flex justify-center items-center">
-      <div className="update-password-form flex justify-center items-center">
-        <div className="update-password-form-inner">
-          <h2 className="text-center mb-5">{_('Enter your new password')}</h2>
-          {error && <div className="text-critical mb-2">{error}</div>}
-          <Form
-            form={form}
-            id="updatePasswordForm"
-            action={action}
-            method="POST"
-            onSuccess={(response) => {
-              if (!response.error) {
-                setSuccess(true);
-              } else {
-                setError(response.error.message);
-              }
-            }}
-            submitBtn={false}
-          >
-            <PasswordField
-              name="password"
-              placeholder={_('Password')}
-              required
-              validation={{
-                required: _('Password is required')
-              }}
-            />
-            <InputField name="token" type="hidden" defaultValue={token} />
-            <div className="form-submit-button flex border-t border-divider mt-2 pt-2">
-              <Button
-                title={_('UPDATE PASSWORD')}
-                type="submit"
-                onClick={() => {
-                  (
-                    document.getElementById(
-                      'updatePasswordForm'
-                    ) as HTMLFormElement
-                  ).dispatchEvent(
-                    new Event('submit', { cancelable: true, bubbles: true })
-                  );
-                }}
-                isLoading={form.formState.isSubmitting}
-              >
-                {_('UPDATE PASSWORD')}
-              </Button>
-            </div>
-          </Form>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-interface ResetFormProps {
-  action: string;
-}
-
-function ResetForm({ action }: ResetFormProps) {
-  const [success, setSuccess] = React.useState(false);
-  const [token, setToken] = React.useState<string | undefined>('');
-
-  React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenParam = urlParams.get('token') as string;
-    setToken(tokenParam);
-  }, []);
-
-  return success ? (
-    <Success>
-      {_(
-        'We have sent you an email with a link to reset your password. Please check your inbox.'
-      )}
-    </Success>
-  ) : (
-    <ResetPasswordForm
-      title={_('Reset Your Password')}
-      subtitle={_('Please enter your email to receive a reset link')}
-      className="w-120 max-w-max md:max-w-[80%] bg-white rounded-3xl p-6 shadow-lg border border-divider"
-      action={action}
-      onSuccess={() => {
-        setSuccess(true);
-      }}
-    />
-  );
-}
-
-interface ResetPasswordFormProps {
-  requestAction: string;
-  updateAction: string;
-  loginUrl: string;
-}
 export default function ResetPasswordPage({
-  requestAction,
-  updateAction,
-  loginUrl
-}: ResetPasswordFormProps) {
-  const [token, setToken] = React.useState<string | undefined>('');
+  loginUrl,
+  setting
+}: ResetPasswordPageProps) {
+  const storeName = setting?.storeName || 'Anroy';
+  const firebaseConfig = setting?.firebaseConfig || null;
+  const firebaseReady =
+    !!firebaseConfig?.apiKey && !!firebaseConfig?.projectId;
 
-  React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenParam = urlParams.get('token') as string;
-    setToken(tokenParam);
-  }, []);
+  const [sent, setSent] = React.useState(false);
+  const [sentEmail, setSentEmail] = React.useState<string>('');
 
-  return token ? (
-    <UpdateForm token={token} action={updateAction} loginUrl={loginUrl} />
-  ) : (
-    <ResetForm action={requestAction} />
+  return (
+    <div className="anroy-login-shell">
+      <div className="anroy-login-grain" aria-hidden />
+
+      <aside className="anroy-login-hero">
+        <div className="anroy-login-hero__inner">
+          <div className="anroy-login-hero__eyebrow">
+            <Sparkles className="w-3.5 h-3.5" strokeWidth={2} />
+            <span>{storeName} · Recuperar acceso</span>
+          </div>
+          <h1 className="anroy-login-hero__title">
+            <span className="block">Tranquila,</span>
+            <span className="block italic">te ayudamos</span>
+          </h1>
+          <p className="anroy-login-hero__lede">
+            Mandanos tu correo y te enviamos un enlace seguro para que
+            elijas una contraseña nueva.
+          </p>
+          <div className="anroy-login-hero__bottom">
+            <span className="anroy-login-hero__dot" aria-hidden />
+            <span className="text-sm">Llega en menos de un minuto</span>
+          </div>
+        </div>
+
+        <div className="anroy-login-orb anroy-login-orb--a" aria-hidden />
+        <div className="anroy-login-orb anroy-login-orb--b" aria-hidden />
+        <div className="anroy-login-orb anroy-login-orb--c" aria-hidden />
+      </aside>
+
+      <main className="anroy-login-panel">
+        <div className="anroy-login-card">
+          {sent ? (
+            <div className="anroy-login-success">
+              <div className="anroy-login-success__icon">
+                <CheckCircle2 className="w-7 h-7" strokeWidth={1.75} />
+              </div>
+              <h2 className="anroy-login-card__title">
+                Revisá <span className="italic">tu correo</span>
+              </h2>
+              <p className="anroy-login-card__sub">
+                Si {sentEmail ? <strong>{sentEmail}</strong> : 'ese correo'}{' '}
+                está registrado, te enviamos un enlace para restablecer tu
+                contraseña. El enlace expira en una hora.
+              </p>
+              <a href={loginUrl} className="anroy-login-submit inline-flex justify-center items-center" style={{ marginTop: '1.5rem', textDecoration: 'none' }}>
+                Volver a iniciar sesión
+              </a>
+            </div>
+          ) : firebaseReady ? (
+            <>
+              <div className="anroy-login-card__head">
+                <span className="anroy-login-card__kicker">
+                  Restablecer contraseña
+                </span>
+                <h2 className="anroy-login-card__title">
+                  Cambiá tu <span className="italic">contraseña</span>
+                </h2>
+                <p className="anroy-login-card__sub">
+                  Te mandamos un enlace por correo para crear una nueva.
+                </p>
+              </div>
+
+              <Form
+                id="resetForm"
+                method="POST"
+                onSubmit={async (data) => {
+                  const email = (data.email as string).trim();
+                  try {
+                    const { auth, authMod } = await getFirebaseClient(
+                      firebaseConfig!
+                    );
+                    await authMod.sendPasswordResetEmail(auth, email);
+                    setSentEmail(email);
+                    setSent(true);
+                  } catch (e: any) {
+                    // Don't leak which emails exist — show success even
+                    // when Firebase returns user-not-found.
+                    if (
+                      e?.code === 'auth/user-not-found' ||
+                      e?.code === 'auth/invalid-email'
+                    ) {
+                      setSentEmail(email);
+                      setSent(true);
+                      return;
+                    }
+                    toast.error(describeFirebaseError(e));
+                  }
+                }}
+                onError={(err: any) =>
+                  toast.error(err?.message || 'Revisá tu correo')
+                }
+                submitBtn={false}
+              >
+                <div className="anroy-login-fields">
+                  <InputField
+                    prefixIcon={
+                      <Mail className="w-4 h-4" strokeWidth={1.75} />
+                    }
+                    label="Correo electrónico"
+                    name="email"
+                    placeholder="tucorreo@ejemplo.com"
+                    required
+                    validation={{ required: 'El correo es obligatorio' }}
+                  />
+                  <SubmitBtn />
+                </div>
+              </Form>
+
+              <div className="anroy-login-footer">
+                ¿Te acordaste?{' '}
+                <a href={loginUrl} className="anroy-login-footer__link">
+                  Volver al inicio de sesión
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="anroy-login-misconfig">
+              La recuperación de contraseña todavía no está configurada.
+              Avisá al equipo para terminar la configuración de Firebase.
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
 
@@ -162,8 +181,15 @@ export const layout = {
 
 export const query = `
   query Query {
-    requestAction: url(routeId: "resetPassword"),
-    updateAction: url(routeId: "updatePassword"),
     loginUrl: url(routeId: "login")
+    setting {
+      storeName
+      firebaseConfig {
+        apiKey
+        authDomain
+        projectId
+        appId
+      }
+    }
   }
 `;
