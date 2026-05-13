@@ -9,6 +9,8 @@ FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
+# Skip husky install — git hooks aren't useful inside a container.
+ENV HUSKY=0
 
 # Tools needed by node-gyp + sharp's libvips:
 #   python3, make, g++  → fallback compilation for native modules
@@ -48,6 +50,7 @@ FROM node:20-bookworm-slim AS runtime
 WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV HUSKY=0
 
 # tini → proper PID 1 + signal forwarding
 # libvips42 → runtime shared lib for sharp
