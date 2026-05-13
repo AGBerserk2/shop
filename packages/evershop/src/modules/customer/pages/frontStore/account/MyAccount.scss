@@ -792,7 +792,26 @@
   cursor: progress;
 }
 
-/* Override the global shell padding so the card sits flush. */
-body:has(.anroy-profile) main.content {
-  padding: 0;
+/* ─── Page-scoped overrides ─────────────────────────────── */
+/* The /account view is a self-contained pocket card with its own
+   masthead, avatar and back arrow. Hide the global site header
+   AND the auto-generated breadcrumb that EverShop injects at the
+   top of every page so we don't double-render navigation chrome. */
+body:has(.anroy-profile) {
+  main.content {
+    padding: 0;
+  }
+
+  /* Site header (logo + search + avatar + cart) */
+  > header,
+  header.header,
+  .header {
+    display: none !important;
+  }
+
+  /* Breadcrumb is the first child of main.content (sortOrder 0) and
+     uses the `.page-width` wrapper. Hide that specific one only. */
+  main.content > div.page-width:first-child {
+    display: none !important;
+  }
 }
