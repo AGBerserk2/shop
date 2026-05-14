@@ -5,13 +5,14 @@ import {
   useCustomer
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import {
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Clock,
   Package,
   PackageCheck,
-  PackageOpen,
   ShoppingBag,
+  ShoppingCart,
+  Truck,
   XCircle
 } from 'lucide-react';
 import React from 'react';
@@ -27,35 +28,94 @@ function statusTone(code: string): Tone {
   return 'processing';
 }
 
+// Three customer-facing stages. We map every shipment status into one
+// of these so the customer sees the same simple flow regardless of
+// what's happening on the admin side.
+type Stage = 0 | 1 | 2;
+const STAGE_LABELS = ['Compra', 'De camino', 'Entregada'] as const;
+
+function stageIndex(tone: Tone): Stage {
+  if (tone === 'delivered') return 2;
+  if (tone === 'shipped') return 1;
+  return 0;
+}
+
 const STATUS_LABEL: Record<Tone, string> = {
-  delivered: 'Entregado',
-  shipped: 'En camino',
-  processing: 'En proceso',
+  delivered: 'Entregada',
+  shipped: 'De camino',
+  processing: 'Compra confirmada',
   cancelled: 'Cancelado'
 };
 
 const STATUS_ICON: Record<Tone, React.ReactNode> = {
   delivered: <PackageCheck strokeWidth={2} />,
-  shipped: <PackageOpen strokeWidth={2} />,
-  processing: <Clock strokeWidth={2} />,
+  shipped: <Truck strokeWidth={2} />,
+  processing: <ShoppingCart strokeWidth={2} />,
   cancelled: <XCircle strokeWidth={2} />
 };
 
 const STATUS_BLURB: Record<Tone, string> = {
-  delivered: 'Pedido entregado.',
-  shipped: 'En camino a tu dirección.',
-  processing: 'Lo estamos preparando.',
+  delivered: 'Tu pedido ya está en tus manos. ¡Disfrutalo!',
+  shipped: 'Ya salió. Llega en 1–3 días hábiles.',
+  processing: 'Lo estamos preparando con cariño.',
   cancelled: 'Este pedido fue cancelado.'
 };
 
 const PENDING_TONES: Tone[] = ['processing', 'shipped'];
+
+const STAGE_ICONS: React.ReactNode[] = [
+  <ShoppingCart strokeWidth={2.2} key="0" />,
+  <Truck strokeWidth={2.2} key="1" />,
+  <PackageCheck strokeWidth={2.2} key="2" />
+];
+
+const Tracker: React.FC<{ stage: Stage }> = ({ stage }) => (
+  <div className="anroy-tracker" role="list" aria-label="Estado del pedido">
+    {STAGE_LABELS.map((label, i) => {
+      const reached = i <= stage;
+      const current = i === stage;
+      return (
+        <React.Fragment key={label}>
+          <div
+            className={
+              `anroy-tracker__step` +
+              (reached ? ' is-reached' : '') +
+              (current ? ' is-current' : '')
+            }
+            role="listitem"
+            aria-current={current ? 'step' : undefined}
+          >
+            <span className="anroy-tracker__dot" aria-hidden>
+              {reached && !current ? (
+                <CheckCircle2 strokeWidth={2.4} />
+              ) : (
+                STAGE_ICONS[i]
+              )}
+            </span>
+            <span className="anroy-tracker__label">{label}</span>
+          </div>
+          {i < STAGE_LABELS.length - 1 && (
+            <span
+              className={
+                `anroy-tracker__line` + (i < stage ? ' is-reached' : '')
+              }
+              aria-hidden
+            />
+          )}
+        </React.Fragment>
+      );
+    })}
+  </div>
+);
 
 const OrderCard: React.FC<{ order: Order; highlighted?: boolean }> = ({
   order,
   highlighted
 }) => {
   const tone = statusTone(order.status?.code || order.status?.name || '');
+  const stage = stageIndex(tone);
   const items = order.items || [];
+  const isCancelled = tone === 'cancelled';
   return (
     <article
       className={`anroy-orders__card ${highlighted ? 'is-pending' : ''}`}
@@ -82,6 +142,8 @@ const OrderCard: React.FC<{ order: Order; highlighted?: boolean }> = ({
           {items.length} pieza{items.length === 1 ? '' : 's'}
         </span>
       </div>
+
+      {!isCancelled && <Tracker stage={stage} />}
 
       <p className="anroy-orders__card-blurb">{STATUS_BLURB[tone]}</p>
 

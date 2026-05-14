@@ -66,11 +66,11 @@ export default async (
     /* Update Shipment status to shipped */
     await updateShipmentStatus(order.order_id, 'shipped', conn);
 
-    /* Add an activity log message */
+    /* Add an activity log message — customer-visible, so Spanish. */
     await addOrderActivityLog(
       order.order_id,
-      `Order has been shipped`,
-      false,
+      'Pedido enviado',
+      true,
       conn
     );
     const shipmentData = await select()

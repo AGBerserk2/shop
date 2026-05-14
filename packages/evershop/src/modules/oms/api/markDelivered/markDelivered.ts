@@ -4,6 +4,7 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
+import { emit } from '../../../../lib/event/emitter.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
   INTERNAL_SERVER_ERROR,
@@ -56,14 +57,26 @@ export default async (
     }
 
     await updateShipmentStatus(order_id, 'delivered', connection);
-    /* Add an activity log message */
+    /* Add an activity log message — customer-visible, so Spanish. */
     await addOrderActivityLog(
       order.order_id,
-      'Order delivered',
-      false,
+      'Pedido entregado',
+      true,
       connection
     );
     await commit(connection);
+
+    // Fire after the transaction commits so subscribers see the fresh
+    // row state. The customer-facing sendDeliveredEmail subscriber
+    // listens for this event.
+    await emit('order_delivered', {
+      order_id: order.order_id,
+      uuid: order.uuid,
+      customer_email: order.customer_email,
+      customer_full_name: order.customer_full_name,
+      order_number: order.order_number
+    });
+
     response.status(OK);
     response.$body = {
       data: {

@@ -130,6 +130,42 @@ export interface EventDataRegistry {
     before: string;
     after: string;
   };
+
+  /**
+   * Fired when an order's shipment is created (admin marked it as shipped).
+   */
+  order_shipped: {
+    order_id: number;
+    uuid: string;
+    customer_email: string | null;
+    customer_full_name: string | null;
+    order_number: string | number;
+    carrier: string | null;
+    tracking_number: string | null;
+  };
+
+  /**
+   * Fired when an order's shipment is marked as delivered by the admin.
+   */
+  order_delivered: {
+    order_id: number;
+    uuid: string;
+    customer_email: string | null;
+    customer_full_name: string | null;
+    order_number: string | number;
+  };
+
+  /**
+   * Fired when an order is canceled.
+   */
+  order_canceled: {
+    order_id: number;
+    uuid: string;
+    customer_email: string | null;
+    customer_full_name: string | null;
+    order_number: string | number;
+    reason: string | null;
+  };
 }
 
 /**

@@ -1,6 +1,3 @@
-import { Form } from '@components/common/form/Form.js';
-import { InputField } from '@components/common/form/InputField.js';
-import { SelectField } from '@components/common/form/SelectField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import { Button } from '@components/common/ui/Button.js';
@@ -19,14 +16,9 @@ interface ShipButtonProps {
       code: string;
     };
   };
-  carriers: {
-    label: string;
-    value: string;
-  }[];
 }
 export default function ShipButton({
-  order: { noShippingRequired, shipment, createShipmentApi, shipmentStatus },
-  carriers
+  order: { noShippingRequired, shipment, createShipmentApi, shipmentStatus }
 }: ShipButtonProps) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   if (noShippingRequired) {
@@ -38,89 +30,69 @@ export default function ShipButton({
   }
   if (shipment) {
     return null;
-  } else {
-    return (
-      <RenderIfTrue condition={shipmentStatus.code !== 'canceled'}>
-        <Button
-          variant="default"
-          onClick={() => {
-            openAlert({
-              heading: 'Marcar como enviado',
-              content: (
-                <div>
-                  <Form
-                    id="ship-items"
-                    method="POST"
-                    action={createShipmentApi}
-                    submitBtn={false}
-                    onSuccess={(response) => {
-                      if (response.error) {
-                        toast.error(response.error.message);
-                        dispatchAlert({
-                          type: 'update',
-                          payload: { secondaryAction: { isLoading: false } }
-                        });
-                      } else {
-                        // Reload the page
-                        window.location.reload();
-                      }
-                    }}
-                    onInvalid={() => {
-                      dispatchAlert({
-                        type: 'update',
-                        payload: { secondaryAction: { isLoading: false } }
-                      });
-                    }}
-                  >
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <InputField
-                          type="text"
-                          name="tracking_number"
-                          label="Número de seguimiento"
-                          placeholder="Número de seguimiento"
-                        />
-                      </div>
-                      <div>
-                        <SelectField
-                          name="carrier"
-                          label="Transportista"
-                          options={carriers}
-                        />
-                      </div>
-                    </div>
-                  </Form>
-                </div>
-              ),
-              primaryAction: {
-                title: 'Cancelar',
-                onAction: closeAlert,
-                variant: 'outline'
-              },
-              secondaryAction: {
-                title: 'Enviar',
-                onAction: () => {
-                  dispatchAlert({
-                    type: 'update',
-                    payload: { secondaryAction: { isLoading: true } }
-                  });
-                  (
-                    document.getElementById('ship-items') as HTMLFormElement
-                  ).dispatchEvent(
-                    new Event('submit', { cancelable: true, bubbles: true })
-                  );
-                },
-                variant: 'default',
-                isLoading: false
-              }
-            });
-          }}
-        >
-          Marcar como enviado
-        </Button>
-      </RenderIfTrue>
-    );
   }
+  // Informal delivery: we don't capture carrier/tracking. Confirming
+  // just flips the shipment to "shipped" and triggers the customer
+  // notification email.
+  const submit = async () => {
+    dispatchAlert({
+      type: 'update',
+      payload: { secondaryAction: { isLoading: true } }
+    });
+    try {
+      const res = await fetch(createShipmentApi, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || body?.error) {
+        toast.error(body?.error?.message || 'No se pudo marcar como enviado');
+        dispatchAlert({
+          type: 'update',
+          payload: { secondaryAction: { isLoading: false } }
+        });
+        return;
+      }
+      window.location.reload();
+    } catch (e) {
+      toast.error('No se pudo marcar como enviado');
+      dispatchAlert({
+        type: 'update',
+        payload: { secondaryAction: { isLoading: false } }
+      });
+    }
+  };
+  return (
+    <RenderIfTrue condition={shipmentStatus.code !== 'canceled'}>
+      <Button
+        variant="default"
+        onClick={() => {
+          openAlert({
+            heading: 'Marcar como enviado',
+            content: (
+              <div className="text-sm text-(--ui-muted-foreground)">
+                Vamos a notificar al cliente que su pedido salió en camino.
+              </div>
+            ),
+            primaryAction: {
+              title: 'Cancelar',
+              onAction: closeAlert,
+              variant: 'outline'
+            },
+            secondaryAction: {
+              title: 'Confirmar envío',
+              onAction: submit,
+              variant: 'default',
+              isLoading: false
+            }
+          });
+        }}
+      >
+        Marcar como enviado
+      </Button>
+    </RenderIfTrue>
+  );
 }
 
 export const layout = {
@@ -142,10 +114,6 @@ export const query = `
         code
       }
       createShipmentApi
-    },
-    carriers {
-      label: name
-      value: code
     }
   }
 `;

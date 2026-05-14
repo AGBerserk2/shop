@@ -322,6 +322,108 @@
   line-height: 1.4;
 }
 
+/* ─── 3-step tracker (Compra → De camino → Entregada) ────── */
+.anroy-tracker {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin: 0.45rem 0 0.85rem;
+  padding: 0.85rem 0.3rem 0.55rem;
+  border-top: 1px dashed var(--hairline);
+  border-bottom: 1px dashed var(--hairline);
+}
+
+.anroy-tracker__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  min-width: 64px;
+}
+
+.anroy-tracker__dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f6efe6;
+  color: #bcb2a3;
+  border: 1.5px solid var(--hairline);
+  transition: background 0.25s ease, color 0.25s ease,
+              border-color 0.25s ease, box-shadow 0.3s ease,
+              transform 0.25s ease;
+}
+
+.anroy-tracker__dot svg {
+  width: 16px;
+  height: 16px;
+}
+
+.anroy-tracker__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--mute);
+  text-align: center;
+  transition: color 0.25s ease;
+}
+
+.anroy-tracker__step.is-reached .anroy-tracker__dot {
+  background: var(--green-soft);
+  color: var(--green);
+  border-color: transparent;
+}
+
+.anroy-tracker__step.is-reached .anroy-tracker__label {
+  color: var(--ink);
+}
+
+.anroy-tracker__step.is-current .anroy-tracker__dot {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+  transform: scale(1.06);
+  box-shadow: 0 6px 16px -6px rgba(249, 115, 22, 0.55),
+              0 0 0 4px rgba(249, 115, 22, 0.12);
+  animation: anroy-tracker-pulse 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.anroy-tracker__step.is-current .anroy-tracker__label {
+  color: var(--accent-deep);
+  font-weight: 700;
+}
+
+.anroy-tracker__line {
+  flex: 1;
+  height: 2px;
+  margin-top: 15px;
+  background:
+    repeating-linear-gradient(
+      to right,
+      var(--hairline) 0 6px,
+      transparent 6px 10px
+    );
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+.anroy-tracker__line.is-reached {
+  background: linear-gradient(90deg, var(--green) 0%, var(--accent) 100%);
+}
+
+@keyframes anroy-tracker-pulse {
+  0%   { box-shadow: 0 6px 16px -6px rgba(249, 115, 22, 0.55),
+                     0 0 0 0   rgba(249, 115, 22, 0.45); }
+  70%  { box-shadow: 0 6px 16px -6px rgba(249, 115, 22, 0.55),
+                     0 0 0 10px rgba(249, 115, 22, 0); }
+  100% { box-shadow: 0 6px 16px -6px rgba(249, 115, 22, 0.55),
+                     0 0 0 0   rgba(249, 115, 22, 0); }
+}
+
 .anroy-orders__card-items {
   display: flex;
   flex-direction: column;

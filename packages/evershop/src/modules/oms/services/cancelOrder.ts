@@ -98,8 +98,8 @@ async function cancelOrder(uuid: string, reason: string | undefined) {
     );
     await addOrderActivityLog(
       order.order_id,
-      `Order canceled ${reason ? `(${reason})` : ''}`,
-      false,
+      `Pedido cancelado${reason ? ` (${reason})` : ''}`,
+      true,
       connection
     );
     await hookable(reStockAfterCancel, { order })(order.order_id, connection);
