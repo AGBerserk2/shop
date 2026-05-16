@@ -90,7 +90,29 @@
 }
 
 .anroy-tabbar__icon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Cart item-count badge, pinned to the icon's top-right corner. */
+.anroy-tabbar__badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f97316;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px -2px rgba(249, 115, 22, 0.55);
 }
