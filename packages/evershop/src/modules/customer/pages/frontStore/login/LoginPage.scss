@@ -1,13 +1,25 @@
 /* ============================================================
-   Anroy — página de inicio de sesión
-   Estilo: glassmorphism sobre mesh gradient cálido. Una mitad
-   editorial con tipografía italiana, otra mitad funcional con
-   campos suaves y un botón de Google integrado.
+   Anroy — inicio de sesión / registro
+   Misma envoltura durazno pastel que /account y /account/orders.
+   Mitad editorial con Cormorant Garamond, mitad funcional con
+   campos suaves y acento naranja.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&display=swap');
 
 .anroy-login-shell {
+  --bg-frame:    #ffead3;
+  --bg-frame-2:  #fbd9b8;
+  --card:        #ffffff;
+  --ink:         #1d1d1f;
+  --ink-soft:    #4b4b50;
+  --mute:        #8e8e93;
+  --hairline:    #f0e8df;
+  --accent:      #f97316;
+  --accent-soft: #fff1e0;
+  --accent-deep: #c2580f;
+  --green:       #1f8c45;
+
   position: fixed;
   inset: 0;
   display: grid;
@@ -15,21 +27,25 @@
   overflow: hidden;
   background:
     radial-gradient(ellipse 1000px 700px at 0% 0%,
-      rgba(255, 211, 195, 0.7), transparent 55%),
+      var(--bg-frame-2), transparent 55%),
     radial-gradient(ellipse 800px 700px at 100% 100%,
-      rgba(232, 200, 230, 0.65), transparent 60%),
+      var(--bg-frame), transparent 60%),
     radial-gradient(ellipse 800px 600px at 100% 0%,
-      rgba(255, 232, 175, 0.5), transparent 55%),
-    linear-gradient(135deg, #fff7f0 0%, #fdeae6 50%, #f9e4f0 100%);
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #221a1f;
+      rgba(255, 232, 175, 0.6), transparent 55%),
+    linear-gradient(135deg, #fff7ec 0%, #fff1e0 50%, #ffe7d0 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
   z-index: 1;
 }
 
 @media (max-width: 900px) {
   .anroy-login-shell {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(180px, 30vh) 1fr;
+    /* Hero hugs its content instead of reserving 30vh — no empty band
+       between the logo and the title. */
+    grid-template-rows: auto 1fr;
     position: relative;
     min-height: 100vh;
   }
@@ -41,7 +57,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.06;
+  opacity: 0.05;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.95'/></svg>");
 }
@@ -64,8 +80,13 @@
 
 @media (max-width: 900px) {
   .anroy-login-hero {
-    padding: 1.5rem 1.5rem 1rem;
-    align-items: flex-end;
+    /* top padding clears the absolutely-positioned logo */
+    padding: 4rem 1.5rem 1.25rem;
+    align-items: flex-start;
+    /* Let the blurred orbs bleed past the hero into the form panel so
+       the two areas melt together instead of cutting on a hard line.
+       The shell still clips everything at the page edge. */
+    overflow: visible;
   }
 }
 
@@ -75,22 +96,53 @@
   max-width: 560px;
 }
 
-.anroy-login-hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-weight: 600;
-  color: #6f3f55;
-  padding: 0.4rem 0.85rem;
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 9999px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
-  margin-bottom: 1.75rem;
+/* Store logo — pinned to the top-left corner of the hero panel,
+   above the floating orbs. Kept compact so the editorial title
+   stays the focal point. */
+.anroy-login-hero__logo,
+.anroy-login-hero__wordmark {
+  position: absolute;
+  top: 2.25rem;
+  left: 4rem;
+  z-index: 4;
+}
+
+.anroy-login-hero__logo {
+  display: block;
+  height: 42px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.anroy-login-hero__wordmark {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+@media (max-width: 1280px) {
+  .anroy-login-hero__logo,
+  .anroy-login-hero__wordmark {
+    left: 2.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .anroy-login-hero__logo,
+  .anroy-login-hero__wordmark {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+
+  .anroy-login-hero__logo {
+    height: 34px;
+  }
+
+  .anroy-login-hero__wordmark {
+    font-size: 1.1rem;
+  }
 }
 
 .anroy-login-hero__title {
@@ -99,14 +151,14 @@
   font-size: clamp(2.5rem, 5.5vw, 5rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
-  color: #1c1318;
+  color: var(--ink);
   margin: 0 0 1.5rem;
 }
 
 .anroy-login-hero__title .italic {
   font-style: italic;
   font-weight: 400;
-  background: linear-gradient(90deg, #c84a7a 0%, #d97546 60%, #c0863e 100%);
+  background: linear-gradient(90deg, #f97316 0%, #e0843a 55%, #c0863e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -115,7 +167,7 @@
 .anroy-login-hero__lede {
   font-size: 1.05rem;
   line-height: 1.55;
-  color: rgba(28, 19, 24, 0.7);
+  color: var(--ink-soft);
   max-width: 28rem;
   margin: 0 0 2.5rem;
 }
@@ -124,15 +176,15 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: rgba(28, 19, 24, 0.6);
+  color: var(--mute);
 }
 
 .anroy-login-hero__dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff, #c84a7a 60%);
-  box-shadow: 0 0 12px rgba(200, 74, 122, 0.5);
+  background: radial-gradient(circle at 30% 30%, #fff, var(--accent) 60%);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.5);
   animation: anroy-pulse 2.4s ease-in-out infinite;
 }
 
@@ -146,7 +198,7 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(50px);
-  opacity: 0.55;
+  opacity: 0.6;
   z-index: 1;
   animation: anroy-float 14s ease-in-out infinite;
 }
@@ -154,7 +206,7 @@
 .anroy-login-orb--a {
   width: 460px;
   height: 460px;
-  background: radial-gradient(circle at 30% 30%, #ffb8d8, transparent 70%);
+  background: radial-gradient(circle at 30% 30%, #ffc78f, transparent 70%);
   top: -120px;
   left: -120px;
 }
@@ -162,7 +214,7 @@
 .anroy-login-orb--b {
   width: 380px;
   height: 380px;
-  background: radial-gradient(circle at 50% 50%, #ffd49a, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, #ffd9a3, transparent 70%);
   top: 30%;
   left: 45%;
   animation-delay: -4s;
@@ -171,7 +223,7 @@
 .anroy-login-orb--c {
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle at 50% 50%, #c2a8ff, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, #ffb27a, transparent 70%);
   bottom: -80px;
   right: -60px;
   animation-delay: -8s;
@@ -195,7 +247,10 @@
 
 @media (max-width: 900px) {
   .anroy-login-panel {
-    padding: 1.5rem 1.25rem 3rem;
+    /* Card hugs the top of its row, right below the hero, instead of
+       being vertically centered with empty space above it. */
+    align-items: flex-start;
+    padding: 1rem 1.25rem 2.5rem;
   }
 }
 
@@ -204,20 +259,18 @@
   width: 100%;
   max-width: 420px;
   padding: 2.5rem 2.25rem;
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: var(--card);
+  border: 1px solid var(--hairline);
   border-radius: 28px;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 18px 50px -20px rgba(78, 27, 50, 0.25),
-    0 4px 12px -4px rgba(78, 27, 50, 0.08);
-  animation: anroy-card-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    0 30px 60px -30px rgba(20, 14, 10, 0.28),
+    0 4px 12px -4px rgba(20, 14, 10, 0.06);
+  animation: anroy-card-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @keyframes anroy-card-in {
-  0% { opacity: 0; transform: translateY(18px) scale(0.985); }
+  0% { opacity: 0; transform: translateY(16px) scale(0.99); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -234,31 +287,33 @@
 
 .anroy-login-card__kicker {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #b14975;
-  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent-deep);
+  font-weight: 700;
   margin-bottom: 0.65rem;
 }
 
 .anroy-login-card__title {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 2.25rem;
+  font-size: 2.3rem;
   line-height: 1.05;
   margin: 0 0 0.4rem;
-  color: #1c1318;
+  color: var(--ink);
+  letter-spacing: -0.01em;
 }
 
 .anroy-login-card__title .italic {
   font-style: italic;
   font-weight: 400;
+  color: var(--accent-deep);
 }
 
 .anroy-login-card__sub {
   font-size: 0.9rem;
-  color: rgba(28, 19, 24, 0.6);
+  color: var(--ink-soft);
   margin: 0;
 }
 
@@ -275,9 +330,9 @@
   width: 100%;
   height: 46px;
   background: #fff;
-  border: 1px solid rgba(28, 19, 24, 0.16);
+  border: 1px solid var(--hairline);
   border-radius: 9999px;
-  color: #1c1318;
+  color: var(--ink);
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
@@ -290,8 +345,8 @@
 
 .anroy-login-google__btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  border-color: rgba(28, 19, 24, 0.3);
-  box-shadow: 0 8px 18px -10px rgba(28, 19, 24, 0.25);
+  border-color: rgba(28, 19, 24, 0.22);
+  box-shadow: 0 8px 18px -10px rgba(28, 19, 24, 0.22);
 }
 
 .anroy-login-google__btn:disabled {
@@ -314,7 +369,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(28, 19, 24, 0.12),
+    var(--hairline),
     transparent
   );
 }
@@ -323,11 +378,12 @@
   position: relative;
   display: inline-block;
   padding: 0 0.85rem;
-  background: rgba(255, 255, 255, 0);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
+  background: var(--card);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(28, 19, 24, 0.5);
+  font-weight: 600;
+  color: var(--mute);
 }
 
 /* ---------- Form fields ---------- */
@@ -344,13 +400,14 @@
 
 .anroy-login-forgot {
   font-size: 0.8rem;
-  color: #b14975;
+  color: var(--accent-deep);
+  font-weight: 600;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .anroy-login-forgot:hover {
-  color: #87324f;
+  color: var(--accent);
   text-decoration: underline;
 }
 
@@ -358,47 +415,47 @@
   margin-top: 0.5rem;
   height: 48px !important;
   border-radius: 9999px !important;
-  background: linear-gradient(135deg, #1c1318 0%, #4a2937 100%) !important;
+  background: linear-gradient(135deg, #f97316 0%, #c2580f 100%) !important;
   color: #fff !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.15) inset,
-    0 10px 24px -10px rgba(28, 19, 24, 0.6);
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 12px 26px -10px rgba(249, 115, 22, 0.6);
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .anroy-login-submit:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.18) inset,
-    0 14px 28px -10px rgba(28, 19, 24, 0.6);
+    0 1px 0 rgba(255, 255, 255, 0.3) inset,
+    0 16px 30px -10px rgba(249, 115, 22, 0.65);
 }
 
 .anroy-login-footer {
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.85rem;
-  color: rgba(28, 19, 24, 0.65);
+  color: var(--ink-soft);
 }
 
 .anroy-login-footer__link {
-  color: #1c1318;
-  font-weight: 600;
+  color: var(--ink);
+  font-weight: 700;
   text-decoration: none;
-  border-bottom: 1px solid currentColor;
+  border-bottom: 1px solid var(--accent);
   padding-bottom: 1px;
-  transition: opacity 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .anroy-login-footer__link:hover {
-  opacity: 0.7;
+  color: var(--accent-deep);
 }
 
 /* ---------- Misconfig + success states ---------- */
 .anroy-login-misconfig {
   padding: 1.25rem 1rem;
-  background: rgba(255, 224, 224, 0.55);
+  background: #fde2e2;
   border: 1px solid rgba(180, 60, 60, 0.18);
   border-radius: 14px;
   color: #8a2a2a;
@@ -419,17 +476,80 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #d6f3e1, #fbe7c0);
-  color: #1c5a3a;
+  background: linear-gradient(135deg, #d9f0e0, var(--accent-soft));
+  color: var(--green);
   margin: 0 auto 1rem;
-  box-shadow: 0 6px 18px -8px rgba(28, 90, 58, 0.4);
+  box-shadow: 0 6px 18px -8px rgba(31, 140, 69, 0.4);
 }
 
-/* Hide the global site chrome (header/footer) on the login screen so the
-   editorial layout has the whole canvas. */
-body:has(.anroy-login-shell) > header,
-body:has(.anroy-login-shell) > footer,
-body:has(.anroy-login-shell) .global-header,
-body:has(.anroy-login-shell) .global-footer {
-  display: none;
+/* Hide the global site chrome (header, footer, breadcrumb) on the login
+   screen so the editorial layout owns the whole canvas. Same approach as
+   /account and /account/orders. */
+body:has(.anroy-login-shell) {
+  main.content {
+    padding: 0;
+  }
+
+  > header,
+  header.header,
+  .header,
+  footer,
+  .footer {
+    display: none !important;
+  }
+
+  /* Breadcrumb ("Home > Login") — first page-width block inside main. */
+  main.content > div.page-width:first-child {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   Desktop layout polish — placed last so it correctly overrides
+   the base rules above. The left side becomes a solid warm
+   editorial panel and the right a clean light panel; the title
+   centers vertically to fill the panel. Mobile keeps its own
+   stacked treatment, untouched.
+   ============================================================ */
+@media (min-width: 901px) {
+  .anroy-login-hero {
+    /* Vertically centre the headline — no longer pinned to the bottom. */
+    align-items: center;
+    background:
+      radial-gradient(ellipse 70% 55% at 22% 20%,
+        rgba(255, 255, 255, 0.5), transparent 72%),
+      linear-gradient(158deg, #ffe6c9 0%, #ffd2a4 48%, #f6bd87 100%);
+  }
+
+  .anroy-login-panel {
+    background: linear-gradient(180deg, #fffbf5 0%, #fff3e5 100%);
+  }
+
+  /* A touch bigger logo, as requested. */
+  .anroy-login-hero__logo {
+    height: 56px;
+    max-width: 240px;
+  }
+
+  .anroy-login-hero__wordmark {
+    font-size: 1.5rem;
+  }
+
+  /* Orbs read as soft ambient light on the warm panel, not smudges. */
+  .anroy-login-orb {
+    filter: blur(72px);
+    opacity: 0.5;
+  }
+
+  .anroy-login-orb--a {
+    background: radial-gradient(circle at 30% 30%, #fff4e3, transparent 70%);
+  }
+
+  .anroy-login-orb--b {
+    background: radial-gradient(circle at 50% 50%, #fff8ef, transparent 72%);
+  }
+
+  .anroy-login-orb--c {
+    background: radial-gradient(circle at 50% 50%, #ffe3c6, transparent 70%);
+  }
 }

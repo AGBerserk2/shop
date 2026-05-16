@@ -9,7 +9,7 @@ import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
 import { Button } from '@components/common/ui/Button.js';
-import { LockKeyhole, Mail, Sparkles } from 'lucide-react';
+import { LockKeyhole, Mail } from 'lucide-react';
 import React from 'react';
 import { toast } from 'react-toastify';
 import './LoginPage.scss';
@@ -21,6 +21,8 @@ interface LoginPageProps {
   authUrl: string;
   setting?: {
     storeName: string | null;
+    storeLogo: string | null;
+    storeLogoAlt: string | null;
     firebaseConfig: FirebaseWebConfig | null;
   };
 }
@@ -72,6 +74,7 @@ export default function LoginPage({
   setting
 }: LoginPageProps) {
   const storeName = setting?.storeName || 'Anroy';
+  const storeLogo = setting?.storeLogo || null;
   const firebaseConfig = setting?.firebaseConfig || null;
   const firebaseReady =
     !!firebaseConfig?.apiKey && !!firebaseConfig?.projectId;
@@ -111,25 +114,20 @@ export default function LoginPage({
       <div className="anroy-login-grain" aria-hidden />
 
       <aside className="anroy-login-hero">
+        {storeLogo ? (
+          <img
+            className="anroy-login-hero__logo"
+            src={storeLogo}
+            alt={setting?.storeLogoAlt || storeName}
+          />
+        ) : (
+          <div className="anroy-login-hero__wordmark">{storeName}</div>
+        )}
         <div className="anroy-login-hero__inner">
-          <div className="anroy-login-hero__eyebrow">
-            <Sparkles className="w-3.5 h-3.5" strokeWidth={2} />
-            <span>{storeName} · Esmaltes</span>
-          </div>
           <h1 className="anroy-login-hero__title">
             <span className="block">El brillo</span>
             <span className="block italic">que te define</span>
           </h1>
-          <p className="anroy-login-hero__lede">
-            Entrá a tu cuenta y descubrí cada esmalte, edición limitada y
-            colección exclusiva que tenemos para vos.
-          </p>
-          <div className="anroy-login-hero__bottom">
-            <span className="anroy-login-hero__dot" aria-hidden />
-            <span className="text-sm">
-              Hecho a mano en República Dominicana
-            </span>
-          </div>
         </div>
 
         <div className="anroy-login-orb anroy-login-orb--a" aria-hidden />
@@ -265,6 +263,8 @@ export const query = `
     authUrl: url(routeId: "customerAuthFirebaseJson")
     setting {
       storeName
+      storeLogo
+      storeLogoAlt
       firebaseConfig {
         apiKey
         authDomain
