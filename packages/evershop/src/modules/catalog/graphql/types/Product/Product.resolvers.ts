@@ -1,6 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import sanitizeHtml from 'sanitize-html';
 import { v4 as uuidv4 } from 'uuid';
+import { withCache } from '../../../../../lib/cache/index.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
@@ -10,17 +11,23 @@ import { ProductCollection } from '../../../services/ProductCollection.js';
 export default {
   Product: {
     url: async (product, _, { pool }) => {
-      // Get the url rewrite for this product
-      const urlRewrite = await select()
-        .from('url_rewrite')
-        .where('entity_uuid', '=', product.uuid)
-        .and('entity_type', '=', 'product')
-        .load(pool);
-      if (!urlRewrite) {
-        return buildUrl('productView', { uuid: product.uuid });
-      } else {
-        return urlRewrite.request_path;
-      }
+      // Resolved once per product on every listing — a hot N+1 path, so
+      // the url_rewrite lookup is cached per product.
+      return withCache(
+        `product:url:${product.uuid}`,
+        { tags: [`product:${product.productId ?? product.product_id}`] },
+        async () => {
+          const urlRewrite = await select()
+            .from('url_rewrite')
+            .where('entity_uuid', '=', product.uuid)
+            .and('entity_type', '=', 'product')
+            .load(pool);
+          if (!urlRewrite) {
+            return buildUrl('productView', { uuid: product.uuid });
+          }
+          return urlRewrite.request_path;
+        }
+      );
     },
     description: ({ description }) => {
       if (!description) {
@@ -62,9 +69,15 @@ export default {
   },
   Query: {
     product: async (_, { id }, { pool }) => {
-      const query = getProductsBaseQuery();
-      query.where('product.product_id', '=', id);
-      const result = await query.load(pool);
+      const result = await withCache(
+        `product:detail:${id}`,
+        { tags: (r) => (r ? [`product:${r.product_id}`] : []) },
+        async () => {
+          const query = getProductsBaseQuery();
+          query.where('product.product_id', '=', id);
+          return query.load(pool);
+        }
+      );
       if (!result) {
         return null;
       } else {
@@ -79,9 +92,15 @@ export default {
       if (currentRoute.id !== 'productView') {
         return null;
       }
-      const query = getProductsBaseQuery();
-      query.where('product.product_id', '=', currentProductId);
-      const product = await query.load(pool);
+      const product = await withCache(
+        `product:detail:${currentProductId}`,
+        { tags: (r) => (r ? [`product:${r.product_id}`] : []) },
+        async () => {
+          const query = getProductsBaseQuery();
+          query.where('product.product_id', '=', currentProductId);
+          return query.load(pool);
+        }
+      );
       if (!product) {
         return null;
       } else {

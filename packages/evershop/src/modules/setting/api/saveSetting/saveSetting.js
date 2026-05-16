@@ -3,6 +3,7 @@ import {
   insertOnUpdate,
   rollback
 } from '@evershop/postgres-query-builder';
+import { invalidateTags } from '../../../../lib/cache/index.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import { refreshSetting } from '../../services/setting.js';
@@ -42,6 +43,8 @@ export default async (request, response, next) => {
     await commit(connection);
     // Refresh the setting
     await refreshSetting();
+    // Drop the cached settings so the storefront picks up the change.
+    invalidateTags(['settings']);
     response.status(OK);
     response.json({
       data: {}

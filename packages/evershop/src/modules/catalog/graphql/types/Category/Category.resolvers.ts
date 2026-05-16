@@ -1,5 +1,6 @@
 import { execute, select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
+import { withCache } from '../../../../../lib/cache/index.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
@@ -13,9 +14,15 @@ import { ProductCollection } from '../../../services/ProductCollection.js';
 export default {
   Query: {
     category: async (_, { id }, { pool }) => {
-      const query = getCategoriesBaseQuery();
-      query.where('category.category_id', '=', id);
-      const result = await query.load(pool);
+      const result = await withCache(
+        `category:detail:${id}`,
+        { tags: (r) => (r ? [`category:${r.category_id}`] : []) },
+        async () => {
+          const query = getCategoriesBaseQuery();
+          query.where('category.category_id', '=', id);
+          return query.load(pool);
+        }
+      );
       return result ? camelCase(result) : null;
     },
     currentCategory: async (_, args, { currentUrl, currentRoute, pool }) => {
@@ -26,10 +33,18 @@ export default {
       if (!params || !params.uuid) {
         return null;
       }
-      const query = getCategoriesBaseQuery();
-      query.where('uuid', '=', params.uuid);
       const filtersFromUrl = buildFilterFromUrl(currentUrl);
-      const result = await query.load(pool);
+      // Cache only the category row load — the products() closure below
+      // depends on per-request URL filters and must stay uncached.
+      const result = await withCache(
+        `category:detail:uuid:${params.uuid}`,
+        { tags: (r) => (r ? [`category:${r.category_id}`] : []) },
+        async () => {
+          const query = getCategoriesBaseQuery();
+          query.where('uuid', '=', params.uuid);
+          return query.load(pool);
+        }
+      );
       return result
         ? {
             ...camelCase(result),
