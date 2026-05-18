@@ -87,9 +87,13 @@ export function Zones({
   });
 
   if (fetching) return <Spinner width={'2rem'} height={'2rem'} />;
-  if (error) return <div className="text-destructive">Error loading zones</div>;
+  if (error)
+    return (
+      <div className="text-destructive">Error al cargar las zonas</div>
+    );
 
-  if (!data || !data.shippingZones) return <div>No zones found</div>;
+  if (!data || !data.shippingZones)
+    return <div>No se encontraron zonas</div>;
   const reload = () => {
     reexecuteQuery({ requestPolicy: 'network-only' });
   };
@@ -101,7 +105,7 @@ export function Zones({
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="flex justify-end pr-5">
           <DialogTrigger>
-            <Button>Create New Zone</Button>
+            <Button>Crear nueva zona</Button>
           </DialogTrigger>
         </div>
         <DialogContent>

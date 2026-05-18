@@ -5,8 +5,8 @@ import React from 'react';
 export default function SeoMeta() {
   return (
     <>
-      <Title title="Page Not Found" />
-      <Meta name="description" content="Page Not Found" />
+      <Title title="Página no encontrada" />
+      <Meta name="description" content="Página no encontrada" />
     </>
   );
 }

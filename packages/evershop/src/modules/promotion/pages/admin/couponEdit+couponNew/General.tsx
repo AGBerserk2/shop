@@ -57,16 +57,16 @@ export default function General({ coupon }: { coupon?: Coupon }) {
             default: (
               <InputField
                 name="coupon"
-                label="Coupon Code"
+                label="Código del cupón"
                 defaultValue={coupon?.coupon || ''}
-                placeholder="Enter coupon code"
+                placeholder="Ingresá el código del cupón"
                 required
                 validation={{
-                  required: 'Coupon code is required',
+                  required: 'El código del cupón es obligatorio',
                   pattern: {
                     value: /^[a-zA-Z0-9_-]+$/,
                     message:
-                      'Coupon code can only contain letters, numbers, underscores, and hyphens'
+                      'El código del cupón solo puede contener letras, números, guiones bajos y guiones'
                   }
                 }}
               />
@@ -81,10 +81,10 @@ export default function General({ coupon }: { coupon?: Coupon }) {
                 name="description"
                 label="Descripción"
                 defaultValue={coupon?.description || ''}
-                placeholder="Enter description"
+                placeholder="Ingresá la descripción"
                 required
                 validation={{
-                  required: 'Description is required'
+                  required: 'La descripción es obligatoria'
                 }}
               />
             )
@@ -98,13 +98,13 @@ export default function General({ coupon }: { coupon?: Coupon }) {
                 name="status"
                 label="Estado"
                 options={[
-                  { label: 'Enabled', value: 1 },
-                  { label: 'Disabled', value: 0 }
+                  { label: 'Activado', value: 1 },
+                  { label: 'Desactivado', value: 0 }
                 ]}
                 defaultValue={coupon?.status === 0 ? 0 : 1}
                 required
                 validation={{
-                  required: 'Status is required',
+                  required: 'El estado es obligatorio',
                   valueAsNumber: true
                 }}
               />
@@ -127,7 +127,7 @@ export default function General({ coupon }: { coupon?: Coupon }) {
               <CheckboxField
                 name="free_shipping"
                 defaultValue={parseInt(get(coupon, 'freeShipping'), 10) === 1}
-                label="Free shipping?"
+                label="¿Envío gratis?"
               />
             )
           },

@@ -53,8 +53,8 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="border-none">Min Weight</TableHead>
-            <TableHead className="border-none">Shipping Cost</TableHead>
+            <TableHead className="border-none">Peso mínimo</TableHead>
+            <TableHead className="border-none">Costo de envío</TableHead>
             <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
@@ -64,17 +64,17 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
               <TableCell className="border-none">
                 <NumberField
                   name={`weight_based_cost.${index}.min_weight`}
-                  placeholder="Min Weight"
+                  placeholder="Peso mínimo"
                   required
-                  validation={{ required: 'Min weight is required' }}
+                  validation={{ required: 'El peso mínimo es obligatorio' }}
                 />
               </TableCell>
               <TableCell className="border-none">
                 <NumberField
                   name={`weight_based_cost.${index}.cost`}
-                  placeholder="Shipping Cost"
+                  placeholder="Costo de envío"
                   required
-                  validation={{ required: 'Shipping cost is required' }}
+                  validation={{ required: 'El costo de envío es obligatorio' }}
                 />
               </TableCell>
               <TableCell className="border-none">
@@ -84,7 +84,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
                     onClick={() => remove(index)}
                     className="text-destructive"
                   >
-                    Delete
+                    Eliminar
                   </button>
                 )}
               </TableCell>
@@ -105,7 +105,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
                   });
                 }}
               >
-                + Add Line
+                + Agregar línea
               </Button>
             </TableCell>
           </TableRow>

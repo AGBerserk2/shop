@@ -31,9 +31,9 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
           <TableRow>
             <TableHead className="border-none">Nombre</TableHead>
             <TableHead className="border-none">País</TableHead>
-            <TableHead className="border-none">Rate</TableHead>
-            <TableHead className="border-none">Compound</TableHead>
-            <TableHead className="border-none">Priority</TableHead>
+            <TableHead className="border-none">Tasa</TableHead>
+            <TableHead className="border-none">Compuesto</TableHead>
+            <TableHead className="border-none">Prioridad</TableHead>
             <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
@@ -55,12 +55,12 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
                 setDialogOpen(true);
               }}
             >
-              + Add Rate
+              + Agregar tasa
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Tax Rate</DialogTitle>
+              <DialogTitle>Agregar tasa de impuesto</DialogTitle>
             </DialogHeader>
             <RateForm
               saveRateApi={addRateApi}

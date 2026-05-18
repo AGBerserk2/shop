@@ -33,15 +33,15 @@ export default function PaypalPayment({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Paypal Payment</CardTitle>
+        <CardTitle>Pago con PayPal</CardTitle>
         <CardDescription>
-          Configure your Paypal payment gateway settings
+          Configurá los ajustes de la pasarela de pago de PayPal
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Enable?</h4>
+            <h4>¿Habilitar?</h4>
           </div>
           <div className="col-span-2">
             <ToggleField
@@ -56,12 +56,12 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Dislay Name</h4>
+            <h4>Nombre visible</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="paypalDisplayName"
-              placeholder="Display Name"
+              placeholder="Nombre visible"
               defaultValue={paypalDisplayName}
             />
           </div>
@@ -70,12 +70,12 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Client ID</h4>
+            <h4>ID de cliente</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="paypalClientId"
-              placeholder="Client ID"
+              placeholder="ID de cliente"
               defaultValue={paypalClientId}
             />
           </div>
@@ -84,12 +84,12 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Client Secret</h4>
+            <h4>Clave secreta del cliente</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="paypalClientSecret"
-              placeholder="Secret Key"
+              placeholder="Clave secreta"
               defaultValue={paypalClientSecret}
             />
           </div>
@@ -98,7 +98,7 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Environment</h4>
+            <h4>Entorno</h4>
           </div>
           <div className="col-span-2">
             <RadioGroupField
@@ -106,11 +106,11 @@ export default function PaypalPayment({
               defaultValue={paypalEnvironment}
               options={[
                 {
-                  label: 'Sandbox',
+                  label: 'Pruebas (Sandbox)',
                   value: 'https://api-m.sandbox.paypal.com'
                 },
                 {
-                  label: 'Live',
+                  label: 'Producción',
                   value: 'https://api-m.paypal.com'
                 }
               ]}
@@ -121,15 +121,15 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Payment mode</h4>
+            <h4>Modo de pago</h4>
           </div>
           <div className="col-span-2">
             <RadioGroupField
               name="paypalPaymentIntent"
               defaultValue={paypalPaymentIntent}
               options={[
-                { label: 'Authorize only', value: 'AUTHORIZE' },
-                { label: 'Capture', value: 'CAPTURE' }
+                { label: 'Solo autorizar', value: 'AUTHORIZE' },
+                { label: 'Capturar', value: 'CAPTURE' }
               ]}
             />
           </div>

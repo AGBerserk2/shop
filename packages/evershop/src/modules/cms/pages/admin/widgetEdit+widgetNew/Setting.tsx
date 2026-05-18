@@ -22,7 +22,7 @@ export default function Setting({ type }: SettingProps) {
       <CardHeader>
         <CardTitle>Configuración del widget</CardTitle>
         <CardDescription>
-          Configure the settings for the {type.name} widget.
+          Configurá los ajustes del widget {type.name}.
         </CardDescription>
       </CardHeader>
       <CardContent>

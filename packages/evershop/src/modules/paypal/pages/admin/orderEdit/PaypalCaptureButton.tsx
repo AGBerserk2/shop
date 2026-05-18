@@ -49,7 +49,7 @@ export default function PaypalCaptureButton({
       <CardContent>
         <div className="flex justify-end">
           <Button onClick={onAction} isLoading={isLoading}>
-            Capture Payment
+            Capturar pago
           </Button>
         </div>
       </CardContent>

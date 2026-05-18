@@ -96,22 +96,22 @@ export default function LifetimeSale({ api }) {
           <div className="grid grid-cols-1 gap-2">
             <div className="flex space-x-2 items-center">
               <Dot variant="info" />
-              <div className="self-center">{orders} orders</div>
+              <div className="self-center">{orders} pedidos</div>
             </div>
             <div className="flex space-x-2 items-center">
               <Dot variant="info" />
-              <div className="self-center">{total} lifetime sale</div>
+              <div className="self-center">{total} en ventas totales</div>
             </div>
             <div className="flex space-x-2 items-center">
               <Dot variant="success" />
               <div className="self-center">
-                {completed_percentage}% of orders completed
+                {completed_percentage}% de pedidos completados
               </div>
             </div>
             <div className="flex space-x-2 items-center">
               <Dot variant="critical" />
               <div className="self-center">
-                {cancelled_percentage}% of orders cancelled
+                {cancelled_percentage}% de pedidos cancelados
               </div>
             </div>
           </div>

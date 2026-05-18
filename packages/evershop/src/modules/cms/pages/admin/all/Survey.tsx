@@ -15,10 +15,10 @@ export default function Survey() {
         onClick={handleSurveyClick}
         size="default"
         className="shadow-lg hover:shadow-xl transition-shadow gap-2"
-        title="Take our survey"
+        title="Responder la encuesta"
       >
         <MessageSquare className="size-4" />
-        Give Feedback
+        Dejar comentarios
       </Button>
     </div>
   );

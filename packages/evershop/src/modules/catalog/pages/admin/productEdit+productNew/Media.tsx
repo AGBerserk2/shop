@@ -38,9 +38,10 @@ export default function Media({ product }: MediaProps) {
   return (
     <Card title="Media">
       <CardHeader>
-        <CardTitle>Media</CardTitle>
+        <CardTitle>Multimedia</CardTitle>
         <CardDescription>
-          Manage product images and gallery. Drag and drop to reorder images.
+          Gestiona las imágenes y la galería del producto. Arrastrá y soltá para
+          reordenar las imágenes.
         </CardDescription>
       </CardHeader>
       <CardContent>

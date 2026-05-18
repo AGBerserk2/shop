@@ -20,7 +20,7 @@ export function GroupRow({ groups }: GroupRowProps) {
 
   const onEdit = (group) => {
     openAlert({
-      heading: `Editing ${group.groupName}`,
+      heading: `Editando ${group.groupName}`,
       content: (
         <div>
           <Form
@@ -40,21 +40,21 @@ export function GroupRow({ groups }: GroupRowProps) {
             <InputField
               name="group_name"
               required
-              label="Group Name"
-              placeholder="Enter group name"
-              validation={{ required: 'Group name is required' }}
+              label="Nombre del grupo"
+              placeholder="Ingresá el nombre del grupo"
+              validation={{ required: 'El nombre del grupo es obligatorio' }}
               defaultValue={group.groupName}
             />
           </Form>
         </div>
       ),
       primaryAction: {
-        title: 'Cancel',
+        title: 'Cancelar',
         onAction: closeAlert,
         variant: 'critical'
       },
       secondaryAction: {
-        title: 'Save',
+        title: 'Guardar',
         onAction: () => {
           dispatchAlert({
             type: 'update',

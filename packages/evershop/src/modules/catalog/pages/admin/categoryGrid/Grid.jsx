@@ -44,18 +44,18 @@ function Actions({ categories = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Delete',
+      name: 'Eliminar',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} categories`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: `Eliminar ${selectedIds.length} categorías`,
+          content: <div>No se puede deshacer</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: 'Eliminar',
             onAction: async () => {
               await deleteCategories();
             },
@@ -149,7 +149,7 @@ export default function CategoryGrid({
               window.location.href = url.href;
             }}
           >
-            Clear filters
+            Limpiar filtros
           </Button>
         </CardAction>
       </CardHeader>
@@ -179,7 +179,7 @@ export default function CategoryGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Category Name"
+                          title="Nombre de la categoría"
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -204,7 +204,7 @@ export default function CategoryGrid({
                       default: () => (
                         <SortableHeader
                           name="include_in_nav"
-                          title="Include In Menu"
+                          title="Incluir en el menú"
                           currentFilters={currentFilters}
                         />
                       )
@@ -263,7 +263,7 @@ export default function CategoryGrid({
                     {
                       component: {
                         default: () => (
-                          <TableCell>{c.includeInNav ? 'Yes' : 'No'}</TableCell>
+                          <TableCell>{c.includeInNav ? 'Sí' : 'No'}</TableCell>
                         )
                       },
                       sortOrder: 30
@@ -276,7 +276,7 @@ export default function CategoryGrid({
         </Table>
         {categories.length === 0 && (
           <div className="flex w-full justify-center mt-2">
-            There is no category to display
+            No hay categorías para mostrar
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

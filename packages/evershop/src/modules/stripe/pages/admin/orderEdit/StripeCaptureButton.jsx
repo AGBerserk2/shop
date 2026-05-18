@@ -39,7 +39,7 @@ export default function StripeCaptureButton({
       <CardContent>
         <div className="flex justify-end">
           <Button onClick={onAction} isLoading={isLoading}>
-            Capture Payment
+            Capturar pago
           </Button>
         </div>
       </CardContent>

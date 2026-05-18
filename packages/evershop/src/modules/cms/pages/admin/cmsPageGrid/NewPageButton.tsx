@@ -8,7 +8,7 @@ interface NewPageButtonProps {
 export default function NewPageButton({ newPageUrl }: NewPageButtonProps) {
   return (
     <Button onClick={() => (window.location.href = newPageUrl)}>
-      New Page
+      Nueva página
     </Button>
   );
 }

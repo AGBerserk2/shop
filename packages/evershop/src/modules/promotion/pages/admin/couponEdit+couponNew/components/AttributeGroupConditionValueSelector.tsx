@@ -53,18 +53,18 @@ export const AttributeGroupConditionValueSelector: React.FC<{
                 <span className="italic">&lsquo;{id}&rsquo;</span>
               )}
               {index === 1 && (
-                <span> and {selectedIds.current.length - 1} more</span>
+                <span> y {selectedIds.current.length - 1} más</span>
               )}
             </span>
           ))}
           {selectedIds.current.length === 0 && (
-            <span>Choose Attribute Groups</span>
+            <span>Elegir grupos de atributos</span>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[60vw]'}>
         <DialogHeader>
-          <DialogTitle>Choose Attribute Groups</DialogTitle>
+          <DialogTitle>Elegir grupos de atributos</DialogTitle>
         </DialogHeader>
         <AttributeGroupSelector
           onSelect={onSelect}

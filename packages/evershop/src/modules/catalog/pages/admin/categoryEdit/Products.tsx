@@ -162,7 +162,7 @@ export default function Products({
                 <Input
                   type="text"
                   value={keyword}
-                  placeholder="Search products"
+                  placeholder="Buscar productos"
                   onChange={(e) => {
                     setLoading(true);
                     setKeyword(e.target.value);
@@ -173,11 +173,11 @@ export default function Products({
             {data && !loading && (
               <>
                 {data.category.products.items.length === 0 && (
-                  <div>No product to display.</div>
+                  <div>No hay productos para mostrar.</div>
                 )}
                 <div className="flex justify-between">
                   <div>
-                    <i>{data.category.products.total} items</i>
+                    <i>{data.category.products.total} productos</i>
                   </div>
                   <div>
                     {data.category.products.total > 10 && (
@@ -191,7 +191,7 @@ export default function Products({
                               setPage(page - 1);
                             }}
                           >
-                            Previous
+                            Anterior
                           </a>
                         )}
                         {page < data.category.products.total / 10 && (
@@ -203,7 +203,7 @@ export default function Products({
                               setPage(page + 1);
                             }}
                           >
-                            Next
+                            Siguiente
                           </a>
                         )}
                       </div>
@@ -263,7 +263,7 @@ export default function Products({
                           }}
                           isLoading={removing.includes(p.uuid)}
                         >
-                          Remove
+                          Quitar
                         </Button>
                       </div>
                     </div>
@@ -279,7 +279,8 @@ export default function Products({
         <DialogHeader>
           <DialogTitle>Agregar productos</DialogTitle>
           <DialogDescription>
-            Add products to this category by selecting them from the list below.
+            Agrega productos a esta categoría seleccionándolos de la lista de
+            abajo.
           </DialogDescription>
           {data && (
             <ProductSelector

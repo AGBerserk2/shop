@@ -49,7 +49,7 @@ const VariantGroup: React.FC<VariantGroupProps> = ({
       <CardHeader>
         <CardTitle>Grupo de variantes</CardTitle>
         <CardDescription>
-          Manage the variant group of the product.
+          Gestiona el grupo de variantes del producto.
         </CardDescription>
       </CardHeader>
       {!group && (

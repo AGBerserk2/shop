@@ -44,18 +44,18 @@ function Actions({ collections = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Delete',
+      name: 'Eliminar',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} collections`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: `Eliminar ${selectedIds.length} colecciones`,
+          content: <div>No se puede deshacer</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: 'Eliminar',
             onAction: async () => {
               await deleteCategories();
             },
@@ -150,7 +150,7 @@ export default function CollectionGrid({
                 window.location.href = url.href;
               }}
             >
-              Clear filters
+              Limpiar filtros
             </Button>
           </CardAction>
         </CardHeader>
@@ -192,7 +192,7 @@ export default function CollectionGrid({
                       component: {
                         default: () => (
                           <SortableHeader
-                            title="Collection Name"
+                            title="Nombre de la colección"
                             name="name"
                             currentFilters={currentFilters}
                           />
@@ -279,7 +279,7 @@ export default function CollectionGrid({
           </Table>
           {collections.length === 0 && (
             <div className="flex w-full justify-center mt-2">
-              There is no collections to display
+              No hay colecciones para mostrar
             </div>
           )}
           <GridPagination total={total} limit={limit} page={page} />

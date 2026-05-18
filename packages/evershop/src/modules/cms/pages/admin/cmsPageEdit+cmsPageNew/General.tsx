@@ -26,7 +26,7 @@ export default function General({ page }: CmsPageGeneralProps) {
       <CardHeader>
         <CardTitle>Información general</CardTitle>
         <CardDescription>
-          Provide the basic information for the CMS page.
+          Ingresá la información básica de la página.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -35,12 +35,12 @@ export default function General({ page }: CmsPageGeneralProps) {
             <InputField
               id="cms_page_name"
               name="name"
-              label="Page Name"
-              placeholder="Enter page name"
+              label="Nombre de la página"
+              placeholder="Ingresá el nombre de la página"
               defaultValue={page?.name}
               required
-              validation={{ required: 'Page name is required' }}
-              helperText="This is the name of the CMS page that will be displayed in the admin panel."
+              validation={{ required: 'El nombre de la página es obligatorio' }}
+              helperText="Este es el nombre de la página que se muestra en el panel de administración."
             />
           </div>
           <div className="space-y-2">
@@ -48,17 +48,17 @@ export default function General({ page }: CmsPageGeneralProps) {
               name="status"
               label="Estado"
               options={[
-                { value: 1, label: 'Enabled' },
-                { value: 0, label: 'Disabled' }
+                { value: 1, label: 'Habilitada' },
+                { value: 0, label: 'Deshabilitada' }
               ]}
               defaultValue={page?.status}
               required
-              helperText="Enable this page to make it visible on the frontend."
+              helperText="Habilitá esta página para que sea visible en la tienda."
             />
           </div>
           <div>
             <label htmlFor="content" className="block mb-2 font-medium">
-              Content
+              Contenido
             </label>
             <Editor name="content" value={page?.content || []} />
           </div>

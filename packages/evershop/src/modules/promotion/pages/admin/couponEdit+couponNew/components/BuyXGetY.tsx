@@ -44,13 +44,13 @@ const SkuSelector: React.FC<{
           {product.sku ? (
             <span className="italic">&lsquo;{product.sku}&rsquo;</span>
           ) : (
-            <span>Choose SKU</span>
+            <span>Elegir SKU</span>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[80vw]'}>
         <DialogHeader>
-          <DialogTitle>Choose Product SKU</DialogTitle>
+          <DialogTitle>Elegir SKU del producto</DialogTitle>
         </DialogHeader>
         <ProductSelector
           selectedProducts={[product].map((p) => ({
@@ -122,7 +122,7 @@ const BuyXGetYList: React.FC<{
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Sku</span>
+              <span>SKU</span>
             </TableHead>
             <TableHead>
               <span>X</span>
@@ -131,10 +131,10 @@ const BuyXGetYList: React.FC<{
               <span>Y</span>
             </TableHead>
             <TableHead>
-              <span>Max of Y</span>
+              <span>Máximo de Y</span>
             </TableHead>
             <TableHead>
-              <span>Discount percent</span>
+              <span>Porcentaje de descuento</span>
             </TableHead>
             <TableHead> </TableHead>
           </TableRow>
@@ -157,10 +157,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.buy_qty`}
                   defaultValue={p.buyQty}
-                  placeholder="Buy qty"
+                  placeholder="Cantidad a comprar"
                   required
                   validation={{
-                    required: 'Buy qty is required'
+                    required: 'La cantidad a comprar es obligatoria'
                   }}
                 />
               </TableCell>
@@ -168,10 +168,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.get_qty`}
                   defaultValue={p.getQty}
-                  placeholder="Get qty"
+                  placeholder="Cantidad a obtener"
                   required
                   validation={{
-                    required: 'Get qty is required'
+                    required: 'La cantidad a obtener es obligatoria'
                   }}
                 />
               </TableCell>
@@ -179,10 +179,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.max_y`}
                   defaultValue={p.maxY}
-                  placeholder="Max of Y"
+                  placeholder="Máximo de Y"
                   required
                   validation={{
-                    required: 'Max of Y is required'
+                    required: 'El máximo de Y es obligatorio'
                   }}
                 />
               </TableCell>
@@ -190,10 +190,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.discount`}
                   defaultValue={p.discount}
-                  placeholder="Discount percent"
+                  placeholder="Porcentaje de descuento"
                   required
                   validation={{
-                    required: 'Discount percent is required'
+                    required: 'El porcentaje de descuento es obligatorio'
                   }}
                   unit="%"
                 />

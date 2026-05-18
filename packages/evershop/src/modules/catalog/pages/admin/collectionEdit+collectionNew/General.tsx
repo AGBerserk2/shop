@@ -27,8 +27,8 @@ export default function General({ collection }: GeneralProps) {
         default: (
           <InputField
             name="name"
-            label="Collection Name"
-            placeholder="Enter Collection Name"
+            label="Nombre de la colección"
+            placeholder="Escribe el nombre de la colección"
             defaultValue={collection?.name || ''}
             required
           />
@@ -42,18 +42,18 @@ export default function General({ collection }: GeneralProps) {
         default: (
           <InputField
             name="code"
-            label="Collection Code"
+            label="Código de la colección"
             defaultValue={collection?.code || ''}
             required
             validation={{
-              required: 'Collection code is required',
+              required: 'El código de la colección es obligatorio',
               pattern: {
                 value: /^[a-zA-Z0-9_-]+$/,
                 message:
-                  'Collection code must be alphanumeric and can include underscores or dashes.'
+                  'El código de la colección debe ser alfanumérico y puede incluir guiones bajos o guiones.'
               }
             }}
-            placeholder="Collection Code"
+            placeholder="Código de la colección"
           />
         )
       },
@@ -79,7 +79,7 @@ export default function General({ collection }: GeneralProps) {
       <CardHeader>
         <CardTitle>Información general</CardTitle>
         <CardDescription>
-          Manage general information about the collection.
+          Administra la información general de la colección.
         </CardDescription>
       </CardHeader>
       <CardContent>

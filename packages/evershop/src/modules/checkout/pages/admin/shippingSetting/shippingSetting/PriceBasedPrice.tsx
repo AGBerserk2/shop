@@ -53,8 +53,8 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="border-none">Min Price</TableHead>
-            <TableHead className="border-none">Shipping Cost</TableHead>
+            <TableHead className="border-none">Precio mínimo</TableHead>
+            <TableHead className="border-none">Costo de envío</TableHead>
             <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
@@ -64,17 +64,17 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
               <TableCell>
                 <NumberField
                   name={`price_based_cost.${index}.min_price`}
-                  placeholder="Min Price"
+                  placeholder="Precio mínimo"
                   required
-                  validation={{ required: 'Min price is required' }}
+                  validation={{ required: 'El precio mínimo es obligatorio' }}
                 />
               </TableCell>
               <TableCell>
                 <NumberField
                   name={`price_based_cost.${index}.cost`}
-                  placeholder="Shipping Cost"
+                  placeholder="Costo de envío"
                   required
-                  validation={{ required: 'Shipping cost is required' }}
+                  validation={{ required: 'El costo de envío es obligatorio' }}
                 />
               </TableCell>
               <TableCell>
@@ -84,7 +84,7 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
                     onClick={() => remove(index)}
                     className="text-destructive"
                   >
-                    Delete
+                    Eliminar
                   </button>
                 )}
               </TableCell>
@@ -105,7 +105,7 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
                   });
                 }}
               >
-                + Add Line
+                + Agregar línea
               </Button>
             </TableCell>
           </TableRow>

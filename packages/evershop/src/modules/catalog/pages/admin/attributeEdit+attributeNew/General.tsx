@@ -68,7 +68,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
 
   const createGroup = () => {
     if (!newGroup.current?.value) {
-      setCreateGroupError('Group name is required');
+      setCreateGroupError('El nombre del grupo es obligatorio');
       return;
     }
     fetch(createGroupApi, {
@@ -133,7 +133,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
               <InputGroup className="max-w-xs">
                 <InputGroupInput
                   type="text"
-                  placeholder="Create a new group"
+                  placeholder="Crear un grupo nuevo"
                   ref={newGroup}
                 />
                 <InputGroupAddon align="inline-end">
@@ -200,8 +200,8 @@ const Options: React.FC<{
             <div className="flex-1">
               <InputField
                 name={`options.${index}.option_text`}
-                placeholder="Option text"
-                validation={{ required: 'Option text is required' }}
+                placeholder="Texto de la opción"
+                validation={{ required: 'El texto de la opción es obligatorio' }}
               />
               <InputField type="hidden" name={`options.${index}.option_id`} />
             </div>
@@ -214,7 +214,7 @@ const Options: React.FC<{
                 }}
                 variant={'destructive'}
               >
-                Remove
+                Eliminar
               </Button>
             </div>
           </div>
@@ -222,7 +222,7 @@ const Options: React.FC<{
       })}
       <div className="mt-2">
         <Button type="button" onClick={addOption} variant={'outline'}>
-          Add option
+          Agregar opción
         </Button>
       </div>
     </div>
@@ -258,7 +258,7 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
       <CardHeader>
         <CardTitle>General</CardTitle>
         <CardDescription>
-          Manage the general information of the attribute.
+          Gestiona la información general del atributo.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -266,20 +266,20 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
           <InputField
             name="attribute_name"
             label="Nombre"
-            placeholder="Enter attribute name"
+            placeholder="Ingresá el nombre del atributo"
             required
             defaultValue={attribute?.attributeName}
-            validation={{ required: 'Attribute name is required' }}
+            validation={{ required: 'El nombre del atributo es obligatorio' }}
           />
 
           <InputField
             name="attribute_code"
             label="Código"
-            placeholder="Enter attribute code"
+            placeholder="Ingresá el código del atributo"
             required
             defaultValue={attribute?.attributeCode}
-            validation={{ required: 'Attribute code is required' }}
-            helperText="Attribute code is used in API and must be unique"
+            validation={{ required: 'El código del atributo es obligatorio' }}
+            helperText="El código del atributo se usa en la API y debe ser único"
           />
 
           <div>
@@ -296,18 +296,18 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
                 defaultValue={attribute?.type}
                 required
                 disabled={!!attribute?.attributeId}
-                validation={{ required: 'Type is required' }}
+                validation={{ required: 'El tipo es obligatorio' }}
               />
             </div>
           </div>
         </div>
       </CardContent>
       {['select', 'multiselect'].includes(type) && (
-        <CardContent title="Attribute options">
+        <CardContent title="Opciones del atributo">
           <Options originOptions={get(attribute, 'options', [])} />
         </CardContent>
       )}
-      <CardContent title="Attribute Group">
+      <CardContent title="Grupo de atributos">
         <Groups
           groups={get(attribute, 'groups.items', [])}
           createGroupApi={createGroupApi}

@@ -22,7 +22,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
     if (response.status === 200) {
       window.location.href = loginPage;
     } else {
-      toast.error('Logout failed');
+      toast.error('No se pudo cerrar la sesión');
     }
   };
 
@@ -44,7 +44,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-45">
             <DropdownMenuLabel className="text-base font-normal">
-              Hello <span className="text-primary">{fullName}!</span>
+              Hola <span className="text-primary">{fullName}!</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem

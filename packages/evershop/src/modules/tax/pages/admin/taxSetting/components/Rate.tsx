@@ -33,7 +33,7 @@ function Rate({ rate, getTaxClasses }: RateProps) {
         <td className="border-none py-2 w-1/5">{rate.name}</td>
         <td className="border-none py-2">{rate.country}</td>
         <td className="border-none py-2">{rate.rate}%</td>
-        <td className="border-none py-2">{rate.isCompound ? 'Yes' : 'No'}</td>
+        <td className="border-none py-2">{rate.isCompound ? 'Sí' : 'No'}</td>
         <td className="border-none py-2">{rate.priority}</td>
         <td className="border-none py-2">
           <DialogTrigger>
@@ -43,7 +43,7 @@ function Rate({ rate, getTaxClasses }: RateProps) {
                 e.preventDefault();
               }}
             >
-              Edit
+              Editar
             </a>
           </DialogTrigger>
           <a
@@ -57,12 +57,12 @@ function Rate({ rate, getTaxClasses }: RateProps) {
               await getTaxClasses({ requestPolicy: 'network-only' });
             }}
           >
-            Delete
+            Eliminar
           </a>
         </td>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Tax Rate</DialogTitle>
+            <DialogTitle>Editar tasa de impuesto</DialogTitle>
           </DialogHeader>
           <RateForm
             saveRateApi={rate.updateApi}

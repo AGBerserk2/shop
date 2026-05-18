@@ -152,7 +152,7 @@ export default function Attributes({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Attribute group</CardTitle>
+        <CardTitle>Grupo de atributos</CardTitle>
         <CardDescription>Gestiona los atributos.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -169,8 +169,8 @@ export default function Attributes({
                   {getGroup(items, product?.groupId).groupName}
                 </span>
                 <p className="text-muted-foreground italic">
-                  Can not change the attribute group of a product that is
-                  already in a variant group.
+                  No se puede cambiar el grupo de atributos de un producto que
+                  ya pertenece a un grupo de variantes.
                 </p>
               </div>
             </div>
@@ -196,7 +196,7 @@ export default function Attributes({
               const validation =
                 attribute.is_required === 1
                   ? {
-                      required: `${attribute.attribute_name} is required`
+                      required: `${attribute.attribute_name} es obligatorio`
                     }
                   : {};
               let Field: React.ReactNode = null;
@@ -227,7 +227,7 @@ export default function Attributes({
                         items,
                         attribute.attribute_id
                       )}
-                      placeholder="Select an option"
+                      placeholder="Seleccioná una opción"
                       validation={validation}
                     />
                   );
@@ -240,7 +240,7 @@ export default function Attributes({
                         items,
                         attribute.attribute_id
                       )}
-                      placeholder="Select options"
+                      placeholder="Seleccioná opciones"
                       required={attribute.is_required === 1}
                       validation={validation}
                       isMulti
@@ -253,7 +253,7 @@ export default function Attributes({
                       name={`attributes.${index}.value`}
                       required={attribute.is_required === 1}
                       validation={validation}
-                      placeholder={_('Enter value for ${attribute}', {
+                      placeholder={_('Ingresá el valor de ${attribute}', {
                         attribute: attribute.attribute_name
                       })}
                     />

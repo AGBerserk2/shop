@@ -114,14 +114,14 @@ export const VariantModal: React.FC<
       if (addVariantResponse.error) {
         toast.error(addVariantResponse.error.message);
       } else {
-        toast.success('Variant created successfully');
+        toast.success('Variante creada correctamente');
         // Close the dialog
         closeDialog();
         // Refresh the page to reflect the changes
         refresh();
       }
     } else {
-      toast.success('Variant updated successfully');
+      toast.success('Variante actualizada correctamente');
       // Close the dialog
       closeDialog();
       // Refresh the page to reflect the changes
@@ -216,10 +216,10 @@ export const VariantModal: React.FC<
                 <SelectField
                   name={`variant_attributes.${a.attributeCode}`}
                   label={a.attributeName}
-                  placeholder="Select an option"
+                  placeholder="Seleccioná una opción"
                   required
                   validation={{
-                    required: 'This field is required'
+                    required: 'Este campo es obligatorio'
                   }}
                   defaultValue={
                     variant?.attributes
@@ -235,11 +235,11 @@ export const VariantModal: React.FC<
             <div>
               <InputField
                 name="variant_sku"
-                label="Sku"
-                placeholder="Enter SKU"
+                label="SKU"
+                placeholder="Ingresá el SKU"
                 required
                 validation={{
-                  required: 'SKU is required'
+                  required: 'El SKU es obligatorio'
                 }}
                 defaultValue={variant?.product?.sku}
               />
@@ -249,9 +249,9 @@ export const VariantModal: React.FC<
                 name="variant_qty"
                 label="Cantidad"
                 required
-                placeholder="Enter quantity"
+                placeholder="Ingresá la cantidad"
                 validation={{
-                  required: 'Qty is required'
+                  required: 'La cantidad es obligatoria'
                 }}
                 allowDecimals={false}
                 defaultValue={variant?.product?.inventory?.qty || 0}
@@ -271,7 +271,7 @@ export const VariantModal: React.FC<
             <div>
               <ToggleField
                 name="variant_visibility"
-                label="Visibility"
+                label="Visibilidad"
                 trueValue={true}
                 falseValue={false}
                 defaultValue={variant?.product.visibility === 1}
@@ -293,7 +293,7 @@ export const VariantModal: React.FC<
             }
           }}
         >
-          Save
+          Guardar
         </Button>
       </DialogFooter>
     </>

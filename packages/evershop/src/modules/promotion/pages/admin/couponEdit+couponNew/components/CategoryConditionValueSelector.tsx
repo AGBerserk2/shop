@@ -54,16 +54,18 @@ export const CategoryConditionValueSelector: React.FC<{
                 <span className="italic">&lsquo;{id}&rsquo;</span>
               )}
               {index === 1 && (
-                <span> and {selectedIds.current.length - 1} more</span>
+                <span> y {selectedIds.current.length - 1} más</span>
               )}
             </span>
           ))}
-          {selectedIds.current.length === 0 && <span>Choose Categories</span>}
+          {selectedIds.current.length === 0 && (
+            <span>Elegir categorías</span>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[60vw]'}>
         <DialogHeader>
-          <DialogTitle>Choose Categories</DialogTitle>
+          <DialogTitle>Elegir categorías</DialogTitle>
         </DialogHeader>
         <CategorySelector
           onSelect={onSelect}

@@ -16,7 +16,9 @@ export const New: React.FC<{
           <div>
             <div className="justify-left text-left">
               <div className="space-y-2">
-                <div>This product has some variants like color or size?</div>
+                <div>
+                  ¿Este producto tiene variantes como color o tamaño?
+                </div>
                 <Button
                   variant={'secondary'}
                   onClick={(e) => {
@@ -24,7 +26,7 @@ export const New: React.FC<{
                     setAction('create');
                   }}
                 >
-                  Create a variant group
+                  Crear un grupo de variantes
                 </Button>
               </div>
             </div>

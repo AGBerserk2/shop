@@ -9,7 +9,7 @@ export default function NewCollectionButton({
 }: NewCollectionButtonProps) {
   return (
     <Button onClick={() => (window.location.href = newCollectionUrl)}>
-      New Collection
+      Nueva colección
     </Button>
   );
 }

@@ -40,12 +40,12 @@ export default function StoreSettingMenu({
                 isActive && 'text-primary'
               )}
             >
-              Store Setting
+              Configuración de tienda
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>Configure your store information</div>
+          <div>Configurá la información de tu tienda</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>

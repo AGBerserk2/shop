@@ -27,14 +27,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent>
         <RadioGroupField
           name="is_required"
-          label="Is Required?"
+          label="¿Obligatorio?"
           options={[
             { value: 0, label: 'No' },
-            { value: 1, label: 'Yes' }
+            { value: 1, label: 'Sí' }
           ]}
           required
           validation={{
-            required: 'This field is required'
+            required: 'Este campo es obligatorio'
           }}
           defaultValue={attribute?.isRequired === 0 ? 0 : 1}
         />
@@ -42,14 +42,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent className="pt-6 border-t border-border">
         <RadioGroupField
           name="is_filterable"
-          label="Is Filterable?"
+          label="¿Filtrable?"
           options={[
             { value: 0, label: 'No' },
-            { value: 1, label: 'Yes' }
+            { value: 1, label: 'Sí' }
           ]}
           required
           validation={{
-            required: 'This field is required'
+            required: 'Este campo es obligatorio'
           }}
           defaultValue={attribute?.isFilterable === 1 ? 1 : 0}
         />
@@ -57,14 +57,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent className="pt-6 border-t border-border">
         <RadioGroupField
           name="display_on_frontend"
-          label="Display on Frontend?"
+          label="¿Mostrar en la tienda?"
           options={[
             { value: 0, label: 'No' },
-            { value: 1, label: 'Yes' }
+            { value: 1, label: 'Sí' }
           ]}
           required
           validation={{
-            required: 'This field is required'
+            required: 'Este campo es obligatorio'
           }}
           defaultValue={attribute?.displayOnFrontend === 1 ? 1 : 0}
         />
@@ -72,14 +72,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent className="pt-6 border-t border-border">
         <NumberField
           name="sort_order"
-          label="Sort Order"
-          placeholder="Sort order"
+          label="Orden"
+          placeholder="Orden"
           required
           validation={{
-            required: 'Sort order is required',
+            required: 'El orden es obligatorio',
             min: {
               value: 0,
-              message: 'Sort order must be a positive number'
+              message: 'El orden debe ser un número positivo'
             }
           }}
           defaultValue={attribute?.sortOrder}

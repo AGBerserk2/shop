@@ -16,7 +16,7 @@ export default function CustomerEditPageHeading({
     <PageHeading
       backUrl={backUrl}
       heading={
-        customer ? `Editing ${customer.fullName}` : 'Create A New Customer'
+        customer ? `Editando ${customer.fullName}` : 'Crear un nuevo cliente'
       }
     />
   );

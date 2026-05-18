@@ -24,7 +24,7 @@ export default function ShippingSetting({
             <CardHeader>
               <CardTitle>Envío</CardTitle>
               <CardDescription>
-                Choose where you ship and how much you charge for shipping.
+                Elige dónde envías y cuánto cobras por el envío.
               </CardDescription>
             </CardHeader>
             <Zones createShippingZoneApi={createShippingZoneApi} />

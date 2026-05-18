@@ -39,12 +39,12 @@ export default function ShippingSettingMenu({
                 isActive && 'text-primary'
               )}
             >
-              Shipping Setting
+              Configuración de envío
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>Where you ship, shipping methods and delivery fee</div>
+          <div>Dónde envías, métodos de envío y costo de entrega</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>

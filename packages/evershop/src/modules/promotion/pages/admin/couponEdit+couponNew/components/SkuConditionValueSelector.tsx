@@ -50,16 +50,16 @@ export const SkuConditionValueSelector: React.FC<{
                 <span className="italic">&lsquo;{sku}&rsquo;</span>
               )}
               {index === 1 && (
-                <span> and {selectedSKUs.current.length - 1} more</span>
+                <span> y {selectedSKUs.current.length - 1} más</span>
               )}
             </span>
           ))}
-          {selectedSKUs.current.length === 0 && <span>Choose SKUs</span>}
+          {selectedSKUs.current.length === 0 && <span>Elegir SKUs</span>}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[80vw]'}>
         <DialogHeader>
-          <DialogTitle>Select Products by SKU</DialogTitle>
+          <DialogTitle>Seleccionar productos por SKU</DialogTitle>
         </DialogHeader>
         <ProductSelector
           onSelect={onSelect}

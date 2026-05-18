@@ -41,7 +41,7 @@ const WidgetTypes: React.FC<{
                 window.location.href = type.createWidgetUrl;
               }}
             >
-              Choose
+              Elegir
             </Button>
           </ItemActions>
         </Item>

@@ -27,16 +27,16 @@ export default function SEO({ product }: SEOProps) {
         default: (
           <InputField
             name="url_key"
-            label="URL Key"
-            placeholder="Enter URL Key"
+            label="Clave de URL"
+            placeholder="Ingresá la clave de URL"
             required
             defaultValue={product?.urlKey}
             validation={{
-              required: 'URL Key is required',
+              required: 'La clave de URL es obligatoria',
               pattern: {
                 value: /^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
                 message:
-                  'URL Key must be lowercase and can only contain letters, numbers, and hyphens'
+                  'La clave de URL debe estar en minúsculas y solo puede contener letras, números y guiones'
               }
             }}
           />
@@ -49,12 +49,12 @@ export default function SEO({ product }: SEOProps) {
         default: (
           <InputField
             name="meta_title"
-            label="Meta Title"
-            placeholder="Enter Meta Title"
+            label="Meta título"
+            placeholder="Ingresá el meta título"
             required
             defaultValue={product?.metaTitle}
             validation={{
-              required: 'Meta Title is required'
+              required: 'El meta título es obligatorio'
             }}
           />
         )
@@ -78,8 +78,8 @@ export default function SEO({ product }: SEOProps) {
         default: (
           <TextareaField
             name="meta_description"
-            label="Meta Description"
-            placeholder="Enter Meta Description"
+            label="Meta descripción"
+            placeholder="Ingresá la meta descripción"
             defaultValue={product?.metaDescription || ''}
           />
         )
@@ -92,7 +92,7 @@ export default function SEO({ product }: SEOProps) {
     <Card>
       <CardHeader>
         <CardTitle>SEO</CardTitle>
-        <CardDescription>Manage the SEO settings.</CardDescription>
+        <CardDescription>Gestiona la configuración de SEO.</CardDescription>
       </CardHeader>
       <CardContent>
         <Area

@@ -129,7 +129,7 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
           )}
           {!keyword && (
             <div className="text-center">
-              <span>Search for products, order and other resources</span>
+              <span>Buscá productos, pedidos y otros recursos</span>
             </div>
           )}
           {data?.products.items.length === 0 &&

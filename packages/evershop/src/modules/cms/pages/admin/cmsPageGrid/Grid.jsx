@@ -58,18 +58,18 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: 'Deshabilitar',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} pages`,
+          heading: `Deshabilitar ${selectedIds.length} páginas`,
           content: '¿Estás seguro?',
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: 'Deshabilitar',
             onAction: async () => {
               await updatePages(0);
             },
@@ -79,18 +79,18 @@ function Actions({ pages = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Enable',
+      name: 'Habilitar',
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} pages`,
+          heading: `Habilitar ${selectedIds.length} páginas`,
           content: '¿Estás seguro?',
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: 'Habilitar',
             onAction: async () => {
               await updatePages(1);
             },
@@ -100,18 +100,18 @@ function Actions({ pages = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Delete',
+      name: 'Eliminar',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} pages`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: `Eliminar ${selectedIds.length} páginas`,
+          content: <div>No se puede deshacer</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: 'Eliminar',
             onAction: async () => {
               await deletePages();
             },
@@ -223,7 +223,7 @@ export default function CMSPageGrid({
               window.location.href = url.href;
             }}
           >
-            Clear filter
+            Limpiar filtro
           </Button>
         </CardAction>
       </CardHeader>
@@ -331,7 +331,7 @@ export default function CMSPageGrid({
         </Table>
         {pages.length === 0 && (
           <div className="flex w-full justify-center mt-2">
-            There is no page to display
+            No hay páginas para mostrar
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

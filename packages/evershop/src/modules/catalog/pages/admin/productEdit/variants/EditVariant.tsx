@@ -30,9 +30,9 @@ export const EditVariant: React.FC<{
         </DialogTrigger>
         <DialogContent className={'sm:max-w-212.5'}>
           <DialogHeader>
-            <DialogTitle>Edit Variant</DialogTitle>
+            <DialogTitle>Editar variante</DialogTitle>
             <DialogDescription>
-              Update the variant details and attributes here.
+              Actualizá acá los detalles y atributos de la variante.
             </DialogDescription>
           </DialogHeader>
           <VariantModal

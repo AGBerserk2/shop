@@ -43,10 +43,10 @@ export default function BestSellers({
     <Card>
       <CardHeader>
         <CardTitle>Más vendidos</CardTitle>
-        <CardDescription>A list of best selling products</CardDescription>
+        <CardDescription>Lista de los productos más vendidos</CardDescription>
         <CardAction>
           <a href={listUrl} className="text-sm text-primary hover:underline">
-            View All Products
+            Ver todos los productos
           </a>
         </CardAction>
       </CardHeader>
@@ -56,7 +56,7 @@ export default function BestSellers({
             {bestSellers.length === 0 && (
               <TableRow>
                 <TableCell align="left">
-                  Look like you just started. No bestsellers yet.
+                  Parece que recién empezás. Todavía no hay más vendidos.
                 </TableCell>
                 <TableCell> </TableCell>
               </TableRow>
@@ -92,7 +92,7 @@ export default function BestSellers({
                 </TableCell>
                 <TableCell />
                 <TableCell>{p.price.regular.text}</TableCell>
-                <TableCell>{p.soldQty} sold</TableCell>
+                <TableCell>{p.soldQty} vendidos</TableCell>
               </TableRow>
             ))}
           </TableBody>

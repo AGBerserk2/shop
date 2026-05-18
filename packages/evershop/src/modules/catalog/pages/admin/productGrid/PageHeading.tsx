@@ -15,7 +15,7 @@ export default function ProductEditPageHeading({
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={product ? `Editing ${product.name}` : 'Create a new product'}
+      heading={product ? `Editando ${product.name}` : 'Crear un producto nuevo'}
     />
   );
 }

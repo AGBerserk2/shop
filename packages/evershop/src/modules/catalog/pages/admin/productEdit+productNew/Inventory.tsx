@@ -31,15 +31,15 @@ export default function Inventory({ product }: InventoryProps) {
       <CardHeader>
         <CardTitle>Inventario</CardTitle>
         <CardDescription>
-          Manage the inventory settings of the product.
+          Gestiona la configuración de inventario del producto.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <RadioGroupField
           name="manage_stock"
-          label="Manage Stock"
+          label="Gestionar stock"
           options={[
-            { value: 1, label: 'Yes' },
+            { value: 1, label: 'Sí' },
             { value: 0, label: 'No' }
           ]}
           defaultValue={inventory.manageStock === 0 ? 0 : 1}
@@ -49,10 +49,10 @@ export default function Inventory({ product }: InventoryProps) {
       <CardContent className="border-t border-t-border pt-6">
         <RadioGroupField
           name="stock_availability"
-          label="Stock Availability"
+          label="Disponibilidad de stock"
           options={[
-            { value: 1, label: 'In Stock' },
-            { value: 0, label: 'Out of Stock' }
+            { value: 1, label: 'En stock' },
+            { value: 0, label: 'Sin stock' }
           ]}
           defaultValue={inventory.stockAvailability === 0 ? 0 : 1}
           required

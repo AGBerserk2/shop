@@ -54,18 +54,18 @@ function Actions({ customers = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: 'Deshabilitar',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} customers`,
+          heading: `Deshabilitar ${selectedIds.length} clientes`,
           content: '¿Estás seguro?',
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: 'Deshabilitar',
             onAction: async () => {
               await updateCustomers(0);
             },
@@ -75,18 +75,18 @@ function Actions({ customers = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Enable',
+      name: 'Habilitar',
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} customers`,
+          heading: `Habilitar ${selectedIds.length} clientes`,
           content: '¿Estás seguro?',
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: 'Habilitar',
             onAction: async () => {
               await updateCustomers(1);
             },
@@ -225,7 +225,7 @@ export default function CustomerGrid({
               window.location.href = url.href;
             }}
           >
-            Clear filter
+            Limpiar filtros
           </Button>
         </CardAction>
       </CardHeader>
@@ -288,7 +288,7 @@ export default function CustomerGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Created At"
+                          title="Fecha de creación"
                           name="created_at"
                           currentFilters={currentFilters}
                         />
@@ -369,7 +369,7 @@ export default function CustomerGrid({
         </Table>
         {customers.length === 0 && (
           <div className="flex w-full justify-center mt-3">
-            There is no customer to display
+            No hay clientes para mostrar
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

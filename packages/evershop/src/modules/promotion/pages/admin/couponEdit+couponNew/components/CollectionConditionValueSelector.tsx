@@ -57,16 +57,18 @@ export const CollectionConditionValueSelector: React.FC<{
                 <span className="italic">&lsquo;{id}&rsquo;</span>
               )}
               {index === 1 && (
-                <span> and {selectedIds.current.length - 1} more</span>
+                <span> y {selectedIds.current.length - 1} más</span>
               )}
             </span>
           ))}
-          {selectedIds.current.length === 0 && <span>Choose Collections</span>}
+          {selectedIds.current.length === 0 && (
+            <span>Elegir colecciones</span>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Choose Collections</DialogTitle>
+          <DialogTitle>Elegir colecciones</DialogTitle>
         </DialogHeader>
         <CollectionSelector
           onSelect={onSelect}

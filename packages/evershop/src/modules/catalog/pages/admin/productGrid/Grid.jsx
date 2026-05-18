@@ -71,18 +71,18 @@ function Actions({ products = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: 'Desactivar',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} products`,
-          content: 'Are you sure?',
+          heading: `Desactivar ${selectedIds.length} productos`,
+          content: '¿Estás segura?',
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: 'Desactivar',
             onAction: async () => {
               await updateProducts(0);
             },
@@ -93,18 +93,18 @@ function Actions({ products = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Enable',
+      name: 'Activar',
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} products`,
-          content: 'Are you sure?',
+          heading: `Activar ${selectedIds.length} productos`,
+          content: '¿Estás segura?',
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: 'Activar',
             onAction: async () => {
               await updateProducts(1);
             },
@@ -115,18 +115,18 @@ function Actions({ products = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Delete',
+      name: 'Eliminar',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} products`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: `Eliminar ${selectedIds.length} productos`,
+          content: <div>No se puede deshacer</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: 'Eliminar',
             onAction: async () => {
               await deleteProducts();
             },
@@ -298,7 +298,7 @@ export default function ProductGrid({
               window.location.href = url.href;
             }}
           >
-            Clear Filters
+            Limpiar filtros
           </Button>
         </CardAction>
       </CardHeader>
@@ -480,7 +480,7 @@ export default function ProductGrid({
         </Table>
         {products.length === 0 && (
           <div className="flex w-full justify-center mt-2">
-            There is no product to display
+            No hay productos para mostrar
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

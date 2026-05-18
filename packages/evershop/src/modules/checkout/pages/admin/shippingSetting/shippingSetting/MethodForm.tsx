@@ -43,13 +43,13 @@ function Condition({ method }: ConditionProps) {
 
   return (
     <div className="pt-2 space-y-3">
-      <Label>Conditions</Label>
+      <Label>Condiciones</Label>
       <div>
         <RadioGroupField
           name="condition_type"
           options={[
-            { value: 'price', label: 'Based on order price' },
-            { value: 'weight', label: 'Based on order weight' }
+            { value: 'price', label: 'Según el precio del pedido' },
+            { value: 'weight', label: 'Según el peso del pedido' }
           ]}
           defaultValue={type}
         />
@@ -59,29 +59,37 @@ function Condition({ method }: ConditionProps) {
           <NumberField
             name="min"
             label={
-              type === 'price' ? 'Minimum order price' : 'Minimum order weight'
+              type === 'price'
+                ? 'Precio mínimo del pedido'
+                : 'Peso mínimo del pedido'
             }
             placeholder={
-              type === 'price' ? 'Minimum order price' : 'Minimum order weight'
+              type === 'price'
+                ? 'Precio mínimo del pedido'
+                : 'Peso mínimo del pedido'
             }
             defaultValue={method?.min}
             required
-            validation={{ required: 'Min is required' }}
-            helperText="This is the minimum order price or weight to apply this condition."
+            validation={{ required: 'El mínimo es obligatorio' }}
+            helperText="Este es el precio o peso mínimo del pedido para aplicar esta condición."
           />
         </div>
         <div>
           <NumberField
             name="max"
             label={
-              type === 'price' ? 'Maximum order price' : 'Maximum order weight'
+              type === 'price'
+                ? 'Precio máximo del pedido'
+                : 'Peso máximo del pedido'
             }
             placeholder={
-              type === 'price' ? 'Maximum order price' : 'Maximum order weight'
+              type === 'price'
+                ? 'Precio máximo del pedido'
+                : 'Peso máximo del pedido'
             }
             defaultValue={method?.max}
-            validation={{ required: 'Max is required' }}
-            helperText="This is the maximum order price or weight to apply this condition."
+            validation={{ required: 'El máximo es obligatorio' }}
+            helperText="Este es el precio o peso máximo del pedido para aplicar esta condición."
           />
         </div>
       </div>
@@ -118,12 +126,12 @@ const CostSetting: React.FC<{
     <>
       {typeWatch === 'flat_rate' && (
         <NumberField
-          label="Flat rate cost"
+          label="Costo de tarifa fija"
           name="cost"
-          placeholder="Shipping cost"
+          placeholder="Costo de envío"
           required
-          validation={{ required: 'Shipping cost is required' }}
-          helperText="This is the flat rate cost for shipping."
+          validation={{ required: 'El costo de envío es obligatorio' }}
+          helperText="Este es el costo de tarifa fija para el envío."
           defaultValue={method?.cost?.value}
         />
       )}
@@ -136,11 +144,11 @@ const CostSetting: React.FC<{
       {typeWatch === 'api' && (
         <InputField
           name="calculate_api"
-          placeholder="Calculate API endpoint"
+          placeholder="Endpoint de la API de cálculo"
           required
-          validation={{ required: 'Calculate API is required' }}
+          validation={{ required: 'La API de cálculo es obligatoria' }}
           defaultValue={method?.calculateApi || ''}
-          helperText="This is the ID of an internal api to calculate shipping cost."
+          helperText="Este es el ID de una API interna para calcular el costo de envío."
         />
       )}
     </>
@@ -220,7 +228,7 @@ function MethodForm({
         if (!response.error) {
           reload();
           onSuccess && onSuccess();
-          toast.success('Shipping method saved successfully');
+          toast.success('Método de envío guardado correctamente');
         } else {
           toast.error(response.error.message);
         }
@@ -233,14 +241,14 @@ function MethodForm({
             <ReactSelectCreatableField
               name="method_id"
               label="Método de envío"
-              placeholder="Select or create shipping method"
+              placeholder="Selecciona o crea un método de envío"
               isClearable
               isDisabled={isLoading}
               isLoading={isLoading}
               onCreateOption={handleCreate}
               options={result.data.shippingMethods}
               required
-              validation={{ required: 'Shipping method is required' }}
+              validation={{ required: 'El método de envío es obligatorio' }}
             />
           ) : (
             <div className="space-y-3">
@@ -248,12 +256,14 @@ function MethodForm({
                 <div className="flex-1">
                   <InputField
                     name="method_name"
-                    label="Method name"
-                    placeholder="Method name"
+                    label="Nombre del método"
+                    placeholder="Nombre del método"
                     required
                     defaultValue={method?.name || ''}
                     disabled={!shippingMethod.updatingName}
-                    validation={{ required: 'Method name is required' }}
+                    validation={{
+                      required: 'El nombre del método es obligatorio'
+                    }}
                   />
                 </div>
                 <Button
@@ -262,7 +272,7 @@ function MethodForm({
                     e.preventDefault();
                     if (shippingMethod.updatingName === true) {
                       if (!methodUpdateApi) {
-                        toast.error('Update API not found');
+                        toast.error('No se encontró la API de actualización');
                         return;
                       }
                       setIsLoading(true);
@@ -285,7 +295,9 @@ function MethodForm({
                           name: data.data.name,
                           updatingName: false
                         });
-                        toast.success('Method name updated successfully');
+                        toast.success(
+                          'Nombre del método actualizado correctamente'
+                        );
                       } else {
                         toast.error(data.error.message);
                       }
@@ -298,7 +310,7 @@ function MethodForm({
                   }}
                   isLoading={isLoading}
                 >
-                  {shippingMethod.updatingName ? 'Save' : 'Edit name'}
+                  {shippingMethod.updatingName ? 'Guardar' : 'Editar nombre'}
                 </Button>
               </div>
             </div>
@@ -306,8 +318,8 @@ function MethodForm({
           <ToggleField
             name="is_enabled"
             label="Estado"
-            trueLabel="Enable"
-            falseLabel="Disable"
+            trueLabel="Habilitar"
+            falseLabel="Deshabilitar"
             defaultValue={method?.isEnabled || 0}
           />
           {method && (
@@ -321,12 +333,12 @@ function MethodForm({
         <div className="border-border py-3 space-y-3">
           <RadioGroupField
             name="calculation_type"
-            label="Calculation Type"
+            label="Tipo de cálculo"
             options={[
-              { label: 'Flat rate', value: 'flat_rate' },
-              { label: 'Price based rate', value: 'price_based_rate' },
-              { label: 'Weight based rate', value: 'weight_based_rate' },
-              { label: 'API calculate', value: 'api' }
+              { label: 'Tarifa fija', value: 'flat_rate' },
+              { label: 'Tarifa según el precio', value: 'price_based_rate' },
+              { label: 'Tarifa según el peso', value: 'weight_based_rate' },
+              { label: 'Cálculo por API', value: 'api' }
             ]}
             defaultValue={getType(method || null)}
           />
@@ -348,7 +360,7 @@ function MethodForm({
               setHasCondition(!hasCondition);
             }}
           >
-            {hasCondition ? 'Remove condition' : 'Add condition'}
+            {hasCondition ? 'Quitar condición' : 'Agregar condición'}
           </Button>
         </div>
         <div className="border-border">
@@ -376,7 +388,7 @@ function MethodForm({
               isLoading={isLoading}
               disabled={shippingMethod.updatingName}
             >
-              Save
+              Guardar
             </Button>
           </div>
         </div>

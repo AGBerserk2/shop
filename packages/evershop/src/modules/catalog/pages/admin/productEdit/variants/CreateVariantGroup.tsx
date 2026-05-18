@@ -152,7 +152,7 @@ export const CreateVariantGroup: React.FC<{
                 className={'hover:cursor-pointer'}
                 onClick={(e) => onCreate(e)}
               >
-                Create
+                Crear
               </Button>
               <Button
                 variant="destructive"
@@ -161,14 +161,14 @@ export const CreateVariantGroup: React.FC<{
                   onCancel();
                 }}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </div>
         )}
         {(data?.attributes?.items || []).length === 0 && (
           <div className="alert alert-danger" role="alert">
-            There is no &quot;Select&quot; attribute available.
+            No hay ningún atributo de tipo &quot;Select&quot; disponible.
           </div>
         )}
       </div>

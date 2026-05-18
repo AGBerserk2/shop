@@ -32,7 +32,7 @@ export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
             <TableHead className="border-none">Método</TableHead>
             <TableHead className="border-none">Estado</TableHead>
             <TableHead className="border-none">Costo</TableHead>
-            <TableHead className="border-none">Condition</TableHead>
+            <TableHead className="border-none">Condición</TableHead>
             <TableHead className="border-none">Acción</TableHead>
           </TableRow>
         </TableHeader>
@@ -56,12 +56,12 @@ export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
                 e.preventDefault();
               }}
             >
-              + Add Method
+              + Agregar método
             </Button>
           </DialogTrigger>
         </div>
         <DialogContent>
-          <DialogTitle>Add Shipping Method</DialogTitle>
+          <DialogTitle>Agregar método de envío</DialogTitle>
           <MethodForm
             saveMethodApi={addMethodApi}
             onSuccess={() => {

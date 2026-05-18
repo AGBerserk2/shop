@@ -162,7 +162,7 @@ export default function Products({
               <Input
                 type="text"
                 value={keyword}
-                placeholder="Search products"
+                placeholder="Buscar productos"
                 onChange={(e) => {
                   setLoading(true);
                   setKeyword(e.target.value);
@@ -172,11 +172,11 @@ export default function Products({
             {data && !loading && (
               <>
                 {data.collection.products.items.length === 0 && (
-                  <div>No product to display.</div>
+                  <div>No hay productos para mostrar.</div>
                 )}
                 <div className="flex justify-between">
                   <div>
-                    <i>{data.collection.products.total} items</i>
+                    <i>{data.collection.products.total} productos</i>
                   </div>
                   <div>
                     {data.collection.products.total > 10 && (
@@ -190,7 +190,7 @@ export default function Products({
                               setPage(page - 1);
                             }}
                           >
-                            Previous
+                            Anterior
                           </a>
                         )}
                         {page < data.collection.products.total / 10 && (
@@ -202,7 +202,7 @@ export default function Products({
                               setPage(page + 1);
                             }}
                           >
-                            Next
+                            Siguiente
                           </a>
                         )}
                       </div>
@@ -262,7 +262,7 @@ export default function Products({
                           }}
                           isLoading={removing.includes(p.uuid)}
                         >
-                          Remove
+                          Quitar
                         </Button>
                       </div>
                     </div>
@@ -278,7 +278,7 @@ export default function Products({
         <DialogHeader>
           <DialogTitle>Agregar productos</DialogTitle>
           <DialogDescription>
-            Select products to add to this collection.
+            Selecciona los productos que quieres agregar a esta colección.
           </DialogDescription>
         </DialogHeader>
         {data && (

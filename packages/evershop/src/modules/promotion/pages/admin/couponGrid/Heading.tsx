@@ -2,7 +2,7 @@ import { PageHeading } from '@components/admin/PageHeading.js';
 import React from 'react';
 
 export default function CouponGridHeading() {
-  return <PageHeading heading="Coupons" />;
+  return <PageHeading heading="Cupones" />;
 }
 
 export const layout = {

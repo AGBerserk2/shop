@@ -21,10 +21,10 @@ export const PriceConditionValueSelector = ({
         name={`dummy__` + Math.random().toString(36).substring(2, 15)}
         wrapperClassName="form-field mb-0"
         defaultValue={condition.value}
-        placeholder="Value"
+        placeholder="Valor"
         required
         validation={{
-          required: 'Value is required'
+          required: 'El valor es obligatorio'
         }}
         onChange={(value) => {
           updateCondition(value || 0);

@@ -12,7 +12,7 @@ export default function NewProductButton({
       onClick={() => (window.location.href = newProductUrl)}
       title="Nuevo producto"
     >
-      New Product
+      Nuevo producto
     </Button>
   );
 }

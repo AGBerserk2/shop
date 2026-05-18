@@ -41,7 +41,7 @@ export default function Collections({
           </div>
         ))}
         {collections.length === 0 && (
-          <div className="text-gray-500">No collections</div>
+          <div className="text-gray-500">Sin colecciones</div>
         )}
       </CardContent>
     </Card>

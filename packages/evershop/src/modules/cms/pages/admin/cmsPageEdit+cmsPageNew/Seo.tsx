@@ -24,7 +24,7 @@ export default function Seo({ page }: CmsPageSeoProps) {
       <CardHeader>
         <CardTitle>Información SEO</CardTitle>
         <CardDescription>
-          Provide the SEO details for the CMS page.
+          Ingresá los datos de SEO de la página.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -32,29 +32,29 @@ export default function Seo({ page }: CmsPageSeoProps) {
           <InputField
             id="urlKey"
             name="url_key"
-            label="URL Key"
-            placeholder="Enter URL key"
+            label="Clave de URL"
+            placeholder="Ingresá la clave de URL"
             defaultValue={page?.urlKey}
             required
-            validation={{ required: 'URL key is required' }}
-            helperText="This is the URL path for the CMS page."
+            validation={{ required: 'La clave de URL es obligatoria' }}
+            helperText="Esta es la ruta de URL de la página."
           />
 
           <InputField
             id="metaTitle"
             name="meta_title"
-            label="Meta Title"
-            placeholder="Enter meta title"
+            label="Meta título"
+            placeholder="Ingresá el meta título"
             defaultValue={page?.metaTitle}
             required
-            validation={{ required: 'Meta title is required' }}
-            helperText="This is the meta title for the CMS page."
+            validation={{ required: 'El meta título es obligatorio' }}
+            helperText="Este es el meta título de la página."
           />
 
           <TextareaField
             name="meta_description"
-            label="Meta Description"
-            placeholder="Enter meta description"
+            label="Meta descripción"
+            placeholder="Ingresá la meta descripción"
             defaultValue={page?.metaDescription}
           />
         </div>

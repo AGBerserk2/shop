@@ -70,7 +70,7 @@ function Method({ method, reload }: MethodProps) {
             ? `${method.min || 0} <= ${method.conditionType} <= ${
                 method.max || '∞'
               }`
-            : 'None'}
+            : 'Ninguno'}
         </td>
         <td className="border-none py-2">
           <a
@@ -81,7 +81,7 @@ function Method({ method, reload }: MethodProps) {
               setDialogOpen(true);
             }}
           >
-            Edit
+            Editar
           </a>
           <a
             href="#"
@@ -99,24 +99,24 @@ function Method({ method, reload }: MethodProps) {
                 if (response.ok) {
                   reload();
                   // Toast success
-                  toast.success('Method removed successfully');
+                  toast.success('Método eliminado correctamente');
                 } else {
                   // Toast error
-                  toast.error('Failed to remove method');
+                  toast.error('No se pudo eliminar el método');
                 }
               } catch (error) {
                 // Toast error
-                toast.error('Failed to remove method');
+                toast.error('No se pudo eliminar el método');
               }
             }}
           >
-            Delete
+            Eliminar
           </a>
         </td>
       </>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Shipping Method</DialogTitle>
+          <DialogTitle>Editar método de envío</DialogTitle>
         </DialogHeader>
         <MethodForm
           saveMethodApi={method.updateApi}

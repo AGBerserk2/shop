@@ -9,7 +9,7 @@ export default function NewAttributeButton({
 }: NewAttributeButtonProps) {
   return (
     <Button onClick={() => (window.location.href = newAttributeUrl)}>
-      New Attribute
+      Nuevo atributo
     </Button>
   );
 }

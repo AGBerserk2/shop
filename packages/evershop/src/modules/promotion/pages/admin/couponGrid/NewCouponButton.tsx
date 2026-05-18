@@ -14,7 +14,7 @@ export default function NewCouponButton({
       title="Nuevo cupón"
     >
       {' '}
-      New Coupon{' '}
+      Cupón nuevo{' '}
     </Button>
   );
 }

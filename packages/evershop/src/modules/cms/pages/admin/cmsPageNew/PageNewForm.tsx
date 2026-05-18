@@ -17,7 +17,7 @@ export default function CmsPageNewForm({
       action={action}
       method="POST"
       onSuccess={(response) => {
-        toast.success('Page created successfully!');
+        toast.success('¡Página creada correctamente!');
         setTimeout(() => {
           const editUrl = response.data.links.find(
             (link) => link.rel === 'edit'

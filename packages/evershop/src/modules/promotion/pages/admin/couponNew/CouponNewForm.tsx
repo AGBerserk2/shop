@@ -22,7 +22,7 @@ export default function CouponNewForm({ action, gridUrl }: CouponNewFormProps) {
       method="POST"
       id="couponNewForm"
       onSuccess={(response) => {
-        toast.success('Coupon created successfully!');
+        toast.success('¡Cupón creado correctamente!');
         const editUrl = response.data.links.find(
           (link) => link.rel === 'edit'
         ).href;
@@ -35,7 +35,7 @@ export default function CouponNewForm({ action, gridUrl }: CouponNewFormProps) {
           <CardHeader>
             <CardTitle>Información general</CardTitle>
             <CardDescription>
-              The general information about the coupon.
+              La información general del cupón.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -44,9 +44,9 @@ export default function CouponNewForm({ action, gridUrl }: CouponNewFormProps) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Discount Type</CardTitle>
+            <CardTitle>Tipo de descuento</CardTitle>
             <CardDescription>
-              The type of discount applied by the coupon.
+              El tipo de descuento que aplica el cupón.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -57,10 +57,10 @@ export default function CouponNewForm({ action, gridUrl }: CouponNewFormProps) {
           <div className="col-span-2 grid grid-cols-1 gap-5 auto-rows-max">
             <Card>
               <CardHeader>
-                <CardTitle>Order conditions</CardTitle>
+                <CardTitle>Condiciones del pedido</CardTitle>
                 <CardDescription>
-                  The conditions related to the order for the coupon to be
-                  applied.
+                  Las condiciones relacionadas con el pedido para que se
+                  aplique el cupón.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -71,10 +71,10 @@ export default function CouponNewForm({ action, gridUrl }: CouponNewFormProps) {
           <div className="col-span-1 grid grid-cols-1 gap-5 auto-rows-max">
             <Card>
               <CardHeader>
-                <CardTitle>Customer conditions</CardTitle>
+                <CardTitle>Condiciones del cliente</CardTitle>
                 <CardDescription>
-                  The conditions related to the customer for the coupon to be
-                  applied.
+                  Las condiciones relacionadas con el cliente para que se
+                  aplique el cupón.
                 </CardDescription>
               </CardHeader>
               <CardContent>

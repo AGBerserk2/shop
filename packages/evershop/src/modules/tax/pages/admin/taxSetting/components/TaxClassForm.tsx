@@ -28,15 +28,17 @@ function TaxClassForm({
       <InputField
         name="name"
         type="text"
-        label="Tax class name"
+        label="Nombre de la clase de impuesto"
         defaultValue=""
-        placeholder="Enter tax class name"
+        placeholder="Ingresa el nombre de la clase de impuesto"
         required
-        validation={{ required: 'Tax class name is required' }}
+        validation={{
+          required: 'El nombre de la clase de impuesto es obligatorio'
+        }}
       />
       <div className="flex justify-end gap-2 mt-3">
         <Button title="Cancelar" variant="secondary" onClick={closeModal}>
-          Cancel
+          Cancelar
         </Button>
         <Button
           title="Guardar"
@@ -52,7 +54,7 @@ function TaxClassForm({
             );
           }}
         >
-          Save
+          Guardar
         </Button>
       </div>
     </Form>

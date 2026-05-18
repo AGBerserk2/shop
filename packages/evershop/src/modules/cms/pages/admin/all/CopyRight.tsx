@@ -17,7 +17,7 @@ export default function CopyRight({
 
 CopyRight.defaultProps = {
   themeConfig: {
-    copyRight: '© 2025 Evershop. All Rights Reserved.'
+    copyRight: '© 2025 Evershop. Todos los derechos reservados.'
   }
 };
 

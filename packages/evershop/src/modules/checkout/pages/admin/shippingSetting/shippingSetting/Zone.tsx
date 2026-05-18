@@ -44,10 +44,10 @@ function Zone({ zone, reload }: ZoneProps) {
         <div className="text-xs uppercase font-semibold">{zone.name}</div>
         <div className="flex justify-between gap-5">
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger>Edit Zone</DialogTrigger>
+            <DialogTrigger>Editar zona</DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Edit Shipping Zone</DialogTitle>
+                <DialogTitle>Editar zona de envío</DialogTitle>
               </DialogHeader>
               <ZoneForm
                 formMethod="PATCH"
@@ -67,7 +67,7 @@ function Zone({ zone, reload }: ZoneProps) {
                 const response = await axios.delete(zone.deleteApi);
                 if (response.status === 200) {
                   // Toast success
-                  toast.success('Zone removed successfully');
+                  toast.success('Zona eliminada correctamente');
                   // Delay for 2 seconds
                   setTimeout(() => {
                     // Reload page
@@ -75,15 +75,15 @@ function Zone({ zone, reload }: ZoneProps) {
                   }, 1500);
                 } else {
                   // Toast error
-                  toast.error('Failed to remove zone');
+                  toast.error('No se pudo eliminar la zona');
                 }
               } catch (error) {
                 // Toast error
-                toast.error('Failed to remove zone');
+                toast.error('No se pudo eliminar la zona');
               }
             }}
           >
-            Remove Zone
+            Eliminar zona
           </a>
         </div>
       </div>
@@ -94,7 +94,7 @@ function Zone({ zone, reload }: ZoneProps) {
           </div>
           <div className="grow px-2">
             <div>
-              <b>{zone.country?.name || 'Worldwide'}</b>
+              <b>{zone.country?.name || 'Todo el mundo'}</b>
             </div>
             <div>
               {zone.provinces

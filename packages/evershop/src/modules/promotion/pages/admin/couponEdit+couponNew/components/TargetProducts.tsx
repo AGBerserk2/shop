@@ -64,7 +64,7 @@ function Products({
     <div>
       <div className="mb-2 mt-2">
         <div className="flex justify-start items-center">
-          <div>Maximum</div>
+          <div>Máximo</div>
           <div style={{ width: '100px', padding: '0 1rem' }}>
             <NumberField
               name="target_products.maxQty"
@@ -72,30 +72,32 @@ function Products({
               placeholder="10"
               required
               validation={{
-                required: 'Maximum quantity is required',
+                required: 'La cantidad máxima es obligatoria',
                 min: {
                   value: 0,
-                  message: 'Maximum quantity must be greater than or equal to 0'
+                  message: 'La cantidad máxima debe ser mayor o igual a 0'
                 }
               }}
               min={0}
               wrapperClassName="form-field mb-0"
             />
           </div>
-          <div>quantity of products are matched bellow conditions(All)</div>
+          <div>
+            cantidad de productos que cumplen las siguientes condiciones (todas)
+          </div>
         </div>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Key</span>
+              <span>Campo</span>
             </TableHead>
             <TableHead>
-              <span>Operator</span>
+              <span>Operador</span>
             </TableHead>
             <TableHead>
-              <span>Value</span>
+              <span>Valor</span>
             </TableHead>
             <TableHead> </TableHead>
           </TableRow>
@@ -130,7 +132,7 @@ function Products({
                       wrapperClassName="form-field mb-0"
                       value={
                         options.find((c) => c.key === product.key)?.label ||
-                        'Unknown'
+                        'Desconocido'
                       }
                     />
                   </>
@@ -146,7 +148,7 @@ function Products({
                       label: operator.label
                     }))}
                     wrapperClassName="form-field mb-0"
-                    placeholder="Select operator"
+                    placeholder="Seleccioná un operador"
                   />
                 ) : (
                   <>
@@ -165,7 +167,7 @@ function Products({
                       value={
                         operators.find(
                           (c) => c.key === fieldWatch[index]?.operator
-                        )?.label || 'Unknown'
+                        )?.label || 'Desconocido'
                       }
                     />
                   </>
@@ -271,7 +273,7 @@ export function TargetProducts({
   return (
     <Item variant={'outline'} className="mt-6">
       <ItemContent>
-        <ItemTitle>Target Products</ItemTitle>
+        <ItemTitle>Productos objetivo</ItemTitle>
         <Products targetProducts={products} maxQty={maxQty} />
       </ItemContent>
     </Item>

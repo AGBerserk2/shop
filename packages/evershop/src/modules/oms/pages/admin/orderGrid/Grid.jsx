@@ -58,14 +58,14 @@ function Actions({ orders = [], selectedIds = [] }) {
       name: 'Marcar como enviado',
       onAction: () => {
         openAlert({
-          heading: `Fullfill ${selectedIds.length} orders`,
+          heading: `Marcar ${selectedIds.length} pedidos como enviados`,
           content: (
             <div className="form-field mb-0">
               ¿Marcar los pedidos seleccionados como enviados?
             </div>
           ),
           primaryAction: {
-            title: 'Cancel',
+            title: 'Cancelar',
             onAction: closeAlert,
             variant: 'secondary'
           },
@@ -262,7 +262,7 @@ export default function OrderGrid({
               window.location.href = url.href;
             }}
           >
-            Clear Filters
+            Limpiar filtros
           </Button>
         </CardAction>
       </CardHeader>
@@ -292,7 +292,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Order Number"
+                          title="Número de pedido"
                           name="number"
                           currentFilters={currentFilters}
                         />
@@ -316,7 +316,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Customer Email"
+                          title="Correo del cliente"
                           name="email"
                           currentFilters={currentFilters}
                         />
@@ -451,7 +451,7 @@ export default function OrderGrid({
         </Table>
         {orders.length === 0 && (
           <div className="flex w-full justify-center">
-            There is no order to display
+            No hay pedidos para mostrar
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

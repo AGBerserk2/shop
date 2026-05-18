@@ -10,11 +10,11 @@ import React from 'react';
 
 export default function OrderHistory({ customer: { orders = [] } }) {
   return (
-    <Card title="Order History">
+    <Card title="Historial de pedidos">
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle>Historial de pedidos</CardTitle>
         <CardDescription>
-          Recently placed orders by this customer
+          Pedidos hechos recientemente por este cliente
         </CardDescription>
       </CardHeader>
       {orders.length < 1 && (

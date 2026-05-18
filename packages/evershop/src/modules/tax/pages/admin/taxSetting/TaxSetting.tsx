@@ -112,34 +112,36 @@ export default function TaxSetting({
         <div className="col-span-4 grid grid-cols-1 gap-5">
           <Card>
             <CardHeader>
-              <CardTitle>Tax calculation configuration</CardTitle>
+              <CardTitle>Configuración del cálculo de impuestos</CardTitle>
               <CardDescription>
-                Configure the tax classes that will be available to your
-                customers at checkout.
+                Configura las clases de impuesto que estarán disponibles para
+                tus clientes al finalizar la compra.
               </CardDescription>
             </CardHeader>
-            <CardContent title="Basic configuration">
+            <CardContent title="Configuración básica">
               <Form
                 id="taxBasicConfig"
                 method="POST"
                 action={saveSettingApi}
-                successMessage="Tax setting has been saved successfully!"
+                successMessage="¡La configuración de impuestos se guardó correctamente!"
               >
                 <div className="grid grid-cols-2 gap-5">
                   <div>
                     <SelectField
                       name="defaultShippingTaxClassId"
-                      label="Shipping tax class"
+                      label="Clase de impuesto del envío"
                       defaultValue={setting.defaultShippingTaxClassId}
-                      placeholder="None"
+                      placeholder="Ninguno"
                       options={[
                         {
                           value: -1,
-                          label: 'Proportional allocation based on cart items'
+                          label:
+                            'Asignación proporcional según los artículos del carrito'
                         },
                         {
                           value: 0,
-                          label: 'Higest tax rate based on cart items'
+                          label:
+                            'Tasa de impuesto más alta según los artículos del carrito'
                         }
                       ].concat(
                         taxClassesQueryData.data.taxClasses.items.map(
@@ -149,40 +151,41 @@ export default function TaxSetting({
                           })
                         ) || []
                       )}
-                      helperText="This is the tax class applied to shipping costs."
+                      helperText="Esta es la clase de impuesto aplicada a los costos de envío."
                     />
                   </div>
                   <div>
                     <SelectField
                       name="baseCalculationAddress"
-                      label="Base calculation address"
+                      label="Dirección base de cálculo"
                       defaultValue={setting.baseCalculationAddress || ''}
                       options={[
                         {
                           value: 'shippingAddress',
-                          label: 'Shipping address'
+                          label: 'Dirección de envío'
                         },
                         {
                           value: 'billingAddress',
-                          label: 'Billing address'
+                          label: 'Dirección de facturación'
                         },
                         {
                           value: 'storeAddress',
-                          label: 'Store address'
+                          label: 'Dirección de la tienda'
                         }
                       ]}
-                      helperText="This is the address used to calculate tax rates."
+                      helperText="Esta es la dirección utilizada para calcular las tasas de impuesto."
                     />
                   </div>
                 </div>
               </Form>
             </CardContent>
           </Card>
-          <Card title="Tax classes">
+          <Card title="Clases de impuesto">
             <CardHeader>
-              <CardTitle>Tax classes</CardTitle>
+              <CardTitle>Clases de impuesto</CardTitle>
               <CardDescription>
-                Manage tax classes and tax rates for different regions.
+                Administra las clases de impuesto y las tasas de impuesto para
+                distintas regiones.
               </CardDescription>
             </CardHeader>
             <TaxClasses
@@ -194,16 +197,16 @@ export default function TaxSetting({
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                   <DialogTrigger>
                     <Button
-                      title="Create new tax class"
+                      title="Crear nueva clase de impuesto"
                       variant="outline"
                       onClick={() => setDialogOpen(true)}
                     >
-                      Create new tax class
+                      Crear nueva clase de impuesto
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Create New Tax Class</DialogTitle>
+                      <DialogTitle>Crear nueva clase de impuesto</DialogTitle>
                     </DialogHeader>
                     <TaxClassForm
                       saveTaxClassApi={createTaxClassApi}

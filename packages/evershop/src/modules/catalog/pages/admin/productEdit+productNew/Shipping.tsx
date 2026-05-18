@@ -43,15 +43,15 @@ export default function Shipping({ product, setting }: ShippingProps) {
       <CardHeader>
         <CardTitle>Envío</CardTitle>
         <CardDescription>
-          Manage the shipping settings of the product.
+          Gestiona la configuración de envío del producto.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <CheckboxField
           name="no_shipping_required"
-          label="No shipping required?"
+          label="¿No requiere envío?"
           defaultValue={shipping.noShippingRequired === true}
-          helperText="Select this option if the product is a digital product or service that does not require shipping."
+          helperText="Seleccioná esta opción si el producto es un producto o servicio digital que no requiere envío."
           wrapperClassName="mb-0"
         />
       </CardContent>
@@ -59,29 +59,29 @@ export default function Shipping({ product, setting }: ShippingProps) {
         {!noShippingRequired && (
           <NumberField
             name="weight"
-            placeholder="Enter weight"
-            label={`Weight`}
+            placeholder="Ingresá el peso"
+            label={`Peso`}
             defaultValue={shipping.weight?.value}
             unit={setting?.weightUnit}
             required
             validation={{
               min: {
                 value: 0,
-                message: 'Weight must be a positive number'
+                message: 'El peso debe ser un número positivo'
               }
             }}
-            helperText={'Weight must be a positive number'}
+            helperText={'El peso debe ser un número positivo'}
           />
         )}
         {noShippingRequired && (
           <NumberField
             name="weight_no_shipping"
-            placeholder="Enter weight"
-            label={`Weight`}
+            placeholder="Ingresá el peso"
+            label={`Peso`}
             defaultValue={shipping.weight?.value}
             unit={setting?.weightUnit}
             disabled
-            helperText={'Weight must be a positive number'}
+            helperText={'El peso debe ser un número positivo'}
           />
         )}
       </CardContent>

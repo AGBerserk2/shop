@@ -24,25 +24,27 @@ export default function DiscountType({ coupon }: DiscountTypeProps) {
                 default: (
                   <RadioGroupField
                     required
-                    validation={{ required: 'Discount type is required' }}
+                    validation={{
+                      required: 'El tipo de descuento es obligatorio'
+                    }}
                     options={[
                       {
                         value: 'fixed_discount_to_entire_order',
-                        label: 'Fixed discount to entire order'
+                        label: 'Descuento fijo a todo el pedido'
                       },
                       {
                         value: 'percentage_discount_to_entire_order',
-                        label: 'Percentage discount to entire order'
+                        label: 'Descuento porcentual a todo el pedido'
                       },
                       {
                         value: 'fixed_discount_to_specific_products',
-                        label: 'Fixed discount to specific products'
+                        label: 'Descuento fijo a productos específicos'
                       },
                       {
                         value: 'percentage_discount_to_specific_products',
-                        label: 'Percentage discount to specific products'
+                        label: 'Descuento porcentual a productos específicos'
                       },
-                      { value: 'buy_x_get_y', label: 'Buy X get Y' }
+                      { value: 'buy_x_get_y', label: 'Compra X y obtené Y' }
                     ]}
                     defaultValue={get(coupon, 'discountType', '')}
                     name="discount_type"

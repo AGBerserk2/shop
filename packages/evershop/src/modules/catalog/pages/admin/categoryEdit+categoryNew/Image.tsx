@@ -32,8 +32,8 @@ export default function Image({ category }: ImageProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Category Image</CardTitle>
-        <CardDescription>Upload an image for the category.</CardDescription>
+        <CardTitle>Imagen de la categoría</CardTitle>
+        <CardDescription>Sube una imagen para la categoría.</CardDescription>
       </CardHeader>
       <CardContent>
         <ImageUploader

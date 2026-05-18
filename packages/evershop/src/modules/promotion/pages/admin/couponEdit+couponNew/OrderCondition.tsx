@@ -21,18 +21,18 @@ export default function OrderCondition({ coupon = {} }: OrderConditionProps) {
     <div className="space-y-2">
       <NumberField
         name="condition.order_total"
-        label="Minimum purchase amount"
-        placeholder="Minimum purchase amount"
+        label="Monto mínimo de compra"
+        placeholder="Monto mínimo de compra"
         defaultValue={condition.orderTotal || 0}
-        helperText="The minimum total amount required for the order to qualify for this coupon."
+        helperText="El monto total mínimo requerido para que el pedido califique para este cupón."
       />
 
       <NumberField
         name="condition.order_qty"
-        label="Minimum purchase qty"
-        placeholder="Minimum purchase quantity"
+        label="Cantidad mínima de compra"
+        placeholder="Cantidad mínima de compra"
         defaultValue={condition.orderQty || 0}
-        helperText="The minimum quantity of items required in the order to qualify for this coupon."
+        helperText="La cantidad mínima de artículos requerida en el pedido para que califique para este cupón."
         allowDecimals={false}
         min={0}
       />

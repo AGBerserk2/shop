@@ -27,11 +27,11 @@ export default function BestCustomers({ listUrl, setting }) {
       <CardHeader>
         <CardTitle>Mejores clientes</CardTitle>
         <CardDescription>
-          A list of customers who have placed the most orders
+          Lista de clientes que han hecho más pedidos
         </CardDescription>
         <CardAction>
           <a href={listUrl} className="text-sm text-primary hover:underline">
-            View all customers
+            Ver todos los clientes
           </a>
         </CardAction>
       </CardHeader>

@@ -41,7 +41,7 @@ const ParentCategory: React.FC<{
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <div className="my-3 space-y-3">
-        <Label>Parent category</Label>
+        <Label>Categoría padre</Label>
         {category && (
           <div className="border rounded border-border mb-2 p-2">
             {category.path.map((item, index) => (
@@ -58,7 +58,7 @@ const ParentCategory: React.FC<{
                   setDialogOpen(true);
                 }}
               >
-                Change
+                Cambiar
               </a>
             </span>
             <span className="text-destructive pl-5 hover:underline">
@@ -69,7 +69,7 @@ const ParentCategory: React.FC<{
                   handleCategoryChange(null);
                 }}
               >
-                Unlink
+                Desvincular
               </a>
             </span>
           </div>
@@ -83,7 +83,7 @@ const ParentCategory: React.FC<{
               setDialogOpen(true);
             }}
           >
-            Select category
+            Seleccionar categoría
           </Button>
         )}
         <DialogContent>
@@ -138,12 +138,12 @@ export default function General({ category }: GeneralProps) {
         default: (
           <InputField
             name="name"
-            label="Category Name"
-            placeholder="Enter Category Name"
+            label="Nombre de la categoría"
+            placeholder="Escribe el nombre de la categoría"
             defaultValue={category?.name || ''}
             required
             validation={{
-              required: 'Category name is required'
+              required: 'El nombre de la categoría es obligatorio'
             }}
           />
         )
@@ -179,7 +179,7 @@ export default function General({ category }: GeneralProps) {
       <CardHeader>
         <CardTitle>General</CardTitle>
         <CardDescription>
-          Manage the general information of the category.
+          Administra la información general de la categoría.
         </CardDescription>
       </CardHeader>
       <CardContent>

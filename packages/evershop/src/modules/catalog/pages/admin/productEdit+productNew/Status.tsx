@@ -23,7 +23,7 @@ export default function Status({ product }: StatusProps) {
       <CardHeader>
         <CardTitle>Estado del producto</CardTitle>
         <CardDescription>
-          Set the status and visibility of the product.
+          Definí el estado y la visibilidad del producto.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -31,25 +31,25 @@ export default function Status({ product }: StatusProps) {
           name="status"
           label="Estado"
           options={[
-            { value: 0, label: 'Disabled' },
-            { value: 1, label: 'Enabled' }
+            { value: 0, label: 'Desactivado' },
+            { value: 1, label: 'Activado' }
           ]}
           defaultValue={product?.status === 0 ? 0 : 1}
           required
-          helperText="Disabled products will not be visible in the store and cannot be purchased."
+          helperText="Los productos desactivados no se mostrarán en la tienda y no se pueden comprar."
         />
       </CardContent>
       <CardContent className="border-t border-t-border pt-6">
         <RadioGroupField
           name="visibility"
-          label="Visibility"
+          label="Visibilidad"
           options={[
-            { value: 0, label: 'Not visible individually' },
-            { value: 1, label: 'Catalog, Search' }
+            { value: 0, label: 'No visible individualmente' },
+            { value: 1, label: 'Catálogo, Búsqueda' }
           ]}
           defaultValue={product?.visibility === 0 ? 0 : 1}
           required
-          helperText="Visibility determines where the product appears in the store. It does not affect the saleability of the product."
+          helperText="La visibilidad determina dónde aparece el producto en la tienda. No afecta la posibilidad de venderlo."
         />
       </CardContent>
       <CardFooter></CardFooter>

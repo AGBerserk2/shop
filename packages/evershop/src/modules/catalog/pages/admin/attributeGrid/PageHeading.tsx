@@ -5,7 +5,7 @@ export interface AttributGridPageHeadingProps {
   backUrl?: string;
 }
 export default function AttributGridPageHeading() {
-  return <PageHeading heading="Attributes" />;
+  return <PageHeading heading="Atributos" />;
 }
 
 export const layout = {

@@ -16,7 +16,7 @@ export default function CmsGridPageHeading({
     <div className="w-2/3 mx-auto">
       <PageHeading
         backUrl={backUrl}
-        heading={page ? `Editing ${page.name}` : 'Create a new page'}
+        heading={page ? `Editando ${page.name}` : 'Crear una nueva página'}
       />
     </div>
   );

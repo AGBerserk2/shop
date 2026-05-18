@@ -302,7 +302,7 @@ const StoreLogo: React.FC<{
               <>
                 <img
                   src={currentLogo}
-                  alt="Logo preview"
+                  alt="Vista previa del logo"
                   className="absolute inset-0 w-full h-full object-contain p-6"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-colors">

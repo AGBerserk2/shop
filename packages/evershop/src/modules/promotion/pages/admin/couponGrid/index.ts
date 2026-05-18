@@ -5,8 +5,8 @@ import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default (request: EvershopRequest, response) => {
   setPageMetaInfo(request, {
-    title: 'Coupons',
-    description: 'Coupons'
+    title: 'Cupones',
+    description: 'Cupones'
   });
   setContextValue(
     request,

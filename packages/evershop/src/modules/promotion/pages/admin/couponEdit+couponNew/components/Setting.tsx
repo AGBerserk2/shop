@@ -13,27 +13,27 @@ export const Setting: React.FC<{
         <NumberField
           name="discount_amount"
           defaultValue={discountAmount}
-          placeholder="Discount amount"
+          placeholder="Monto del descuento"
           required
-          label="Discount amount"
+          label="Monto del descuento"
           validation={{
-            required: 'Discount amount is required'
+            required: 'El monto del descuento es obligatorio'
           }}
         />
       </div>
       <div>
         <DateField
           name="start_date"
-          label="Start date"
-          placeholder="Start date"
+          label="Fecha de inicio"
+          placeholder="Fecha de inicio"
           defaultValue={startDate}
         />
       </div>
       <div>
         <DateField
-          placeholder="End date"
+          placeholder="Fecha de fin"
           name="end_date"
-          label="End date"
+          label="Fecha de fin"
           defaultValue={endDate}
         />
       </div>

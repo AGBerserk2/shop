@@ -33,15 +33,15 @@ export default function StripePayment({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Stripe Payment</CardTitle>
+        <CardTitle>Pago con Stripe</CardTitle>
         <CardDescription>
-          Configure your Stripe payment gateway settings
+          Configurá los ajustes de la pasarela de pago de Stripe
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Enable?</h4>
+            <h4>¿Habilitar?</h4>
           </div>
           <div className="col-span-2">
             <ToggleField
@@ -56,12 +56,12 @@ export default function StripePayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Dislay Name</h4>
+            <h4>Nombre visible</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="stripeDisplayName"
-              placeholder="Display Name"
+              placeholder="Nombre visible"
               defaultValue={stripeDisplayName || ''}
             />
           </div>
@@ -70,12 +70,12 @@ export default function StripePayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Publishable Key</h4>
+            <h4>Clave pública</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="stripePublishableKey"
-              placeholder="Publishable Key"
+              placeholder="Clave pública"
               defaultValue={stripePublishableKey || ''}
             />
           </div>
@@ -84,12 +84,12 @@ export default function StripePayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Secret Key</h4>
+            <h4>Clave secreta</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="stripeSecretKey"
-              placeholder="Secret Key"
+              placeholder="Clave secreta"
               defaultValue={stripeSecretKey || ''}
             />
           </div>
@@ -98,14 +98,14 @@ export default function StripePayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Webhook Secret Key</h4>
+            <h4>Clave secreta del webhook</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="stripeEndpointSecret"
-              placeholder="Secret Key"
+              placeholder="Clave secreta"
               defaultValue={stripeEndpointSecret || ''}
-              helperText="Your webhook url should be: https://yourdomain.com/api/stripe/webhook"
+              helperText="La URL de tu webhook debe ser: https://tudominio.com/api/stripe/webhook"
             />
           </div>
         </div>
@@ -113,15 +113,15 @@ export default function StripePayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Payment mode</h4>
+            <h4>Modo de pago</h4>
           </div>
           <div className="col-span-2">
             <RadioGroupField
               name="stripePaymentMode"
               defaultValue={stripePaymentMode}
               options={[
-                { label: 'Authorize only', value: 'authorizeOnly' },
-                { label: 'Capture', value: 'capture' }
+                { label: 'Solo autorizar', value: 'authorizeOnly' },
+                { label: 'Capturar', value: 'capture' }
               ]}
             />
           </div>

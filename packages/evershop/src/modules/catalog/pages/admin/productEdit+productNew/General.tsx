@@ -40,15 +40,15 @@ const SKUAndPrice: React.FC<{
       <InputField
         name="sku"
         label="SKU"
-        placeholder="Enter SKU"
+        placeholder="Ingresá el SKU"
         defaultValue={sku}
         required
-        helperText={_('SKU must be unique')}
+        helperText={_('El SKU debe ser único')}
       />
       <NumberField
         name="price"
-        placeholder="Enter price"
-        label={`Price`}
+        placeholder="Ingresá el precio"
+        label={`Precio`}
         defaultValue={price?.value}
         unit={setting.storeCurrency}
         min={0}
@@ -86,7 +86,7 @@ const ProductCategory: React.FC<{
   if (error) {
     return (
       <p className="text-destructive">
-        There was an error fetching categories.
+        Ocurrió un error al cargar las categorías.
         {error.message}
       </p>
     );
@@ -110,7 +110,7 @@ const ProductCategory: React.FC<{
             onChange();
           }}
         >
-          Change
+          Cambiar
         </a>
         <a
           href="#"
@@ -120,7 +120,7 @@ const ProductCategory: React.FC<{
           }}
           className="text-destructive ml-5"
         >
-          Unassign
+          Quitar
         </a>
       </span>
       <input type="hidden" {...register('category_id')} value={categoryId} />
@@ -177,7 +177,7 @@ const CategorySelect: React.FC<{
               setDialogOpen(true);
             }}
           >
-            Select category
+            Seleccionar categoría
           </Button>
         )}
         <DialogContent>
@@ -248,7 +248,7 @@ export default function General({
       <CardHeader>
         <CardTitle>Información general</CardTitle>
         <CardDescription>
-          Manage the general information of the product.
+          Gestiona la información general del producto.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -261,11 +261,11 @@ export default function General({
                 default: (
                   <InputField
                     name="name"
-                    placeholder="Enter product name"
-                    label="Product Name"
+                    placeholder="Ingresá el nombre del producto"
+                    label="Nombre del producto"
                     defaultValue={product?.name}
                     required
-                    helperText={_('Product name is required')}
+                    helperText={_('El nombre del producto es obligatorio')}
                   />
                 )
               },

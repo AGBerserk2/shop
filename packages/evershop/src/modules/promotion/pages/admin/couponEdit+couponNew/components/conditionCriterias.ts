@@ -22,58 +22,58 @@ export type OperatorOption = {
 const options: ConditionKey[] = [
   {
     key: 'category',
-    label: 'Category'
+    label: 'Categoría'
   },
   {
     key: 'collection',
-    label: 'Collection'
+    label: 'Colección'
   },
   {
     key: 'attribute_group',
-    label: 'Attribute Group'
+    label: 'Grupo de atributos'
   },
   {
     key: 'sku',
-    label: 'Sku'
+    label: 'SKU'
   },
   {
     key: 'price',
-    label: 'Price'
+    label: 'Precio'
   }
 ];
 
 const operators: OperatorOption[] = [
   {
     key: Operator.EQUAL,
-    label: 'Equal'
+    label: 'Igual'
   },
   {
     key: Operator.NOT_EQUAL,
-    label: 'Not equal'
+    label: 'Distinto'
   },
   {
     key: Operator.GREATER,
-    label: 'Greater'
+    label: 'Mayor'
   },
   {
     key: Operator.GREATER_OR_EQUAL,
-    label: 'Greater or equal'
+    label: 'Mayor o igual'
   },
   {
     key: Operator.SMALLER,
-    label: 'Smaller'
+    label: 'Menor'
   },
   {
     key: Operator.SMALLER_OR_EQUAL,
-    label: 'Equal or smaller'
+    label: 'Menor o igual'
   },
   {
     key: Operator.IN,
-    label: 'In'
+    label: 'Está en'
   },
   {
     key: Operator.NOT_IN,
-    label: 'Not in'
+    label: 'No está en'
   }
 ];
 

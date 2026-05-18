@@ -22,13 +22,13 @@ export const CreateVariant: React.FC<{
     <div className="mt-3">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger>
-          <Button variant={'outline'}>Add Variant</Button>
+          <Button variant={'outline'}>Agregar variante</Button>
         </DialogTrigger>
         <DialogContent className={'sm:max-w-212.5'}>
           <DialogHeader>
-            <DialogTitle>New Variant</DialogTitle>
+            <DialogTitle>Nueva variante</DialogTitle>
             <DialogDescription>
-              Create a new variant for this product.
+              Creá una nueva variante para este producto.
             </DialogDescription>
           </DialogHeader>
           <VariantModal

@@ -43,7 +43,7 @@ export default function StripeRefundButton({
             variant="destructive"
             onClick={() => {
               openAlert({
-                heading: 'Refund',
+                heading: 'Reembolso',
                 content: (
                   <div>
                     <Form
@@ -75,23 +75,23 @@ export default function StripeRefundButton({
                       <div>
                         <NumberField
                           name="amount"
-                          label="Refund amount"
-                          placeholder="Refund amount"
+                          label="Monto a reembolsar"
+                          placeholder="Monto a reembolsar"
                           defaultValue={grandTotal.value}
                           required
                           validation={{
-                            required: 'This field is required',
+                            required: 'Este campo es obligatorio',
                             min: {
                               value: 0,
                               message:
-                                'Amount must be greater than or equal to 0'
+                                'El monto debe ser mayor o igual a 0'
                             },
                             max: {
                               value: grandTotal.value,
-                              message: `Amount must be less than or equal to ${grandTotal.value} ${grandTotal.currency}`
+                              message: `El monto debe ser menor o igual a ${grandTotal.value} ${grandTotal.currency}`
                             }
                           }}
-                          helperText={`Maximum amount is ${grandTotal.value} ${grandTotal.currency}`}
+                          helperText={`El monto máximo es ${grandTotal.value} ${grandTotal.currency}`}
                           unit={grandTotal.currency}
                         />
                       </div>
@@ -104,12 +104,12 @@ export default function StripeRefundButton({
                   </div>
                 ),
                 primaryAction: {
-                  title: 'Cancel',
+                  title: 'Cancelar',
                   onAction: closeAlert,
                   variant: ''
                 },
                 secondaryAction: {
-                  title: 'Refund',
+                  title: 'Reembolsar',
                   onAction: () => {
                     setLoading(true);
                     dispatchAlert({
@@ -128,7 +128,7 @@ export default function StripeRefundButton({
               });
             }}
           >
-            Refund
+            Reembolsar
           </Button>
         </div>
       </CardContent>

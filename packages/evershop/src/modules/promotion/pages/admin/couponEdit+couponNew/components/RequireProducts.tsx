@@ -55,16 +55,16 @@ export function RequiredProducts({
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Key</span>
+              <span>Campo</span>
             </TableHead>
             <TableHead>
-              <span>Operator</span>
+              <span>Operador</span>
             </TableHead>
             <TableHead>
-              <span>Value</span>
+              <span>Valor</span>
             </TableHead>
             <TableHead>
-              <span>Minimum quantity</span>
+              <span>Cantidad mínima</span>
             </TableHead>
             <TableHead> </TableHead>
           </TableRow>
@@ -96,7 +96,7 @@ export function RequiredProducts({
                       name={`condition.required_products.${i}.keylabel`}
                       readOnly
                       value={
-                        options.find((c) => c.key === p.key)?.label || 'Unknown'
+                        options.find((c) => c.key === p.key)?.label || 'Desconocido'
                       }
                       wrapperClassName="form-field mb-0"
                     />
@@ -129,7 +129,7 @@ export function RequiredProducts({
                       value={
                         operators.find(
                           (c) => c.key === fieldsWatch[i]?.operator
-                        )?.label || 'Unknown'
+                        )?.label || 'Desconocido'
                       }
                       wrapperClassName="form-field mb-0"
                     />
@@ -173,10 +173,10 @@ export function RequiredProducts({
                         ? p.qty
                         : parseInt(p.qty, 10) || 1
                     }
-                    placeholder="Enter the quantity"
+                    placeholder="Ingresá la cantidad"
                     required
                     validation={{
-                      required: 'Minimum quantity is required',
+                      required: 'La cantidad mínima es obligatoria',
                       min: {
                         value: 1,
                         message: ''

@@ -2,7 +2,7 @@ import { PageHeading } from '@components/admin/PageHeading.js';
 import React from 'react';
 
 export default function CustomerGridHeading() {
-  return <PageHeading heading="Customers" />;
+  return <PageHeading heading="Clientes" />;
 }
 
 export const layout = {

@@ -5,7 +5,7 @@ import React from 'react';
 export default function Version({ version }) {
   return (
     <div className="version">
-      <span>Version {version}</span>
+      <span>Versión {version}</span>
     </div>
   );
 }

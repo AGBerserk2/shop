@@ -22,7 +22,7 @@ export function Results({ keyword, results = {} }) {
   return (
     <div className="space-y-3">
       <h3 className="text-xl font-semibold">
-        Results for &quot;
+        Resultados para &quot;
         {keyword}
         &quot;
       </h3>
@@ -30,17 +30,17 @@ export function Results({ keyword, results = {} }) {
         <TabsList variant="line">
           {products.items.length > 0 && (
             <TabsTrigger value="products">
-              Products ({products.items.length})
+              Productos ({products.items.length})
             </TabsTrigger>
           )}
           {customers.items.length > 0 && (
             <TabsTrigger value="customers">
-              Customers ({customers.items.length})
+              Clientes ({customers.items.length})
             </TabsTrigger>
           )}
           {orders.items.length > 0 && (
             <TabsTrigger value="orders">
-              Orders ({orders.items.length})
+              Pedidos ({orders.items.length})
             </TabsTrigger>
           )}
         </TabsList>

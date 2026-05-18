@@ -15,7 +15,9 @@ export default function CategoryEditPageHeading({
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={category ? `Editing ${category.name}` : 'Create a new category'}
+      heading={
+        category ? `Editando ${category.name}` : 'Crear una nueva categoría'
+      }
     />
   );
 }

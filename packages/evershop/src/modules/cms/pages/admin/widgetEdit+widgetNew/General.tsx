@@ -73,7 +73,7 @@ const AreaInput: React.FC<{
                 : []
             )
           }
-          placeholder="Type area and press enter..."
+          placeholder="Escribí el área y presioná Enter..."
           value={
             field.value
               ? field.value.map((val) =>
@@ -109,7 +109,7 @@ export default function General({ widget, routes }: GeneralProps) {
   const allRoutes = [
     {
       value: 'all',
-      label: 'All',
+      label: 'Todas',
       isAdmin: false,
       isApi: false,
       method: ['GET']
@@ -125,7 +125,7 @@ export default function General({ widget, routes }: GeneralProps) {
           defaultValue={widget?.name}
           label="Nombre"
           required
-          validation={{ required: 'Name is required' }}
+          validation={{ required: 'El nombre es obligatorio' }}
           placeholder="Nombre"
         />
       </CardContent>
@@ -135,10 +135,10 @@ export default function General({ widget, routes }: GeneralProps) {
           label="Estado"
           defaultValue={widget?.status}
           required
-          validation={{ required: 'Status is required' }}
+          validation={{ required: 'El estado es obligatorio' }}
           options={[
-            { value: 0, label: 'Disabled' },
-            { value: 1, label: 'Enabled' }
+            { value: 0, label: 'Deshabilitado' },
+            { value: 1, label: 'Habilitado' }
           ]}
         />
       </CardContent>
@@ -153,7 +153,7 @@ export default function General({ widget, routes }: GeneralProps) {
             data-slot="field-label"
             className="text-sm font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50 items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed has-data-checked:bg-primary/5 has-data-checked:border-primary dark:has-data-checked:bg-primary/10 gap-1 group-data-[disabled=true]/field:opacity-50 has-[&gt;[data-slot=field]]:rounded-md has-[&gt;[data-slot=field]]:border [&amp;&gt;*]:data-[slot=field]:p-3 group/field-label peer/field-label flex w-fit leading-snug has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col"
           >
-            Areas
+            Áreas
           </label>
           <AreaInput
             control={control}
@@ -197,7 +197,7 @@ export default function General({ widget, routes }: GeneralProps) {
                 )}
                 hideSelectedOptions
                 isMulti
-                aria-label="Select pages"
+                aria-label="Seleccionar páginas"
                 onChange={(selectedOptions) => {
                   const stringArray = selectedOptions
                     ? selectedOptions.map((option) => option.value)
@@ -214,18 +214,18 @@ export default function General({ widget, routes }: GeneralProps) {
       <CardContent className="pt-3 border-t border-border">
         <NumberField
           name="sort_order"
-          label="Sort Order"
+          label="Orden"
           defaultValue={widget?.sortOrder}
-          placeholder="Sort Order"
+          placeholder="Orden"
           validation={{
-            required: 'Sort order is required',
+            required: 'El orden es obligatorio',
             min: {
               value: 0,
-              message: 'Sort order must be a positive number'
+              message: 'El orden debe ser un número positivo'
             }
           }}
           required
-          helperText="The order in which this widget will be displayed. Lower numbers appear first."
+          helperText="El orden en que se mostrará este widget. Los números más bajos aparecen primero."
         />
       </CardContent>
     </Card>

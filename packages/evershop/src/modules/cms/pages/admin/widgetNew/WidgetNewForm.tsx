@@ -26,7 +26,7 @@ export default function WidgetNewForm({
       action={action}
       method="POST"
       onSuccess={(response) => {
-        toast.success('Widget created successfully!');
+        toast.success('¡Widget creado correctamente!');
         setTimeout(() => {
           const editUrl = response.data.links.find(
             (link) => link.rel === 'edit'

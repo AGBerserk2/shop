@@ -51,7 +51,7 @@ function ZoneForm({
 
   if (fetching) return <Spinner width={20} height={20} />;
   if (error) {
-    return <p className="text-destructive">Error loading countries</p>;
+    return <p className="text-destructive">Error al cargar los países</p>;
   }
   return (
     <Form
@@ -68,20 +68,20 @@ function ZoneForm({
       <div className="space-y-3">
         <InputField
           name="name"
-          label="Zone Name"
-          aria-label="Zone Name"
-          placeholder="Enter zone name"
+          label="Nombre de la zona"
+          aria-label="Nombre de la zona"
+          placeholder="Ingresa el nombre de la zona"
           required
-          validation={{ required: 'Zone name is required' }}
+          validation={{ required: 'El nombre de la zona es obligatorio' }}
           defaultValue={zone?.name}
         />
         <ReactSelectField
           name="country"
           label="País"
           aria-label="País"
-          placeholder="Select country"
+          placeholder="Seleccionar país"
           required
-          validation={{ required: 'Country is required' }}
+          validation={{ required: 'El país es obligatorio' }}
           options={data.countries}
           hideSelectedOptions={false}
           isMulti={false}
@@ -89,9 +89,9 @@ function ZoneForm({
         />
         <ReactSelectField
           name="provinces"
-          label="Provinces/States"
-          aria-label="Provinces/States"
-          placeholder="Select provinces/states"
+          label="Provincias/Estados"
+          aria-label="Provincias/Estados"
+          placeholder="Seleccionar provincias/estados"
           options={
             data.countries.find((c) => c.value === countryWatch)?.provinces ||
             []
@@ -120,7 +120,7 @@ function ZoneForm({
               }
             }}
           >
-            Save
+            Guardar
           </Button>
         </div>
       </div>

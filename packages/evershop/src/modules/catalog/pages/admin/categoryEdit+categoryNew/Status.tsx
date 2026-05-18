@@ -22,7 +22,7 @@ export default function Status({ category }: CategoryStatusProps) {
       <CardHeader>
         <CardTitle>Estado</CardTitle>
         <CardDescription>
-          Manage the status settings of the category.
+          Administra la configuración de estado de la categoría.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -30,40 +30,40 @@ export default function Status({ category }: CategoryStatusProps) {
           name="status"
           label="Estado"
           options={[
-            { label: 'Disabled', value: 0 },
-            { label: 'Enabled', value: 1 }
+            { label: 'Desactivado', value: 0 },
+            { label: 'Activado', value: 1 }
           ]}
           defaultValue={category?.status === 0 ? 0 : 1}
           validation={{
-            required: 'This field is required'
+            required: 'Este campo es obligatorio'
           }}
         />
       </CardContent>
       <CardContent className="pt-6 border-t border-border">
         <RadioGroupField
           name="include_in_nav"
-          label="Include in Store Menu?"
+          label="¿Incluir en el menú de la tienda?"
           options={[
             { label: 'No', value: 0 },
-            { label: 'Yes', value: 1 }
+            { label: 'Sí', value: 1 }
           ]}
           defaultValue={category?.includeInNav === 0 ? 0 : 1}
           validation={{
-            required: 'This field is required'
+            required: 'Este campo es obligatorio'
           }}
         />
       </CardContent>
       <CardContent className="pt-6 border-t border-border">
         <RadioGroupField
           name="show_products"
-          label="Show products?"
+          label="¿Mostrar productos?"
           options={[
             { label: 'No', value: 0 },
-            { label: 'Yes', value: 1 }
+            { label: 'Sí', value: 1 }
           ]}
           defaultValue={category?.showProducts === 0 ? 0 : 1}
           validation={{
-            required: 'This field is required'
+            required: 'Este campo es obligatorio'
           }}
         />
       </CardContent>

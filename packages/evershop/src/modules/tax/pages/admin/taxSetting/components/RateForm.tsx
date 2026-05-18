@@ -64,7 +64,7 @@ function RateForm({
         if (!response.error) {
           await getTaxClasses({ requestPolicy: 'network-only' });
           closeModal();
-          toast.success('Tax rate has been saved successfully!');
+          toast.success('¡La tasa de impuesto se guardó correctamente!');
         } else {
         }
         setSaving(false);
@@ -77,7 +77,7 @@ function RateForm({
               name="name"
               placeholder="Nombre"
               required
-              validation={{ required: 'Name is required' }}
+              validation={{ required: 'El nombre es obligatorio' }}
               label="Nombre"
               defaultValue={rate?.name}
             />
@@ -85,10 +85,10 @@ function RateForm({
           <div>
             <NumberField
               name="rate"
-              label="Rate"
-              placeholder="Rate"
+              label="Tasa"
+              placeholder="Tasa"
               required
-              validation={{ required: 'Rate is required' }}
+              validation={{ required: 'La tasa es obligatoria' }}
               defaultValue={rate?.rate}
             />
           </div>
@@ -102,20 +102,20 @@ function RateForm({
               label="País"
               placeholder="País"
               required
-              validation={{ required: 'Country is required' }}
+              validation={{ required: 'El país es obligatorio' }}
               defaultValue={rate?.country}
-              helperText='Country code (e.g., "US"). Use "*" for all countries.'
+              helperText='Código de país (p. ej., "US"). Usa "*" para todos los países.'
             />
           </div>
           <div>
             <InputField
               name="province"
-              label="Provinces"
-              placeholder="Provinces"
+              label="Provincias"
+              placeholder="Provincias"
               required
-              validation={{ required: 'Provinces is required' }}
+              validation={{ required: 'Las provincias son obligatorias' }}
               defaultValue={rate?.province}
-              helperText='Province code (e.g., "CA"). Use "*" for all provinces.'
+              helperText='Código de provincia (p. ej., "CA"). Usa "*" para todas las provincias.'
             />
           </div>
           <div>
@@ -124,9 +124,9 @@ function RateForm({
               label="Código postal"
               placeholder="Código postal"
               required
-              validation={{ required: 'Postcode is required' }}
+              validation={{ required: 'El código postal es obligatorio' }}
               defaultValue={rate?.postcode}
-              helperText='Postcode (e.g., "90210"). Empty for all postcodes.'
+              helperText='Código postal (p. ej., "90210"). Vacío para todos los códigos postales.'
             />
           </div>
         </div>
@@ -134,7 +134,7 @@ function RateForm({
           <div>
             <ToggleField
               name="is_compound"
-              label="Is compound"
+              label="Es compuesto"
               defaultValue={rate?.isCompound || false}
             />
           </div>
@@ -144,9 +144,9 @@ function RateForm({
           <div>
             <NumberField
               name="priority"
-              label="Priority"
-              placeholder="Priority"
-              validation={{ required: 'Priority is required' }}
+              label="Prioridad"
+              placeholder="Prioridad"
+              validation={{ required: 'La prioridad es obligatoria' }}
               required
               defaultValue={rate?.priority}
             />
@@ -156,7 +156,7 @@ function RateForm({
       </div>
       <div className="flex justify-end gap-2">
         <Button title="Cancelar" variant="secondary" onClick={closeModal}>
-          Cancel
+          Cancelar
         </Button>
         <Button
           title="Guardar"
@@ -178,7 +178,7 @@ function RateForm({
           }}
           isLoading={saving}
         >
-          Save
+          Guardar
         </Button>
       </div>
     </Form>
