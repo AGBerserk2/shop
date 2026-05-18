@@ -42,6 +42,11 @@ const coreModules = [
     path: path.resolve(__dirname, '../../modules/customer')
   },
   {
+    name: 'delivery',
+    resolve: path.resolve(__dirname, '../../modules/delivery'),
+    path: path.resolve(__dirname, '../../modules/delivery')
+  },
+  {
     name: 'gcs',
     resolve: path.resolve(__dirname, '../../modules/gcs'),
     path: path.resolve(__dirname, '../../modules/gcs')
