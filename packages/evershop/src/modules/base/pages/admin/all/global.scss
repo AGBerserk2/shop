@@ -33,3 +33,34 @@ body {
   border-top: 1px solid var(--divider);
   padding-top: 0.625rem;
 }
+
+/* ── Móvil (≤767px): cada página del admin cómoda en un teléfono ──
+   El sidebar (drawer), el header (oculto) y el dashboard ya son
+   responsive — acá solo se apilan los layouts de edición y se evita
+   que el contenido se desborde. */
+@media (max-width: 767px) {
+  /* Las páginas de edición usan un grid de 3 columnas fijo
+     (leftSide 2 / rightSide 1). El selector apunta exactamente a ese
+     patrón (grid-cols-3 + gap-x-5) para no afectar el dashboard. */
+  .main-content [class*='grid-cols-3'][class*='gap-x-5'] {
+    grid-template-columns: 1fr !important;
+  }
+  .main-content
+    [class*='grid-cols-3'][class*='gap-x-5']
+    > [class*='col-span-'] {
+    grid-column: auto !important;
+  }
+
+  /* Filas de formulario de 2 columnas (ej. Nombre + Precio) se apilan
+     para que los campos no queden apretados. */
+  .main-content form [class*='grid-cols-2'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* El encabezado de página deja que los botones de acción bajen en
+     vez de desbordarse. */
+  .page-heading {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
