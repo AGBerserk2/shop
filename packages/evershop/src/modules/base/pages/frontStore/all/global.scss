@@ -26,9 +26,17 @@
     }
   }
 
+  /* Pin the header to the top so it stays visible while scrolling — on
+     every screen size. Solid background + soft shadow so page content
+     slides cleanly underneath it. */
   .header {
     padding-top: 1rem;
     padding-bottom: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0 2px 6px -3px rgba(20, 14, 10, 0.12);
   }
 
   @media (max-width: 640px) {
