@@ -1,0 +1,233 @@
+/* ============================================================
+   Anroy — página del repartidor (/entrega/:token)
+   Pantalla completa, móvil primero, estética durazno de la marca.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.anroy-driver {
+  --card:        #ffffff;
+  --ink:         #1d1d1f;
+  --ink-soft:    #4b4b50;
+  --mute:        #8e8e93;
+  --hairline:    #f0e8df;
+  --accent:      #f97316;
+  --accent-soft: #fff1e0;
+  --accent-deep: #c2580f;
+  --green:       #1f8c45;
+
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse 600px 420px at 100% 0%, #ffe0c6, transparent 60%),
+    linear-gradient(180deg, #fff5e8 0%, #ffffff 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  z-index: 1;
+}
+
+.anroy-driver__shell {
+  max-width: 480px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.anroy-driver__brand {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: 1.1rem;
+}
+
+/* ─── Estados (cargando / inválido / entregado) ─────────── */
+.anroy-driver__state {
+  margin-top: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.anroy-driver__state-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  background: #fbe2e2;
+  color: #b73a3a;
+}
+
+.anroy-driver__state-icon--ok {
+  background: #d9f0e0;
+  color: var(--green);
+}
+
+.anroy-driver__state-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0.3rem 0 0;
+}
+
+.anroy-driver__state-sub {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  max-width: 20rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ─── Entrega activa ────────────────────────────────────── */
+.anroy-driver__title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.anroy-driver__title em {
+  font-style: normal;
+  color: var(--accent-deep);
+}
+
+.anroy-driver__card,
+.anroy-driver__share {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  padding: 1.1rem 1.2rem;
+  box-shadow: 0 10px 30px -22px rgba(20, 14, 10, 0.3);
+}
+
+.anroy-driver__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.anroy-driver__label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-top: 0.6rem;
+}
+
+.anroy-driver__label:first-child {
+  margin-top: 0;
+}
+
+.anroy-driver__value {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.anroy-driver__call {
+  margin-top: 0.85rem;
+  display: block;
+  text-align: center;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.anroy-driver__share {
+  text-align: center;
+}
+
+.anroy-driver__sharing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.anroy-driver__pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: anroy-driver-pulse 1.6s infinite;
+}
+
+@keyframes anroy-driver-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(31, 140, 69, 0.5); }
+  100% { box-shadow: 0 0 0 12px rgba(31, 140, 69, 0); }
+}
+
+.anroy-driver__hint {
+  font-size: 0.82rem;
+  color: var(--mute);
+  margin-top: 0.4rem;
+}
+
+.anroy-driver__stop {
+  margin-top: 0.55rem;
+  background: none;
+  border: 0;
+  color: var(--accent-deep);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.anroy-driver__btn {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f97316, #c2580f);
+  color: #fff;
+  box-shadow: 0 12px 26px -10px rgba(249, 115, 22, 0.6);
+}
+
+.anroy-driver__btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.anroy-driver__btn--done {
+  background: #1d1d1f;
+  box-shadow: 0 12px 26px -12px rgba(20, 14, 10, 0.5);
+}
+
+/* Hide the storefront chrome — the driver app owns the whole screen. */
+body:has(.anroy-driver) {
+  main.content {
+    padding: 0;
+  }
+
+  > header,
+  header.header,
+  .header,
+  footer,
+  .footer,
+  .anroy-tabbar {
+    display: none !important;
+  }
+
+  main.content > div.page-width:first-child {
+    display: none !important;
+  }
+}

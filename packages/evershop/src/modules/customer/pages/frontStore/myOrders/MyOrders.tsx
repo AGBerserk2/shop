@@ -16,6 +16,7 @@ import {
   XCircle
 } from 'lucide-react';
 import React from 'react';
+import DeliveryMap from '../../../../delivery/components/DeliveryMap.js';
 import './MyOrders.scss';
 
 type Tone = 'shipped' | 'delivered' | 'processing' | 'cancelled';
@@ -146,6 +147,8 @@ const OrderCard: React.FC<{ order: Order; highlighted?: boolean }> = ({
       {!isCancelled && <Tracker stage={stage} />}
 
       <p className="anroy-orders__card-blurb">{STATUS_BLURB[tone]}</p>
+
+      {tone === 'shipped' && <DeliveryMap orderUuid={order.uuid} />}
 
       <div className="anroy-orders__card-items">
         {items.slice(0, 4).map((item) => (

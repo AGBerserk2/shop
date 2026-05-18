@@ -1,0 +1,67 @@
+/* Live delivery map embedded in the customer's order card. */
+.anroy-mapwrap {
+  margin-top: 0.85rem;
+  border: 1px solid #f0e8df;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.anroy-mapwrap__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+
+.anroy-mapwrap__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f97316;
+  flex-shrink: 0;
+  animation: anroy-map-dot 1.6s infinite;
+}
+
+@keyframes anroy-map-dot {
+  0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.5); }
+  100% { box-shadow: 0 0 0 9px rgba(249, 115, 22, 0); }
+}
+
+.anroy-mapwrap__map {
+  height: 220px;
+  width: 100%;
+}
+
+.anroy-mapwrap__waiting {
+  padding: 1.6rem 0.9rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #8e8e93;
+}
+
+/* Leaflet divIcon markers — no image files, so no bundler icon issues. */
+.anroy-mapwrap__driver-pin span {
+  display: block;
+  width: 22px;
+  height: 22px;
+  background: #f97316;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.anroy-mapwrap__dest-pin span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  background: #1d1d1f;
+  border: 3px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}

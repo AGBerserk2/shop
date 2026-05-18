@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "string"
+    },
+    "driver_name": {
+      "type": "string"
+    },
+    "driver_phone": {
+      "type": "string"
+    }
+  },
+  "required": ["order_id", "driver_name"],
+  "additionalProperties": true
+}

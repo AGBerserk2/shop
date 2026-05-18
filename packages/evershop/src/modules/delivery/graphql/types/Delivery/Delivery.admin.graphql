@@ -1,0 +1,13 @@
+"""
+Delivery info shown to the store admin, including the private driver link.
+"""
+type AdminDelivery {
+  status: String!
+  driverName: String!
+  driverPhone: String
+  driverUrl: String!
+}
+
+extend type Order {
+  delivery: AdminDelivery
+}

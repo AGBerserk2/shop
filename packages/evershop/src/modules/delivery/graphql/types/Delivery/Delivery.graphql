@@ -1,0 +1,29 @@
+"""
+Live delivery tracking for an order (customer-facing).
+"""
+type Delivery {
+  status: String!
+  driverName: String
+  driverLatitude: Float
+  driverLongitude: Float
+  destLatitude: Float
+  destLongitude: Float
+  locationUpdatedAt: String
+}
+
+"""
+Delivery details shown to the driver on their tracking link.
+"""
+type DriverDelivery {
+  status: String!
+  token: String!
+  orderNumber: String
+  customerName: String
+  customerPhone: String
+  address: String
+}
+
+extend type Query {
+  delivery(orderUuid: ID!): Delivery
+  driverDelivery(token: ID!): DriverDelivery
+}
