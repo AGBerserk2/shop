@@ -170,38 +170,13 @@
 }
 
 /* ============================================================
-   TABLET (768 - 1023): collapsed rail mode
-   ============================================================ */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .admin-navigation {
-    width: 4.5rem;
-    padding: 1.25rem 0.4rem;
-  }
-  .admin-navigation:hover {
-    width: 16rem;
-    padding: 1.25rem 0.75rem;
-  }
-  .admin-navigation:not(:hover) .anroy-sidebar-text,
-  .admin-navigation:not(:hover) .admin-nav li span:not(.anroy-icon):not(.root-label),
-  .admin-navigation:not(:hover) .admin-nav li a > span:not(.anroy-icon) {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .admin-navigation:not(:hover) .admin-nav .root-label {
-    visibility: hidden;
-    height: 0.25rem;
-    padding: 0;
-    margin: 0.5rem 0;
-  }
-  .main-content {
-    margin-left: 4.5rem;
-  }
-}
+   PHONE & TABLET (<1024): drawer mode
 
-/* ============================================================
-   MOBILE (<768): drawer mode
+   The old tablet "rail" mode was removed — its hover-to-expand
+   doesn't work on touch and the labels clipped at the 72px rail.
+   Below the desktop breakpoint the sidebar is a clean drawer.
    ============================================================ */
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .admin-navigation {
     transform: translateX(-100%);
     width: 17rem;
@@ -242,7 +217,7 @@
   justify-content: center;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .anroy-mobile-menu {
     display: inline-flex;
   }
