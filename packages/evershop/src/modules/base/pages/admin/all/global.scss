@@ -39,6 +39,13 @@ body {
    responsive — acá solo se apilan los layouts de edición y se evita
    que el contenido se desborde. */
 @media (max-width: 767px) {
+  /* Subir el tamaño base en teléfono — al escalar el font-size raíz,
+     fuentes, espaciado y áreas táctiles (todo medido en rem) crecen
+     juntos y de forma proporcional. */
+  html {
+    font-size: 18px;
+  }
+
   /* Las páginas de edición usan un grid de 3 columnas fijo
      (leftSide 2 / rightSide 1). El selector apunta exactamente a ese
      patrón (grid-cols-3 + gap-x-5) para no afectar el dashboard. */
