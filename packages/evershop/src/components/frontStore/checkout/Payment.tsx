@@ -15,7 +15,6 @@ import {
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import { BillingAddress } from '@components/frontStore/checkout/payment/BillingAddress.js';
 import { PaymentMethods } from '@components/frontStore/checkout/payment/PaymentMethods.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CreditCard } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -42,14 +41,14 @@ export function Payment() {
           (method) => method.code === paymentMethod
         );
         if (!methodDetails) {
-          throw new Error('Please select a valid payment method');
+          throw new Error('Selecciona un método de pago válido');
         }
         updateCheckoutData({ paymentMethod: methodDetails.code });
       } catch (error) {
         toast.error(
           error instanceof Error
             ? error.message
-            : _('Failed to update shipment')
+            : 'No se pudo actualizar el pago'
         );
       }
     };
@@ -67,7 +66,7 @@ export function Payment() {
             <CardTitle>
               <div className="flex items-center gap-2">
                 <CreditCard className="w-5 h-5" />
-                <span>{_('Payment Information')}</span>
+                <span>Información de pago</span>
               </div>
             </CardTitle>
           </CardHeader>

@@ -23,6 +23,26 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
+// effectiveBilling arrives in the CustomerAddressGraphql shape (camelCase,
+// country/province as {code,name} objects). The form fields expect the flat
+// Address shape — snake_case keys, string codes. Pushing the GraphQL shape
+// straight into setValue left the country/province selects holding an object
+// that matched no option, so they rendered blank.
+function toFormAddress(addr?: CustomerAddressGraphql): Address | undefined {
+  if (!addr) return addr;
+  return {
+    uuid: addr.uuid ?? null,
+    full_name: addr.fullName ?? null,
+    telephone: addr.telephone ?? null,
+    address_1: addr.address1 ?? null,
+    address_2: addr.address2 ?? null,
+    city: addr.city ?? null,
+    province: addr.province?.code ?? null,
+    country: addr.country?.code ?? null,
+    postcode: addr.postcode ?? null
+  };
+}
+
 export function BillingAddress({
   billingAddress,
   addBillingAddress,
@@ -74,7 +94,7 @@ export function BillingAddress({
     if (useSameAddress && shippingAddress) {
       updateCheckoutData({ billingAddress: shippingAddress });
     } else if (!useSameAddress) {
-      setValue('billingAddress', effectiveBilling);
+      setValue('billingAddress', toFormAddress(effectiveBilling));
     }
   }, [useSameAddress, checkoutData.shippingAddress, effectiveBilling]);
 
